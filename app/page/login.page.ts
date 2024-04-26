@@ -8,7 +8,7 @@ export class Login extends AppPage {
       private LoginButton = this.page.getByRole('button', { name: 'Login' })
       private userNameInput = this.page.getByPlaceholder('Username')
       private passwordInput = this.page.getByPlaceholder('Password')
-      private forgotPasswordLink = this.page.getByRole('link', { name: 'Forgot your password?' })
+      private forgotPasswordLink = this.page.getByText('Forgot your password?')
 
       @step()
       async expectLoaded() {
