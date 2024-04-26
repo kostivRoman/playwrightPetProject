@@ -3,7 +3,10 @@ import { Login } from "../app/page/login.page";
 
 test.describe("Login", () => {
       test("User can login with valid credentials", async ({ page }) => {
-            const user = { userName: "Admin", password: "admin123" };
+            const user = {
+                  userName: process.env.USERNAME!,
+                  password: process.env.PASSWORD!
+            };
 
             const login = new Login(page);
             await login.open();
@@ -11,15 +14,20 @@ test.describe("Login", () => {
             await login.expectSignedIn();
       });
       test("Login with invalid user name", async ({ page }) => {
-            const user = { userName: "Admn", password: "admin123" };
-
+            const user = {
+                  userName: "Admn",
+                  password: process.env.PASSWORD!
+            };
             const login = new Login(page);
             await login.open();
             await login.signIn(user);
             await login.expectErrorNotification("Invalid credentials");
       });
       test("Login with invalid password", async ({ page }) => {
-            const user = { userName: "Admin", password: "admin" };
+            const user = {
+                  userName: process.env.USERNAME!,
+                  password: "admin"
+            };
 
             const login = new Login(page);
             await login.open();
@@ -27,7 +35,10 @@ test.describe("Login", () => {
             await login.expectErrorNotification("Invalid credentials");
       });
       test("Login with empty user name", async ({ page }) => {
-            const user = { userName: "", password: "admin123" };
+            const user = {
+                  userName: "",
+                  password: process.env.PASSWORD!
+            };
 
             const login = new Login(page);
             await login.open();
@@ -35,7 +46,10 @@ test.describe("Login", () => {
             await login.expectErrorNotification("Required");
       });
       test("Login with empty password", async ({ page }) => {
-            const user = { userName: "Admin", password: "" };
+            const user = {
+                  userName: process.env.USERNAME!,
+                  password: ""
+            };
             const login = new Login(page);
             await login.open();
             await login.signIn(user);
