@@ -4,12 +4,12 @@ import { Login } from "../app/page/login.page";
 
 test.describe("Reset Password", () => {
       test("User can reset password with valid user name", async ({ page }) => {
-            const user = { userName: "Admin", email: "admin@localhost" };
+            const userName = process.env.USERNAME!
             const resetPassword = new ResetPassword(page);
             const login = new Login(page);
             await login.open();
             await login.clickForgotPassword();
-            await resetPassword.resetPassword(user);
+            await resetPassword.resetPassword(userName);
             await resetPassword.expectResetPasswordSuccess();
 
       });

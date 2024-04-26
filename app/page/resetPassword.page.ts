@@ -17,9 +17,9 @@ export class ResetPassword extends AppPage {
       }
 
       @step()
-      async resetPassword(user: { userName: string, email: string }) {
+      async resetPassword(userName: string) {
             await this.expectLoaded();
-            await this.userNameInput.fill(user.userName)
+            await this.userNameInput.fill(userName)
             await this.resetPasswordButton.click()
       }
       @step()
