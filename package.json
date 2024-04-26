@@ -1,0 +1,16 @@
+{
+  "name": "playwright-demo-project",
+  "version": "1.0.0",
+  "description": "SwagLabs test project using Playwright",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test"
+  },
+  "keywords": [],
+  "author": "Roman Kostiv",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.43.1",
+    "@types/node": "^20.12.7"
+  }
+}
