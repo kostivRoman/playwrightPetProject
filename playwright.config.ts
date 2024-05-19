@@ -45,7 +45,10 @@ export default defineConfig({
       name: 'chromium',
       testDir: 'tests',
       dependencies: ['setup'],
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'auth/authFile.json',
+       },
     },
 
     // {
