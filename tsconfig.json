@@ -1,0 +1,29 @@
+{
+	// мінімальний набір хорошого тону в тайпскрипті)
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"strict": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"noFallthroughCasesInSwitch": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "./",
+		"paths": {
+			"@page.object": [
+				"page"
+			],
+			"@fixtures": [
+				"fixtures"
+			],
+			"@app": [
+				"app"
+			],
+			"@helpers": [
+				"helpers"
+			]
+		}
+	}
+}

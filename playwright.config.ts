@@ -34,16 +34,19 @@ export default defineConfig({
   projects: [
     {
       name: 'setup',
-      testDir: '.auth',
+      testDir: 'auth',
       testMatch: '**/setup.ts',
       use: {
         headless: false,
       }
-    }
-    // {
-    //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] },
-    // },
+    },
+
+    {
+      name: 'chromium',
+      testDir: 'tests',
+      dependencies: ['setup'],
+      use: { ...devices['Desktop Chrome'] },
+    },
 
     // {
     //   name: 'firefox',

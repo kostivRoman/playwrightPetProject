@@ -1,5 +1,6 @@
 import test from "@playwright/test";
-import { Login } from "../app/page/login.page";
+import { Login } from "@page.object";
+
 
 test("Setup", async ({ page }) => {
       const login = new Login(page);
@@ -12,7 +13,10 @@ test("Setup", async ({ page }) => {
             userName: process.env.LOGIN!,
             password: process.env.PASSWORD!,
       });
-      const authFile = ".auth/authFile";
+      /**
+       * Path to the authentication file.
+       */
+      const authFile = "auth/authFile.json";
       await page.context()
             .storageState({ path: authFile });
 

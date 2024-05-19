@@ -1,58 +1,89 @@
-import { test } from "@playwright/test";
-import { Login } from "../app/page/login.page";
+import { test } from "@fixtures";
 
+/**
+ * Represents a test suite for login functionality.
+ */
 test.describe("Login", () => {
-      test("User can login with valid credentials", async ({ page }) => {
-            const user = {
-                  userName: process.env.USERNAME!,
-                  password: process.env.PASSWORD!
-            };
+	/**
+	 * Test case: User can login with valid credentials.
+	 * @param app - The application object containing login functionality.
+	 * @param context - The test context object.
+	 */
+	test("User can login with valid credentials", async ({
+		app: { login },
+		context,
+	}) => {
+		const user = {
+			userName: process.env.LOGIN!,
+			password: process.env.PASSWORD!,
+		};
+		await context.clearCookies();
+		await login.open();
+		await login.signIn(user);
+		await login.expectSignedIn();
+	});
 
-            const login = new Login(page);
-            await login.open();
-            await login.signIn(user);
-            await login.expectSignedIn();
-      });
-      test("Login with invalid user name", async ({ page }) => {
-            const user = {
-                  userName: "Admn",
-                  password: process.env.PASSWORD!
-            };
-            const login = new Login(page);
-            await login.open();
-            await login.signIn(user);
-            await login.expectErrorNotification("Invalid credentials");
-      });
-      test("Login with invalid password", async ({ page }) => {
-            const user = {
-                  userName: process.env.USERNAME!,
-                  password: "admin"
-            };
+	/**
+	 * Test case: Login with invalid user name.
+	 * @param app - The application object containing login functionality.
+	 * @param context - The test context object.
+	 */
+	test("Login with invalid user name", async ({ app: { login }, context }) => {
+		const user = {
+			userName: "Admn",
+			password: process.env.PASSWORD!,
+		};
+		await context.clearCookies();
+		await login.open();
+		await login.signIn(user);
+		await login.expectErrorNotification("Invalid credentials");
+	});
 
-            const login = new Login(page);
-            await login.open();
-            await login.signIn(user);
-            await login.expectErrorNotification("Invalid credentials");
-      });
-      test("Login with empty user name", async ({ page }) => {
-            const user = {
-                  userName: "",
-                  password: process.env.PASSWORD!
-            };
+	/**
+	 * Test case: Login with invalid password.
+	 * @param app - The application object containing login functionality.
+	 * @param context - The test context object.
+	 */
+	test("Login with invalid password", async ({ app: { login }, context }) => {
+		const user = {
+			userName: process.env.USERNAME!,
+			password: "admin",
+		};
+		await context.clearCookies();
+		await login.open();
+		await login.signIn(user);
+		await login.expectErrorNotification("Invalid credentials");
+	});
 
-            const login = new Login(page);
-            await login.open();
-            await login.signIn(user);
-            await login.expectErrorNotification("Required");
-      });
-      test("Login with empty password", async ({ page }) => {
-            const user = {
-                  userName: process.env.USERNAME!,
-                  password: ""
-            };
-            const login = new Login(page);
-            await login.open();
-            await login.signIn(user);
-            await login.expectErrorNotification("Required");
-      });
+	/**
+	 * Test case: Login with empty user name.
+	 * @param app - The application object containing login functionality.
+	 * @param context - The test context object.
+	 */
+	test("Login with empty user name", async ({ app: { login }, context }) => {
+		const user = {
+			userName: "",
+			password: process.env.PASSWORD!,
+		};
+		await context.clearCookies();
+		await login.open();
+		await login.signIn(user);
+		await login.expectErrorNotification("Required");
+	});
+
+	/**
+	 * Test case: Login with empty password.
+	 * @param app - The application object containing login functionality.
+	 * @param context - The test context object.
+	 */
+	test("Login with empty password", async ({ app: { login }, context }) => {
+		const user = {
+			userName: process.env.USERNAME!,
+			password: "",
+		};
+		await context.clearCookies();
+		await login.open();
+		await login.signIn(user);
+		await login.expectErrorNotification("Required");
+	});
 });

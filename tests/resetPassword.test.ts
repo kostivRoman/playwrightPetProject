@@ -1,16 +1,15 @@
-import { test } from "@playwright/test";
-import { ResetPassword } from "../app/page/resetPassword.page";
-import { Login } from "../app/page/login.page";
-
+import { test } from "@fixtures";
 test.describe("Reset Password", () => {
-      test("User can reset password with valid user name", async ({ page }) => {
-            const userName = process.env.USERNAME!
-            const resetPassword = new ResetPassword(page);
-            const login = new Login(page);
-            await login.open();
-            await login.clickForgotPassword();
-            await resetPassword.resetPassword(userName);
-            await resetPassword.expectResetPasswordSuccess();
-
-      });
+	test("User can reset password with valid user name", async ({
+		app: { login, resetPassword },
+	}) => {
+		/**
+		 * The username for the user.
+		 */
+		const userName = process.env.LOGIN!;
+		await login.open();
+		await login.clickForgotPassword();
+		await resetPassword.resetPassword(userName);
+		await resetPassword.expectResetPasswordSuccess();
+	});
 });
