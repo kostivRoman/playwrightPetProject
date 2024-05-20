@@ -21,5 +21,5 @@ export const test = baseTest.extend<
             });
             const app = new Application(page);
             await use(app);
-      },
+      }
 });
