@@ -28,7 +28,13 @@ jobs:
       - name: Set environment variables
         run: |
           echo "LOGIN=$LOGIN" >> $GITHUB_ENV
-          echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
+          echo c >> $GITHUB_ENV
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo "LOGIN=$LOGIN" >> .env
+          echo "LOGIN=$LOGIN" >> .env
+          cat .env
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v4
