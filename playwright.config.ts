@@ -36,9 +36,7 @@ export default defineConfig({
       name: 'setup',
       testDir: 'auth',
       testMatch: '**/setup.ts',
-      use: {
-        headless: false,
-      }
+
     },
 
     {
@@ -48,7 +46,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'auth/authFile.json',
-       },
+      },
     },
 
     // {
