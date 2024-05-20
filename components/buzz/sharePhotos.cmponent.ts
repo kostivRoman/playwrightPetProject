@@ -1,3 +1,6 @@
+/**
+ * Represents a dialog for sharing photos.
+ */
 import { step } from "@helpers";
 import { Component } from "@page.object";
 import { expect } from "@playwright/test";
@@ -8,6 +11,9 @@ export class SharedPhotosDialog extends Component {
             name: "What's on your mind?",
       });
 
+      /**
+       * Asserts that the shared photos dialog is loaded and visible.
+       */
       @step()
       async expectLoaded() {
             await expect(this.dialog).toBeVisible();

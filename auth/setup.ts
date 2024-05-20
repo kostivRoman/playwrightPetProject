@@ -5,10 +5,6 @@ import { Login } from "@page.object";
 test("Setup", async ({ page }) => {
       const login = new Login(page);
       await login.open();
-      console.log("Logging in",
-            process.env.LOGIN!,
-            process.env.PASSWORD!
-      );
       await login.signIn({
             userName: process.env.LOGIN!,
             password: process.env.PASSWORD!,
