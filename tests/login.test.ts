@@ -1,5 +1,11 @@
 import { test } from "@fixtures";
 
+
+const user = {
+	userName: process.env.LOGIN!,
+	password: process.env.PASSWORD!,
+};
+console.log("user", user);
 /**
  * Represents a test suite for login functionality.
  */
