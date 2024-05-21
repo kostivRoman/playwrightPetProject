@@ -9,6 +9,9 @@ test("Setup", async ({ page }) => {
             userName: process.env.LOGIN!,
             password: process.env.PASSWORD!,
       });
+      console.log("Logged in",
+            process.env.LOGIN!,
+            process.env.PASSWORD!);
       /**
        * Path to the authentication file.
        */
