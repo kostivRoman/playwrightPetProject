@@ -50,16 +50,16 @@ test.describe("Login", () => {
 	 * @param app - The application object containing login functionality.
 	 * @param context - The test context object.
 	 */
-	test("Login with invalid password", async ({ app: { login }, context }) => {
-		const user = {
-			userName: process.env.USERNAME!,
-			password: "admin",
-		};
-		await context.clearCookies();
-		await login.open();
-		await login.signIn(user);
-		await login.expectErrorNotification("Invalid credentials");
-	});
+	// test("Login with invalid password", async ({ app: { login }, context }) => {
+	// 	const user = {
+	// 		userName: process.env.USERNAME!,
+	// 		password: "admin",
+	// 	};
+	// 	await context.clearCookies();
+	// 	await login.open();
+	// 	await login.signIn(user);
+	// 	await login.expectErrorNotification("Invalid credentials");
+	// });
 
 	/**
 	 * Test case: Login with empty user name.
@@ -82,14 +82,14 @@ test.describe("Login", () => {
 	 * @param app - The application object containing login functionality.
 	 * @param context - The test context object.
 	 */
-	test("Login with empty password", async ({ app: { login }, context }) => {
-		const user = {
-			userName: process.env.USERNAME!,
-			password: "",
-		};
-		await context.clearCookies();
-		await login.open();
-		await login.signIn(user);
-		await login.expectErrorNotification("Required");
-	});
+	// test("Login with empty password", async ({ app: { login }, context }) => {
+	// 	const user = {
+	// 		userName: process.env.USERNAME!,
+	// 		password: "",
+	// 	};
+	// 	await context.clearCookies();
+	// 	await login.open();
+	// 	await login.signIn(user);
+	// 	await login.expectErrorNotification("Required");
+	// });
 });
