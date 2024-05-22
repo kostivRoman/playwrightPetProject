@@ -1,6 +1,6 @@
 # Playwright Demo Project
 
-This is a test project using Playwright for SwagLabs.
+This is a simple test project using Playwright for SwagLabs.
 
 ## Project Structure
 
@@ -20,8 +20,10 @@ This is a test project using Playwright for SwagLabs.
 ## Setup
 
 1. Clone the repository.
-2. Install dependencies with `npm install`.
-3. Set up environment variables in a `.env` file. You'll need `LOGIN`, `PASSWORD`, and `BASE_URL`.
+2. Install playwright
+    `npm init playwright@latest`
+4. Install dependencies with `npm install`.
+5. Set up environment variables in a `.env` file. You'll need `LOGIN`, `PASSWORD`, and `BASE_URL`.
 
 ## Installation
 
