@@ -1,0 +1,5 @@
+# Ignore specific files
+/.gitignore
+/package-lock.json
+/auth/authFile.json
+/.eslintignore

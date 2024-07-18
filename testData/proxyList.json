@@ -1,0 +1,45 @@
+[
+  
+  {
+    "region": "TR",
+    "url": "http://geonode_Zr3aVjywHC-region-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+    "username": "geonode_Zr3aVjywHC-region-bh",
+    "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+  },
+  {
+    "region": "BR",
+    "url": "http://geonode_Zr3aVjywHC-region-br:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+    "username": "geonode_Zr3aVjywHC-region-bh",
+    "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+  },
+  {
+    "region": "DE",
+    "url": "http://geonode_Zr3aVjywHC-region-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+    "username": "geonode_Zr3aVjywHC-region-bh",
+    "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+  },
+  {
+    "region": "KZ",
+    "url": "http://geonode_Zr3aVjywHC-region-kz:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+    "username": "geonode_Zr3aVjywHC-region-bh",
+    "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+  },
+  {
+    "region": "PT",
+    "url": "http://geonode_Zr3aVjywHC-region-kz:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+    "username": "geonode_Zr3aVjywHC-region-bh",
+    "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+  },
+  {
+    "region": "RU",
+    "url": "http://geonode_Zr3aVjywHC-region-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+    "username": "geonode_Zr3aVjywHC-region-bh",
+    "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+  },
+  {
+    "region": "UZ",
+    "url": "http://geonode_Zr3aVjywHC-region-uz:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+    "username": "geonode_Zr3aVjywHC-region-bh",
+    "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+  }
+]
