@@ -1,4 +1,4 @@
-import { test, chromium } from "@playwright/test";
+import { test, chromium, TestInfo } from "@playwright/test";
 import proxyList from "../testData/proxyList.json";
 import landList from "../testData/landList.json";
 import { Tap } from "app/components/tap.component";
@@ -14,7 +14,7 @@ for (const proxy of proxyList) {
 			// Increment the counter
 			i++;
 			// Use test.skip conditionally within the test definition
-			test(testName, async ({}, testInfo) => {
+			test(testName, async ({}, testInfo: TestInfo) => {
 				// Skip the test if the land.Brand is "SkipBrand"
 				if (proxy.region !== land.GEO) {
 					testInfo.skip();
@@ -33,9 +33,13 @@ for (const proxy of proxyList) {
 				const page = await context.newPage();
 				const tap = new Tap(page);
 				await page.goto(land["Affilka Landing URL"]);
-				
+				//	await page.pause(1000000000000000);
+				await tap.tap();
+				await tap.clickBonusButton();
 
 				// Close the browser at the end of the test
+				await page.close();
+				await context.close();
 				await browser.close();
 			});
 		}

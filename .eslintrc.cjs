@@ -19,5 +19,11 @@ module.exports = {
 	rules: {
 		"@typescript-eslint/no-floating-promises": "warn",
 		"@typescript-eslint/no-unused-vars": "off",
+		"@typescript-eslint/await-thenable": "error", 
+		"@typescript-eslint/no-misused-promises": "error",
+		"@typescript-eslint/no-unnecessary-condition": "error",
+		"@typescript-eslint/no-unnecessary-type-assertion": "error",
+		"@typescript-eslint/prefer-includes": "error",
+		
 	},
 };
