@@ -42,14 +42,27 @@ export default defineConfig({
 				...devices["Desktop Chrome"],
 				launchOptions: {
 					proxy: {
-						server:
-							"http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:10000",
-              username: "geonode_Zr3aVjywHC-country-ru",
-              password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
+						server:"http://geonode_Zr3aVjywHC-country-ua:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+						username: 'geonode_Zr3aVjywHC-country-ua',
+						password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
 					},
 				},
 			},
 		},
+		// {
+		// 	name: "DE",
+		// 	use: {
+		// 		...devices["Desktop Chrome"],
+		// 		launchOptions: {
+		// 			proxy: {
+		// 				server:
+		// 					"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		// 				username: "geonode_Zr3aVjywHC-country-de",
+		// 				password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
+		// 			},
+		// 		},
+		// 	},
+		// },
 
 		// {
 		//   name: "firefox",

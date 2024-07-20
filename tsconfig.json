@@ -4,14 +4,14 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"strict": true,
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"noFallthroughCasesInSwitch": true,
+		// "resolveJsonModule": true,
+		// "strict": true,
+		// "noUnusedLocals": false,
+		// "noUnusedParameters": false,
+		// ///"noFallthroughCasesInSwitch": true,
 		"allowSyntheticDefaultImports": true,
-		"sourceMap": true,
-		"baseUrl": "./",
+		// "sourceMap": true,
+		// "baseUrl": "./",
 		// "paths": {
 		// 	"@page.object": ["app/pages"],
 		// 	"@fixtures": ["app/fixtures"],
@@ -23,5 +23,3 @@
 		// }
 	}
 }
-///geonode_Zr3aVjywHC
-//bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd

@@ -25,4 +25,5 @@ var GEONODE_PORT = 10000;
 test("111", async ({page}) => {
 	
         await page.goto("https://www.google.com");
+        await page.pause();
 });
