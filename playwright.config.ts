@@ -37,7 +37,7 @@ export default defineConfig({
 	/* Configure projects for major browsers */
 	projects: [
 		{
-			name: "RU",
+			name: "UA",
 			use: {
 				...devices["Desktop Chrome"],
 				launchOptions: {
@@ -49,20 +49,33 @@ export default defineConfig({
 				},
 			},
 		},
-		// {
-		// 	name: "DE",
-		// 	use: {
-		// 		...devices["Desktop Chrome"],
-		// 		launchOptions: {
-		// 			proxy: {
-		// 				server:
-		// 					"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		// 				username: "geonode_Zr3aVjywHC-country-de",
-		// 				password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
-		// 			},
-		// 		},
-		// 	},
-		// },
+
+		{
+			name: "RU",
+			use: {
+				...devices["Desktop Chrome"],
+				launchOptions: {
+					proxy: {
+						server:"http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+						username: 'geonode_Zr3aVjywHC-country-ru',
+						password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
+					},
+				},
+			},
+		},
+		{
+			name: "TR",
+			use: {
+				...devices["Desktop Chrome"],
+				launchOptions: {
+					proxy: {
+						server:"http://geonode_Zr3aVjywHC-country-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+						username: 'geonode_Zr3aVjywHC-country-tr',
+						password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
+					},
+				},
+			},
+		},
 
 		// {
 		//   name: "firefox",
