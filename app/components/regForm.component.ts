@@ -19,6 +19,7 @@ export class RegForm {
 	private sighUpButton: Locator;
 	private loginButton: Locator;
 	private showPasswordButton: Locator;
+	private nameInput?: Locator;
 
 	constructor(protected page: Page, formElements: UserRegistrationForm) {
 		/// console.log("formElements", formElements);
@@ -41,6 +42,8 @@ export class RegForm {
 		}
 
 		if (formElements.country) {
+			console.log("formElements.country", formElements.country);
+			console.log("this.page.locator('.select-button')", this.page.locator(".select-button"));
 			this.countrySelect = this.page
 				.locator(".select-button")
 				.first()
@@ -56,6 +59,11 @@ export class RegForm {
 					has: this.page.locator(".currency-label"),
 				})
 				.or(this.page.locator(".select-button").last());
+		}
+		if (formElements.name) {
+			console.log("formElements.name", formElements.name);
+			this.nameInput = this.page.locator("#name");
+			console.log("this.nameInput", this.nameInput);
 		}
 	}
 	// @step()
@@ -114,6 +122,15 @@ export class RegForm {
 	async fillPromoCode(promoCode: string): Promise<void> {
 		if (this.promoCodeInput) {
 			await this.promoCodeInput.fill(promoCode);
+		}
+	}
+	@step()
+	async fillName(name: string): Promise<void> {
+		//
+		try {
+			await this.nameInput?.fill(name);
+		} catch (error) {
+			console.log("error", error);
 		}
 	}
 	@step()

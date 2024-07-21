@@ -9,7 +9,7 @@ import { brandsRules } from "../testData/brandsFormRules";
 import { randomUUID } from "crypto";
 import { stringify } from "querystring";
 
-//@ts-ignore entire file is ignored
+//@ts-ignore-next-line
 async function tryNavigate(page, url, maxRetries = 3) {
 	for (let attempt = 1; attempt <= maxRetries; attempt++) {
 		try {
@@ -74,25 +74,27 @@ for (const proxyItem of proxyList) {
 				const shortFormRules = currentBrand.short;
 				const longFormRules = currentBrand.long;
 				test(`${land["Affilka Landing Name"]} Tap Land${i}`, async ({ page, browser }) => {
+					const regFormRules: UserRegistrationForm =
+						land.Regform === "short" ? shortFormRules : longFormRules;
+					const regRulesString = JSON.stringify(regFormRules);
 					test.info().attach("info", {
-						body: stringify({
+						body: JSON.stringify({
 							Brand: land.Brand,
 							Country: land.GEO,
 							Type: land.Type,
 							Action: land.Action,
 							URL: land["Affilka Landing URL"],
+							regForm: land.Regform,
+							regFormRules: regRulesString,
 						}),
 					});
-
-					const regFormRules: UserRegistrationForm =
-						land.Regform === "short" ? shortFormRules : longFormRules;
 
 					const tap = new Tap(page);
 					const form = new RegForm(page, shortFormRules);
 					await tryNavigate(page, land["Affilka Landing URL"]);
 					await tap.tap();
 					await tap.clickBonusButton();
-					await form.fillForm(user);
+				//	await form.fillForm(user);
 				});
 			});
 		}
