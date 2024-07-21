@@ -4,6 +4,7 @@ import landList from "../testData/landList.json";
 import proxyList from "../testData/proxyList.json";
 
 for (const proxyItem of proxyList) {
+	const filteredLandListByRegion = landList.filter((land) => land.GEO === proxyItem.region);
 	test.describe(() => {
 		test.use({
 			proxy: {
@@ -12,14 +13,20 @@ for (const proxyItem of proxyList) {
 				password: proxyItem.password,
 			},
 		});
-        let i = 0;
-		//for (let i = 0; i < landList.length; i++) {
-			const land = landList[i];
-			test(`${proxyItem.region}${i}`, async ({ page }) => {
-				await page.goto("https://www.google.com");
-				await page.pause();
+		//let i = 0;
+		const tapLands = filteredLandListByRegion.filter((land) => land.Action.includes("Tap"));
+		const shortTapLands = tapLands.filter((land) => land.Regform === "Short");
+		for (let i = 0; i < shortTapLands.length; i++) {
+			const land = shortTapLands[i];
+			test.describe(() => {
+				test(`${land["Affilka Landing Name"]} ${i}`, async ({ page }) => {
+					//await page.goto("https://www.google.com");
+
+					await page.goto(land["Affilka Landing URL"]);
+					await page.pause();
+				});
 			});
-		//}
+		}
 	});
 }
 // test.describe(() => {

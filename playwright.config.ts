@@ -33,7 +33,7 @@ export default defineConfig({
 		trace: "on",
 		headless: false,
 	},
-
+globalTimeout:10*60*1000,
 	/* Configure projects for major browsers */
 	projects: [
 		{
@@ -42,9 +42,10 @@ export default defineConfig({
 				...devices["Desktop Chrome"],
 				launchOptions: {
 					proxy: {
-						server:"http://geonode_11111",
+						server: "http://11111",
 					},
 				},
+				actionTimeout: 60000,
 			},
 		},
 
