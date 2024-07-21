@@ -1,11 +1,15 @@
-import test from "@playwright/test";
+import test, { expect } from "@playwright/test";
 import landList from "../testData/landList.json";
 
 import proxyList from "../testData/proxyList.json";
+import { Tap } from "../app/components/tap.component";
+import { RegForm } from "../app/components/regForm.component";
+import { UserRegistrationForm, Brand } from "../app/types/form.interface";
+import { brandsRules } from "../testData/brandsFormRules";
 
 for (const proxyItem of proxyList) {
 	const filteredLandListByRegion = landList.filter((land) => land.GEO === proxyItem.region);
-	test.describe(() => {
+	test.describe(`${proxyItem.region}`, () => {
 		test.use({
 			proxy: {
 				server: proxyItem.server,
@@ -14,32 +18,28 @@ for (const proxyItem of proxyList) {
 			},
 		});
 		//let i = 0;
-		const tapLands = filteredLandListByRegion.filter((land) => land.Action.includes("Tap"));
-		const shortTapLands = tapLands.filter((land) => land.Regform === "Short");
-		for (let i = 0; i < shortTapLands.length; i++) {
-			const land = shortTapLands[i];
-			test.describe(() => {
-				test(`${land["Affilka Landing Name"]} ${i}`, async ({ page }) => {
-					//await page.goto("https://www.google.com");
+		const tapLandsArr = filteredLandListByRegion.filter((land) => land.Action.includes("Tap"));
+		const tapPreland = tapLandsArr.filter((land) => land.Type === "Preland");
 
+		//тап переленди
+		for (let i = 0; i < tapPreland.length; i++) {
+			const land = tapPreland[i];
+			//const regFormRules:UserRegistrationForm=(brandsRules.filter((brand)=>brand.name===land.Brand)).s;
+			// Всі преленди Типу тап
+			test.describe(`Tap Preland`, () => {
+				const currentBrand = brandsRules.filter((brand) => brand.name === land.Brand)[0];
+				const shortFormRules = currentBrand.short;
+				test(`${land["Affilka Landing Name"]}`, async ({ page }) => {
+					//await page.goto("https://www.google.com");
+					//const regFormRules:UserRegistrationForm=
+					const tap = new Tap(page);
+					const form = new RegForm(page, shortFormRules);
 					await page.goto(land["Affilka Landing URL"]);
-					await page.pause();
+					await tap.tap();
+					await tap.clickBonusButton();
+					await expect(page).toHaveURL(new RegExp("^https://r7casino497.com"));
 				});
 			});
 		}
 	});
 }
-// test.describe(() => {
-// 	test.use({
-// 		proxy: {
-// 			server:
-// 				"http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-// 			username: "geonode_Zr3aVjywHC-country-ru",
-// 			password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
-// 		},
-// 	});
-// 	test("111", async ({ page }) => {
-// 		await page.goto("https://www.google.com");
-// 		await page.pause();
-// 	});
-// });
