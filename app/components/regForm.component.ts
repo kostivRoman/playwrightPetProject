@@ -8,6 +8,7 @@ export interface UserData {
 	country: string;
 	currency: string;
 	promoCode: string;
+	name: string;
 }
 
 export class RegForm {
@@ -127,14 +128,12 @@ export class RegForm {
 	@step()
 	async fillName(name: string): Promise<void> {
 		//
-		try {
-			await this.nameInput?.fill(name);
-		} catch (error) {
-			console.log("error", error);
-		}
+
+		await this.nameInput?.fill(name);
 	}
 	@step()
 	async fillForm(user: UserData): Promise<void> {
+		await this.fillName(user.name);
 		await this.fillEmail(user.email);
 		await this.fillPassword(user.password);
 		await this.selectCountry(user.country);

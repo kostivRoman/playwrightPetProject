@@ -7,16 +7,20 @@ import { RegForm, UserData } from "../app/components/regForm.component";
 import { UserRegistrationForm, Brand } from "../app/types/form.interface";
 import { brandsRules } from "../testData/brandsFormRules";
 import { randomUUID } from "crypto";
-import { stringify } from "querystring";
+
 
 //@ts-ignore-next-line
 async function tryNavigate(page, url, maxRetries = 3) {
 	for (let attempt = 1; attempt <= maxRetries; attempt++) {
 		try {
+			//await page.goto('');
+			await page.waitForTimeout(3000);
 			await page.goto(url);
 			return; // If successful, return without throwing an error
 		} catch (error) {
 			console.error(`Attempt ${attempt} failed: ${(error as Error)?.message}`);
+			// Properly wait for a second before retrying
+			await new Promise((resolve) => setTimeout(resolve, 1000*attempt));
 			if (attempt === maxRetries) {
 				throw error; // Rethrow the last error if all retries fail
 			}
@@ -29,6 +33,7 @@ const user: UserData = {
 	country: "Portugal",
 	currency: "CAT",
 	promoCode: "CAT",
+	name: "name",
 };
 for (const proxyItem of proxyList) {
 	const filteredLandListByRegion = landList.filter((land) => land.GEO === proxyItem.region);
@@ -70,12 +75,15 @@ for (const proxyItem of proxyList) {
 			//const regFormRules:UserRegistrationForm=(brandsRules.filter((brand)=>brand.name===land.Brand)).s;
 			// Всі преленди Типу тап
 			test.describe(`Tap Land`, () => {
-				const currentBrand = brandsRules.filter((brand) => brand.name === land.Brand)[0];
-				const shortFormRules = currentBrand.short;
-				const longFormRules = currentBrand.long;
 				test(`${land["Affilka Landing Name"]} Tap Land${i}`, async ({ page, browser }) => {
+					const currentBrand = brandsRules.filter((brand) => brand.name === land.Brand)[0];
+					console.log("curBrand", currentBrand);
+					console.log("type", land.Regform);
+					console.log("for", land);
+					const shortFormRules = currentBrand.short;
+					const longFormRules = currentBrand.long;
 					const regFormRules: UserRegistrationForm =
-						land.Regform === "short" ? shortFormRules : longFormRules;
+						currentBrand[land.Regform as keyof Brand] === "short" ? shortFormRules : longFormRules;
 					const regRulesString = JSON.stringify(regFormRules);
 					test.info().attach("info", {
 						body: JSON.stringify({
@@ -94,7 +102,8 @@ for (const proxyItem of proxyList) {
 					await tryNavigate(page, land["Affilka Landing URL"]);
 					await tap.tap();
 					await tap.clickBonusButton();
-				//	await form.fillForm(user);
+					await form.fillForm(user);
+					await form.login();
 				});
 			});
 		}
