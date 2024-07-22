@@ -9,6 +9,7 @@ import { brandsRules } from "../testData/brandsFormRules";
 import { randomUUID } from "crypto";
 
 
+
 //@ts-ignore-next-line
 async function tryNavigate(page, url, maxRetries = 3) {
 	for (let attempt = 1; attempt <= maxRetries; attempt++) {
