@@ -4,26 +4,12 @@ import { Tap } from "../app/components/tap.component";
 import { UserRegistrationForm, Brand } from "../app/types/form.interface";
 import { brandsRules } from "../testData/brandsFormRules";
 import { randomUUID } from "crypto";
-import { get } from "http";
+import { serverList } from "../testData/serverList";
+import { tryNavigate } from "../app/helpers/tryNavigate";
+import { getFormRules } from "../app/helpers/getFormRules";
 // 
 
-async function tryNavigate(page: Page, url: string, maxRetries = 5) {
-      for (let attempt = 1; attempt <= maxRetries; attempt++) {
-            try {
-                  //await page.goto('');
-                  await page.waitForTimeout(3000);
-                  await page.goto(url);
-                  return; // If successful, return without throwing an error
-            } catch (error) {
-                  console.error(`Attempt ${attempt} failed: ${(error as Error)?.message}`);
-                  // Properly wait for a second before retrying
-                  await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
-                  if (attempt === maxRetries) {
-                        throw error; // Rethrow the last error if all retries fail
-                  }
-            }
-      }
-}
+
 const proxyItem = {
       "region": "TR",
       "server": "http://geonode_Zr3aVjywHC-country-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
@@ -49,20 +35,7 @@ const land = {
       'Affilka Landing Name': 'Land / Tap / Hamster / Long / TR',
       'Affilka Landing URL': 'https://805.landing-alev.com/tr/hamster/alev-long'
 }
- function getFormRules(formType: string, filteredBrandRules: Brand) {
-      let regFormRules = undefined; // Initialize with a default value
-      if (formType === 'Long') {
-            regFormRules = filteredBrandRules?.long;
-      } else if (formType === 'Short') {
-            regFormRules = filteredBrandRules?.short;
-      }
-      // console.log("formType", formType);
-      // //const regFormRules = regFormRules1?.long:
-      // console.log("regFormRules", regFormRules);
 
-
-      return regFormRules as UserRegistrationForm;
-}
 test.describe(() => {
       test.use({
             proxy: {
@@ -91,12 +64,17 @@ test.describe(() => {
 
             const tap = new Tap(page);
             const form = new RegForm(page, regFormRules);
+            // await page.addLocatorHandler(page.locator(".form-inner"), async () => {
+
+            //       await page.locator(".retry-btn").click();
+            // });
             await tryNavigate(page, land["Affilka Landing URL"]);
+            await page.waitForTimeout(5000);
             await tap.tap();
             await tap.clickBonusButton();
             await form.fillForm(user);
             await form.login();
-            await page.waitForURL(new RegExp("^https://alevcasino592.com/"));
+            await expect(page).toHaveURL(new RegExp(`${serverList[0].url}`), { timeout: 60000 * 2 });
       });
 
 

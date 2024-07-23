@@ -77,23 +77,33 @@ export class RegForm {
 	}
 
 	@step()
-	async selectCountry(country: string): Promise<void> {
+	async selectCountry(country?: string): Promise<void> {
 		if (this.formElements.country) {
-			await this.countrySelect?.click({timeout:10000});
-			await this.countrySelect?.getByText(country).first().click();
-			return;
+			if (country) {
+				await this.countrySelect?.click({ timeout: 10000 });
+				await this.countrySelect?.getByText(country).first().click();
+				return;
+			}
 		}
 	}
 	@step()
 	async selectCurrency(currency: string): Promise<void> {
 		if (this.currencySelect) {
 			await this.currencySelect.click();
-			await this.currencySelect.getByText(currency).click();
+			if (await this.page.getByText("CAT").isVisible()) {
+				await this.page.getByText("CAT").click();
+			} else if (await this.page.getByText("USD").isVisible()) {
+				await this.page.getByText("USD").click();
+
+			}
+			else if (await this.page.getByText("РУБ").isVisible()) {
+				await this.page.getByText("РУБ").click();
+			}
 		}
 	}
-	@step()
-	async expectedInvalidEmail(): Promise<void> {
-		if (this.emailInput) {
+		@step()
+		async expectedInvalidEmail(): Promise < void> {
+			if(this.emailInput) {
 			await expect.soft(this.emailInput).toHaveAttribute("aria-invalid", "true");
 		}
 	}
@@ -135,6 +145,7 @@ export class RegForm {
 			await this.nameInput?.fill(name);
 			return
 		}
+		return;
 	}
 	@step()
 	async fillLastName(lastName: string): Promise<void> {
@@ -148,14 +159,16 @@ export class RegForm {
 
 	@step()
 	async fillForm(user: UserData): Promise<void> {
+
 		await this.fillName(user.name);
 		await this.fillLastName(user.lastName);
 		await this.fillEmail(user.email);
 		await this.fillPassword(user.password);
-		await this.selectCountry(user.country);
+		await this.selectCountry();
 		await this.selectCurrency(user.currency);
-		await this.fillPromoCode(user.promoCode);
+		//await this.fillPromoCode(user.promoCode);
 		await this.fillPhoneNumber("1234567890");
+
 	}
 	@step()
 	async login(): Promise<void> {
@@ -166,5 +179,5 @@ export class RegForm {
 		if (this.formElements.phoneNumber) {
 			await this.phoneNumberInput?.fill(phoneNumber);
 		}
-	 }
+	}
 }
