@@ -53,7 +53,7 @@ for (const proxyItem of proxyList) {
 			//const regFormRules:UserRegistrationForm=(brandsRules.filter((brand)=>brand.name===land.Brand)).s;
 			// Всі преленди Типу тап
 			test.describe(`Tap Land`, () => {
-				test(`${land["Affilka Landing Name"]} Tap Land${i}`, async ({ page}) => {
+				test(`${land["Affilka Landing Name"]} Tap Land${i}`, async ({ page }) => {
 					const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
 					const formType = land.Regform;
 					const currentRedirect = serverList.find((server) => server.brand === land.Brand);
@@ -75,14 +75,15 @@ for (const proxyItem of proxyList) {
 
 					const tap = new Tap(page);
 					const form = new RegForm(page, regFormRules);
-					await page.addLocatorHandler(page.locator(".error-inner"), async () => {
-						await page.locator(".retry-btn").click();
-					 });
 
+					//await page.goto("https://www.google.com");
 					await tryNavigate(page, land["Affilka Landing URL"]);
+					await page.addLocatorHandler(page.locator(".retry-btn"), async () => {
+						await page.locator(".retry-btn").click({ force: true, delay: 1000 });
+					});
 					await tap.tap();
 					await tap.clickBonusButton();
-				//	await page.waitForTimeout(5000);
+					//	await page.waitForTimeout(5000);
 					await form.fillForm(user);
 					//await page.pause();
 					await form.submit();

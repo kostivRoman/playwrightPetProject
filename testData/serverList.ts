@@ -8,7 +8,7 @@ export const serverList = [
       },
       {
             brand: "GAMA",
-            url: "^https:\/\/game\\d+\\.com"
+            url: "/^https:\/\/game\d+\.com\//"
             //https://game777win.com/
       },
       {
@@ -22,6 +22,6 @@ export const serverList = [
             //https://kentcasino667.com/
       }, {
             brand: 'R7',
-            url: "^https:\/\/r7casino\\d+\\.com"
+            url: "/^https:\/\/\w*casino\d+\.com/"
       }
 ]

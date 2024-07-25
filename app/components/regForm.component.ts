@@ -118,18 +118,11 @@ export class RegForm {
 
 			// Wait for the country items to be visible
 			await this.page.waitForSelector(".sv-item--wrap", { state: "visible" });
-
-			// Assuming 'your-country-item-selector' is the selector for country items
-			//const currencyItems = await this.page.$$('.sv-item--wrap');
 			const currencyItems = await this.page.locator('button', { has: this.currencySelect })
 				.locator('.sv-item--wrap').all();
 			await this.page.waitForTimeout(1000);
 			if (currencyItems.length > 0) {
-				// Generate a random index
 				const randomIndex = Math.floor(Math.random() * currencyItems.length);
-
-				// Click on a random country item
-				//	await countryItems[randomIndex].waitFor()
 				await this.page.locator('button', { has: this.currencySelect })
 					.locator('.sv-item--wrap').nth(randomIndex).click({ delay: 1000, force: true, timeout: 5000 });
 			} else {
@@ -163,7 +156,6 @@ export class RegForm {
 		await expect
 			.soft(this.promoCodeInput!)
 			.toHaveAttribute("aria-invalid", "true", { timeout: 30000 });
-
 	}
 	@step()
 	async fillEmail(email: string): Promise<void> {
@@ -197,7 +189,7 @@ export class RegForm {
 			//await this.page.waitForTimeout(1000);
 			await this.phoneCodeSelector?.click({ force: true, delay: 1000 });
 			await this.page.waitForSelector(".sv-item--wrap", { state: "visible" });
-			const phoneCodeItems = await this.page.locator('button', { has: this.phoneCodeSelector})
+			const phoneCodeItems = await this.page.locator('button', { has: this.phoneCodeSelector })
 				.locator('.sv-item--wrap').all();
 			await this.page.waitForTimeout(1000);
 			if (phoneCodeItems.length > 0) {
