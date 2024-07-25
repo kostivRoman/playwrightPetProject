@@ -9,6 +9,7 @@ import { brandsRules } from "../testData/brandsFormRules";
 import { getFormRules } from "../app/helpers/getFormRules";
 import { tryNavigate } from "../app/helpers/tryNavigate";
 import { user } from "../testData/user";
+import { serverList } from "../testData/serverList";
 
 
 
@@ -52,10 +53,12 @@ for (const proxyItem of proxyList) {
 			//const regFormRules:UserRegistrationForm=(brandsRules.filter((brand)=>brand.name===land.Brand)).s;
 			// Всі преленди Типу тап
 			test.describe(`Tap Land`, () => {
-				test(`${land["Affilka Landing Name"]} Tap Land${i}`, async ({ page, browser }) => {
+				test(`${land["Affilka Landing Name"]} Tap Land${i}`, async ({ page}) => {
 					const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
-					console.log("filteredRules", filteredBrandRules);
 					const formType = land.Regform;
+					const currentRedirect = serverList.find((server) => server.brand === land.Brand);
+					console.log("BrandName", land.Brand);
+					console.log("currentRedirect", currentRedirect);
 					let regFormRules = getFormRules(formType, filteredBrandRules);
 					const regRulesString = JSON.stringify(regFormRules);
 					test.info().attach("info", {
@@ -79,10 +82,11 @@ for (const proxyItem of proxyList) {
 					await tryNavigate(page, land["Affilka Landing URL"]);
 					await tap.tap();
 					await tap.clickBonusButton();
+				//	await page.waitForTimeout(5000);
 					await form.fillForm(user);
 					//await page.pause();
-					await form.login();
-					//await page.waitForURL(new RegExp("^https://alevcasino592.com/"));
+					await form.submit();
+					await expect(page).toHaveURL(new RegExp(`${currentRedirect?.url}`), { timeout: 60000 * 2 });
 				});
 			});
 		}

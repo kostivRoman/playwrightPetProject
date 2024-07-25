@@ -16,15 +16,19 @@ export class RegForm {
 	private emailInput?: Locator;
 	private passwordInput?: Locator;
 	private countrySelect?: Locator;
+	private countryItem?: Locator;
 	private currencySelect?: Locator;
+	private currencyItem?: Locator;
 	private promoCodeInput?: Locator;
-	private sighUpButton: Locator;
-	private loginButton: Locator;
+	//private sighUpButton: Locator;
+	private submitButton: Locator;
 	private showPasswordButton: Locator;
 	private nameInput?: Locator;
 	private lastNameInput?: Locator;
 	private formElements: UserRegistrationForm;
 	private phoneNumberInput?: Locator;
+	private phoneCodeSelector?: Locator;
+	private phoneCodeItem?: Locator;
 
 	constructor(protected page: Page, formElements: UserRegistrationForm) {
 		/// console.log("formElements", formElements);
@@ -32,15 +36,18 @@ export class RegForm {
 		this.page = page;
 		this.formElements = formElements;
 		// this.title = this.page.locator(".form-title");
-		this.sighUpButton = this.page.getByRole("button", { name: "Sign Up" });
-		this.loginButton = this.page.locator("button[type='submit']");
+		//this.sighUpButton = this.page.getByRole("button", { name: "Sign Up" });
+		this.submitButton = this.page.locator("button[type='submit']");
 		this.showPasswordButton = this.page.locator(".show-password");
 		if (formElements.name === true) {
 			this.page.locator("#name");
 		}
 		if (formElements.phoneNumber) {
 			this.phoneNumberInput = this.page.locator("#phoneNumber");
+			this.phoneCodeSelector = this.page.locator("#sv-phoneCode-select");
+			this.phoneCodeItem = this.page.locator("#phoneCodeOption");
 		}
+
 		if (formElements.email) {
 			//   console.log("formElements.email", formElements.email);
 			this.emailInput = this.page.locator("#email");
@@ -51,12 +58,11 @@ export class RegForm {
 		}
 
 		if (formElements.country) {
-			console.log("formElements.country", formElements.country);
-			console.log("this.page.locator('.select-button')", this.page.locator(".select-button"));
-			this.countrySelect = this.page
-				.locator(".select-button")
-				.first()
-				.or(this.page.locator(".select-button").first());
+			//console.log("formElements.country", formElements.country);
+			//console.log("this.page.locator('.select-button')", this.page.locator(".select-button"));
+			this.countrySelect = this.page.locator('#sv-countryCode-select');
+			this.countryItem = this.page.locator(".sv-item--wrap");
+			//this.page.locator("#countryOption");
 		}
 		if (formElements.promoCodeText) {
 			this.promoCodeInput = this.page.locator("#registrationPromoCode");
@@ -64,10 +70,7 @@ export class RegForm {
 
 		if (formElements.currency) {
 			this.currencySelect = this.page
-				.locator(".select-button", {
-					has: this.page.locator(".currency-label"),
-				})
-				.or(this.page.locator(".select-button").last());
+				.locator("#sv-currency-select");
 		}
 		if (this.formElements.name) {
 
@@ -79,31 +82,66 @@ export class RegForm {
 	@step()
 	async selectCountry(country?: string): Promise<void> {
 		if (this.formElements.country) {
-			if (country) {
-				await this.countrySelect?.click({ timeout: 10000 });
-				await this.countrySelect?.getByText(country).first().click();
-				return;
+			await this.countrySelect?.waitFor({ state: "visible" });
+			await this.page.waitForTimeout(500);
+			await this.countrySelect?.click({ force: true, delay: 1000 });
+
+			// Wait for the country items to be visible
+			await this.page.waitForSelector(".sv-item--wrap", { state: "visible" });
+
+			// Assuming 'your-country-item-selector' is the selector for country items
+			const countryItems = await this.page.locator('button', { has: this.countrySelect })
+				.locator('.sv-item--wrap').all();
+			await this.page.waitForTimeout(1000);
+			if (countryItems.length > 0) {
+				// Generate a random index
+				const randomIndex = Math.floor(Math.random() * countryItems.length);
+
+				// Click on a random country item
+				//	await countryItems[randomIndex].waitFor()
+				//await countryItems[randomIndex].click({ delay: 1000 });
+				await this.page.locator('button', { has: this.countrySelect })
+					.locator('.sv-item--wrap').nth(randomIndex).click();
+			} else {
+				throw new Error('No country items found');
 			}
+		} else {
+			return;
 		}
 	}
 	@step()
-	async selectCurrency(currency: string): Promise<void> {
-		if (this.currencySelect) {
-			await this.currencySelect.click();
-			if (await this.page.getByText("CAT").isVisible()) {
-				await this.page.getByText("CAT").click();
-			} else if (await this.page.getByText("USD").isVisible()) {
-				await this.page.getByText("USD").click();
+	async selectCurrency(): Promise<void> {
+		if (this.formElements.currency) {
+			await this.currencySelect?.waitFor({ state: "visible" });
+			//await this.page.waitForTimeout(1000);
+			await this.currencySelect?.click({ force: true, delay: 1000 });
 
+			// Wait for the country items to be visible
+			await this.page.waitForSelector(".sv-item--wrap", { state: "visible" });
+
+			// Assuming 'your-country-item-selector' is the selector for country items
+			//const currencyItems = await this.page.$$('.sv-item--wrap');
+			const currencyItems = await this.page.locator('button', { has: this.currencySelect })
+				.locator('.sv-item--wrap').all();
+			await this.page.waitForTimeout(1000);
+			if (currencyItems.length > 0) {
+				// Generate a random index
+				const randomIndex = Math.floor(Math.random() * currencyItems.length);
+
+				// Click on a random country item
+				//	await countryItems[randomIndex].waitFor()
+				await this.page.locator('button', { has: this.currencySelect })
+					.locator('.sv-item--wrap').nth(randomIndex).click({ delay: 1000, force: true, timeout: 5000 });
+			} else {
+				throw new Error('No country items found');
 			}
-			else if (await this.page.getByText("РУБ").isVisible()) {
-				await this.page.getByText("РУБ").click();
-			}
+		} else {
+			return;
 		}
 	}
-		@step()
-		async expectedInvalidEmail(): Promise < void> {
-			if(this.emailInput) {
+	@step()
+	async expectedInvalidEmail(): Promise<void> {
+		if (this.emailInput) {
 			await expect.soft(this.emailInput).toHaveAttribute("aria-invalid", "true");
 		}
 	}
@@ -143,18 +181,35 @@ export class RegForm {
 	async fillName(name: string): Promise<void> {
 		if (this.formElements.name) {
 			await this.nameInput?.fill(name);
-			return
 		}
-		return;
+
 	}
 	@step()
 	async fillLastName(lastName: string): Promise<void> {
 		if (this.formElements.name) {
 			await this.lastNameInput?.fill(lastName);
-			return;
 		}
 	}
-
+	@step()
+	async selectPhoneCode(): Promise<void> {
+		if (this.formElements.phoneNumber) {
+			await this.phoneCodeSelector?.waitFor({ state: "visible" });
+			//await this.page.waitForTimeout(1000);
+			await this.phoneCodeSelector?.click({ force: true, delay: 1000 });
+			await this.page.waitForSelector(".sv-item--wrap", { state: "visible" });
+			const phoneCodeItems = await this.page.locator('button', { has: this.phoneCodeSelector})
+				.locator('.sv-item--wrap').all();
+			await this.page.waitForTimeout(1000);
+			if (phoneCodeItems.length > 0) {
+				// Generate a random index
+				const randomIndex = Math.floor(Math.random() * phoneCodeItems.length);
+				await this.page.locator('button', { has: this.phoneCodeSelector })
+					.locator('.sv-item--wrap').nth(randomIndex).click({ delay: 1000, force: true });
+			} else {
+				throw new Error('No currency items found');
+			}
+		}
+	}
 
 
 	@step()
@@ -165,19 +220,25 @@ export class RegForm {
 		await this.fillEmail(user.email);
 		await this.fillPassword(user.password);
 		await this.selectCountry();
-		await this.selectCurrency(user.currency);
-		//await this.fillPromoCode(user.promoCode);
+		await this.selectCurrency();
+		//await this.fillPromoCode(user.promoCode)
+		await this.selectPhoneCode();
 		await this.fillPhoneNumber("1234567890");
 
 	}
 	@step()
-	async login(): Promise<void> {
-		await this.loginButton.click();
+	async submit(): Promise<void> {
+
+		await this.submitButton.click();
 	}
 	@step()
 	async fillPhoneNumber(phoneNumber: string): Promise<void> {
 		if (this.formElements.phoneNumber) {
+			//await this.phoneCodeSelector?.waitFor({ state: "visible" });
+			await this.phoneNumberInput?.waitFor({ state: "visible" });
+			await this.page.waitForTimeout(500);
 			await this.phoneNumberInput?.fill(phoneNumber);
 		}
 	}
+
 }
