@@ -8,7 +8,7 @@ export async function tryNavigate(page: Page, url: string, maxRetries = 5) {
             } catch (error) {
                   console.error(`Attempt ${attempt} failed: ${(error as Error)?.message}`);
                   // Properly wait for a second before retrying
-                  await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+                  await new Promise((resolve) => setTimeout(resolve, 1000 ));
                   if (attempt === maxRetries) {
                         throw error; // Rethrow the last error if all retries fail
                   }

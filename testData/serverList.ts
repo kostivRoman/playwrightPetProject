@@ -18,10 +18,10 @@ export const serverList = [
       },
       {
             brand: 'KENT',
-            url: "^https:\/\/kentcasino\\d+\\.com"
+            url: /kentcasino/
             //https://kentcasino667.com/
       }, {
             brand: 'R7',
-            url: "/^https:\/\/\w*casino\d+\.com/"
+            url: /^https:\/\/\w*casino\d+\.com/
       }
 ]
