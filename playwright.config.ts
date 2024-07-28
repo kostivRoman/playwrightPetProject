@@ -62,39 +62,39 @@ export default defineConfig({
 	//globalTimeout: 10 * 60 * 1000,
 	timeout: 2 * 60 * 1000,
 	/* Configure projects for major browsers */
-	projects: projects,
-	// projects: [
-	// 	{
-	// 		name: "RU",
-	// 		use: {
-	// 			...devices["Desktop Chrome"],
-	// 			launchOptions: {
-	// 				proxy: {
-	// 					server: "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-	// 					username: "geonode_Zr3aVjywHC-country-ru",
-	// 					password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
-	// 				},
-	// 			},
-	// 			actionTimeout: 60000,
-	// 			//region: "RU",
+	//projects: projects,
+	projects: [
+		{
+			name: "RU",
+			use: {
+				...devices["Desktop Chrome"],
+				launchOptions: {
+					proxy: {
+						server: "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+						username: "geonode_Zr3aVjywHC-country-ru",
+						password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+					},
+				},
+				actionTimeout: 60000,
+				//region: "RU",
 
-	// 		},
+			},
 
-	// 	},
-	// 	{
-	// 		name: "TR",
-	// 		use: {
-	// 			...devices["Desktop Chrome"],
-	// 			launchOptions: {
-	// 				proxy: {
-	// 					server: "http://geonode_Zr3aVjywHC-country-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-	// 					username: 'geonode_Zr3aVjywHC-country-tr',
-	// 					password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
-	// 				},
-	// 			},
-	// 			//region: "TR",
-	// 		},
-	// 	},
+		},
+		{
+			name: "TR",
+			use: {
+				...devices["Desktop Chrome"],
+				launchOptions: {
+					proxy: {
+						server: "http://geonode_Zr3aVjywHC-country-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+						username: 'geonode_Zr3aVjywHC-country-tr',
+						password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
+					},
+				},
+				//region: "TR",
+			},
+		},]
 
 		// {
 		//   name: "firefox",
