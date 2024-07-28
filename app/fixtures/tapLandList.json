@@ -1,0 +1,119 @@
+[
+  {
+    "Brand": "KENT",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Long",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Long + Code / RU",
+    "Affilka Landing URL": "https://102.landing-for-kent.com/ru/hamster/kent-long-code"
+  },
+  {
+    "Brand": "KENT",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Short",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Short / RU",
+    "Affilka Landing URL": "https://408.landing-for-kent.com/ru/hamster/kent-short"
+  },
+  {
+    "Brand": "KENT",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Long",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Long / RU",
+    "Affilka Landing URL": "https://482.landing-for-kent.com/ru/hamster/kent-long"
+  },
+  {
+    "Brand": "KENT",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Short",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Short + Code / RU",
+    "Affilka Landing URL": "https://515.landing-for-kent.com/ru/hamster/kent-short-code"
+  },
+  {
+    "Brand": "R7",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Long",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Long + Code / RU",
+    "Affilka Landing URL": "https://810.landing-r7.com/ru/hamster/r7-long-code"
+  },
+  {
+    "Brand": "R7",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Long",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Long / RU",
+    "Affilka Landing URL": "https://729.landing-r7.com/ru/hamster/r7-long"
+  },
+  {
+    "Brand": "R7",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Short",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Short / RU",
+    "Affilka Landing URL": "https://673.landing-r7.com/ru/hamster/r7-short"
+  },
+  {
+    "Brand": "R7",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Short",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Tap / Hamster / Short + Code / RU",
+    "Affilka Landing URL": "https://944.landing-r7.com/ru/hamster/r7-short-code"
+  },
+  {
+    "Brand": "R7",
+    "Type": "Land",
+    "Action": [
+      "Tap",
+      "Hamster"
+    ],
+    "Regform": "Short",
+    "GEO": "RU",
+    "Format": "new",
+    "Affilka Landing Name": "Land / Hamster / Short + Code / RU",
+    "Affilka Landing URL": "https://444.landing-r7.com/ru/hamster/r7-short-code-zub"
+  }
+]

@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import proxyData from "./testData/proxyList.json";
 
 /**
  * Read environment variables from file.
@@ -10,8 +11,30 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+const projects = proxyData.map(proxy => ({
+	name: proxy.region,
+	use: {
+		...devices['Desktop Chrome'],
+		launchOptions: {
+			proxy: {
+				server: proxy.server,
+				username: proxy.username,
+				password: proxy.password,
+			},
+		},
+	},
+}));
 export default defineConfig({
-	globalSetup:'global-setup.ts',
+	use: {
+		/* Base URL to use in actions like `await page.goto('/')`. */
+		// baseURL: 'http://127.0.0.1:3000',
+
+		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+		trace: "on",
+		headless: false,
+		ignoreHTTPSErrors: true
+	},
+	//globalSetup: 'global-setup.ts',
 	testDir: "./tests",
 
 	//testMatch: "**/*.spec.ts",
@@ -27,67 +50,51 @@ export default defineConfig({
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
 	reporter: "html",
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-	use: {
-		/* Base URL to use in actions like `await page.goto('/')`. */
-		// baseURL: 'http://127.0.0.1:3000',
+	// use: {
+	// 	/* Base URL to use in actions like `await page.goto('/')`. */
+	// 	// baseURL: 'http://127.0.0.1:3000',
 
-		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-		trace: "on",
-		headless: false,
-		ignoreHTTPSErrors: true
-	},
+	// 	/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+	// 	trace: "on",
+	// 	headless: false,
+	// 	ignoreHTTPSErrors: true
+	// },
 	//globalTimeout: 10 * 60 * 1000,
 	timeout: 2 * 60 * 1000,
 	/* Configure projects for major browsers */
-	projects: [
-		{
-			name: "RU",
-			use: {
-				...devices["Desktop Chrome"],
-				launchOptions: {
-					proxy: {
-						server: "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-						username: "geonode_Zr3aVjywHC-country-ru",
-						password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
-					},
-				},
-				actionTimeout: 60000,
-				
-			},
-			metadata: {
-				"region": "RU",
-				"server": "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-				"username": "geonode_Zr3aVjywHC-country-ru",
-				"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
-			}
-		},
+	projects: projects,
+	// projects: [
+	// 	{
+	// 		name: "RU",
+	// 		use: {
+	// 			...devices["Desktop Chrome"],
+	// 			launchOptions: {
+	// 				proxy: {
+	// 					server: "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+	// 					username: "geonode_Zr3aVjywHC-country-ru",
+	// 					password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+	// 				},
+	// 			},
+	// 			actionTimeout: 60000,
+	// 			//region: "RU",
 
-		// {
-		// 	name: "RU",
-		// 	use: {
-		// 		...devices["Desktop Chrome"],
-		// 		launchOptions: {
-		// 			proxy: {
-		// 				server:"http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		// 				username: 'geonode_Zr3aVjywHC-country-ru',
-		// 				password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
-		// 			},
-		// 		},
-		// 	},
-		// },
-		// {
-		// 	name: "TR",
-		// 	use: {
-		// 		...devices["Desktop Chrome"],
-		// 		launchOptions: {
-		// 			proxy: {
-		// 				server:"http://geonode_Zr3aVjywHC-country-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		// 				username: 'geonode_Zr3aVjywHC-country-tr',
-		// 				password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
-		// 			},
-		// 		},
-		// 	},
-		// },
+	// 		},
+
+	// 	},
+	// 	{
+	// 		name: "TR",
+	// 		use: {
+	// 			...devices["Desktop Chrome"],
+	// 			launchOptions: {
+	// 				proxy: {
+	// 					server: "http://geonode_Zr3aVjywHC-country-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+	// 					username: 'geonode_Zr3aVjywHC-country-tr',
+	// 					password: 'bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd',
+	// 				},
+	// 			},
+	// 			//region: "TR",
+	// 		},
+	// 	},
 
 		// {
 		//   name: "firefox",
@@ -118,7 +125,7 @@ export default defineConfig({
 		//   name: 'Google Chrome',
 		//   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
 		// },
-	],
+	//],
 
 	/* Run your local dev server before starting the tests */
 	// webServer: {

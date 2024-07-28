@@ -1,3 +1,15 @@
+export interface Landing {
+  Brand: string;
+  Type: string;
+  Action: string[];
+  Regform: string;
+  GEO: string;
+  Format: string;
+  'Affilka Landing Name': string;
+  'Affilka Landing URL': string;
+}
+
+export const landList: Landing[] = 
 [
   {
     "Brand": "ALEV",
