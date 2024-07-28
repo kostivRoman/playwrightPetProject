@@ -1,7 +1,13 @@
 
 import { test } from '@playwright/test';
 import { landList } from "../testData/landList.data";
-
+import { brandsRules } from "../testData/brandsFormRules";
+import { getFormRules } from '../app/helpers/getFormRules';
+import { Brand } from '../app/types/form.interface';
+import { Tap } from '../app/components/tap.component';
+import { RegForm } from '../app/components/regForm.component';
+import { tryNavigate } from '../app/helpers/tryNavigate';
+import { user } from '../testData/user';
 
 const tapLandsArr = landList.filter((land) => land.Action.includes("Tap"));
 const tapPreland = tapLandsArr.filter((land) => land.Type === "Land");
@@ -11,33 +17,49 @@ const filtr = tapPreland.filter((land) => land.GEO === "RU");
 let i = 0;
 test.describe('Tap Preland', () => {
 	for (const land of tapPreland) {
-		// const filteredLandListByRegion = landList.filter((land) => land.GEO === process.env.PLAYWRIGHT_PROJECT_NAME);
 
-		// test.skip('never run', async ({  },testInfo) => {
-		//       landList[i].GEO!==testInfo.project.name
-		// });
-		//test.describe(() => {
-		// test.skip(() => {
-		// 	console.log("GEO3333", land.GEO);
-		// 	return land.GEO == test.info().project.name;
-		// });
 		test(` ${land.GEO},${i}`, async ({ page }, testInfo) => {
-console.log("taplength", filtr.length);
-			console.log("testInfo", testInfo.project.name == land.GEO);
+			//console.log("taplength", filtr.length);
+			//console.log("testInfo", testInfo.project.name == land.GEO);
 			//console.log("GEO", tapPreland);
 			if (testInfo.project.name !== land.GEO) {
-				//console.log("GEOinSkip", land.GEO);
-				//console.log("testinSkip", test.info().title);
 				test.skip();
-				//return
 			}
-			//console.log("project name in fixture", testInfo.project.name);
-		//	console.log("land", land['Affilka Landing Name']);
-			//await page.goto(land["Affilka Landing URL"]);
-			//await page.waitForLoadState('domcontentloaded');
-			//await page.waitForTimeout(5000);
+
+			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
+			const formType = land.Regform;
+			//const currentRedirect = serverList.find((server) => server.brand === land.Brand);
+			console.log("BrandName", land.Brand);
+			//	console.log("currentRedirect", currentRedirect);
+			let regFormRules = getFormRules(formType, filteredBrandRules);
+			const regRulesString = JSON.stringify(regFormRules);
+			test.info().attach("info", {
+				body: JSON.stringify({
+					Brand: land.Brand,
+					Country: land.GEO,
+					Type: land.Type,
+					Action: land.Action,
+					URL: land["Affilka Landing URL"],
+					regForm: land.Regform,
+					regFormRules: regRulesString,
+				}),
+			});
+			const tap = new Tap(page);
+			const form = new RegForm(page, regFormRules);
+
+			//await page.goto("https://www.google.com");
+			await tryNavigate(page, land["Affilka Landing URL"]);
+
+			await tap.tap();
+			await tap.clickBonusButton();
+			//	await page.waitForTimeout(5000);
+			await page.addLocatorHandler(page.locator('.error-inner'), async () => {
+				await page.locator(".retry-btn").click({ delay: 1000 });
+			});
+			await form.fillForm(user);
+			//await page.pause();
+			await form.submit();
 		});
 		i++;
-		//});
 	}
 });
