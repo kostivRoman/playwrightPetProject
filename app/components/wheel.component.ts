@@ -1,6 +1,5 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { step } from "../helpers/step";
-import { waitForDebugger } from "inspector";
 
 export class Wheel {
 	private wheel: Locator;
@@ -48,14 +47,16 @@ export class Wheel {
 		const button = this.wheelButton.first();
 
 		await button.waitFor({ state: "visible" });
-		await this.page.waitForTimeout(2000);
-		await button.hover({ force: true });
-		await button.click({ force: true, timeout: 10000 });
 		await this.page.waitForTimeout(4000);
-
+		await button.hover({ force: true });
+		//await button.click({ force: true, delay: 1000 });
+		await this.page.waitForTimeout(2000);
 		try {
-			await button.click({ force: true, timeout: 1000 });
-			// await this.page.waitForTimeout(2000);
+			for (let i = 0; i < 3; i++) {
+				await button.click({ force: true, delay: 1000, timeout: 2000 });
+				// Optionally, you can add a delay between clicks if needed
+				// await this.page.waitForTimeout(2000);
+			}
 		} catch (error) {
 			console.log("Error: ", error);
 		}

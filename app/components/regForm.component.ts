@@ -128,15 +128,15 @@ export class RegForm {
 				.locator("button", { has: this.currencySelect })
 				.locator(".sv-item--wrap")
 				.all();
-			await this.page.waitForTimeout(1000);
+			await this.page.waitForTimeout(2000);
 			if (currencyItems.length > 0) {
 				const randomIndex = Math.floor(Math.random() * currencyItems.length);
 				await this.page
 					.locator("button", { has: this.currencySelect })
 					.locator(".sv-item--wrap")
 					.nth(randomIndex)
-					.click({ delay: 1000, force: true, timeout: 5000 });
-				return;
+					.click({ delay: 1000, timeout: 5000 });
+				//return;
 			} else {
 				throw new Error("No country items found");
 			}

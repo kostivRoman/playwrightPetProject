@@ -29,7 +29,7 @@ for (const land of DE_TAP_LAND) {
 		}
 	};
 
-	test(`${i}`, async ({ browser }) => {
+	test(`${land["Affilka Landing URL"]}`, async ({ browser }) => {
 		console.log("land", land);
 		console.log("proxyObject", proxyObject);
 		console.log("proxySettings", proxySettings);
@@ -51,7 +51,7 @@ for (const land of DE_TAP_LAND) {
 		// Expect a title "to contain" a substring.
 		//await expect(page).toHaveTitle(/Playwright/);
 		// await page.close();
-		// await context.close();
+		await context.close();
 		// await browser.close();
 	});
 	i++;

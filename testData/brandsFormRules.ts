@@ -29,7 +29,7 @@ export const brandsRules: Brand[] = [
 		},
 	},
 	{
-		name: "CASIBRA",
+		name: "Casibra",
 		short: {
 			name: false,
 			email: true,
