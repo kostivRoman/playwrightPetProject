@@ -61,7 +61,7 @@
 
 // // 			//await page.goto("https://www.google.com");
 // // 			await tryNavigate(page, land["Affilka Landing URL"]);
-			
+
 // // 			await tap.tap();
 // // 			await tap.clickBonusButton();
 // // 			//	await page.waitForTimeout(5000);

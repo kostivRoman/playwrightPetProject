@@ -5,11 +5,11 @@
 		"module": "ESNext",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
-		 "strict": true,
+		"strict": true,
 		// "noUnusedLocals": false,
 		// "noUnusedParameters": false,
 		// ///"noFallthroughCasesInSwitch": true,
-		"allowSyntheticDefaultImports": true,
+		"allowSyntheticDefaultImports": true
 		// "sourceMap": true,
 		// "baseUrl": "./",
 		// "paths": {

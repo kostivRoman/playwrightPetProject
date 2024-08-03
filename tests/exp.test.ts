@@ -1,92 +1,59 @@
-import test, { expect, Page } from "playwright/test";
-import { RegForm, UserData } from "../app/components/regForm.component";
+import { BrowserContextOptions, expect, test } from "@playwright/test";
+import { RegForm } from "../app/components/regForm.component";
 import { Tap } from "../app/components/tap.component";
-import { UserRegistrationForm, Brand } from "../app/types/form.interface";
-import { brandsRules } from "../testData/brandsFormRules";
-import { randomUUID } from "crypto";
-import { serverList } from "../testData/serverList";
-import { tryNavigate } from "../app/helpers/tryNavigate";
 import { getFormRules } from "../app/helpers/getFormRules";
-import { user } from '../testData/user';
-import { tap } from "node:test/reporters";
-import { Wheel } from "../app/components/wheel.component";
+import { tryNavigate } from "../app/helpers/tryNavigate";
+import { Brand } from "../app/types/form.interface";
+import { brandsRules } from "../testData/brandsFormRules";
+import { landList } from "../testData/landList.data";
+import proxyList from "../testData/proxyList.json";
+import { serverList } from "../testData/serverList";
+import { user } from "../testData/user";
+let i = 0;
 
-const land = {
-      "Brand": "CAT",
-      "Type": "Preland",
-      "Action": [
-            "Wheel",
-            "Cat Casino"
-      ],
-      "Regform": "Long",
-      "GEO": "Multi",
-      "Format": "old",
-      "Affilka Landing Name": "Preland / Wheel / Cat Casino / Short",
-      "Affilka Landing URL": "https://x.catlanding.com/"
-};
-const filteredBrandRules = {
-      name: "DOIT",
-      short: {
-            name: false,
-            email: true,
-            password: true,
-            country: true,
-            currency: true,
-            phoneNumber: false,
-            promoHidden: false,
-            promoOpen: false,
-            promoCodeText: false,
-            banner: true,
-      },
-      long: {
-            name: false,
-            email: true,
-            password: true,
-            country: true,
-            currency: true,
-            phoneNumber: true,
-            promoHidden: false,
-            promoOpen: false,
-            promoCodeText: true,
-            banner: false,
-      },
+const DE = landList.filter((land) => land.GEO === "DE");
+const DETAP = DE.filter((land) => land.Action.includes("Tap"));
+const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Land");
+for (const land of DE_TAP_LAND) {
+	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
+		"region": "DE",
+		"server": "http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		"username": "geonode_Zr3aVjywHC-country-de",
+		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+	};
+	const proxySettings: BrowserContextOptions = {
+		proxy: {
+			server: proxyObject?.server as string,
+			username: proxyObject?.username as string,
+			password: proxyObject?.password as string,
+		}
+	};
+
+	test(`${i}`, async ({ browser }) => {
+		console.log("land", land);
+		console.log("proxyObject", proxyObject);
+		console.log("proxySettings", proxySettings);
+		const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
+		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+		const context = await browser.newContext(proxySettings);
+		const page = await context.newPage();
+		const tap = new Tap(page);
+		const form = new RegForm(page, regFormRules);
+		//await page.goto('https://google.com/');
+		await tryNavigate(page, land["Affilka Landing URL"], 5);
+		await tap.tap();
+		await tap.clickBonusButton();
+		await form.fillForm(user);
+		await form.submit();
+		await page.pause();
+		await expect(page).toHaveURL(serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
+			{ timeout: 60000 });
+		// Expect a title "to contain" a substring.
+		//await expect(page).toHaveTitle(/Playwright/);
+		// await page.close();
+		// await context.close();
+		// await browser.close();
+	});
+	i++;
 
 }
-
-test(`Tap Land`, async ({ page, browser }) => {
-      // const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
-      // console.log("filteredRules", filteredBrandRules);
-      const formType = land.Regform;
-      let regFormRules = getFormRules(formType, filteredBrandRules);
-      // const regRulesString = JSON.stringify(regFormRules);
-      // test.info().attach("info", {
-      //       body: JSON.stringify({
-      //             Brand: land.Brand,
-      //             Country: land.GEO,
-      //             Type: land.Type,
-      //             Action: land.Action,
-      //             URL: land["Affilka Landing URL"],
-      //             regForm: land.Regform,
-      //             regFormRules: regRulesString,
-      //       }),
-      // });
-
-      const wheel = new Wheel(page);
-      const form = new RegForm(page, regFormRules);
-      // await page.addLocatorHandler(page.locator(".form-inner"), async () => {
-
-      //       await page.locator(".retry-btn").click();
-      // });
-      await tryNavigate(page, land["Affilka Landing URL"]);
-      await page.waitForTimeout(5000);
-      await wheel.spinWheel();
-      await wheel.claimBonus();
-      //await tap.tap();
-      //await tap.clickBonusButton();
-
-      await form.fillForm(user);
-
-      //await expect(page).toHaveURL(new RegExp(`${serverList[0].url}`), { timeout: 60000 * 2 });
-});
-
-

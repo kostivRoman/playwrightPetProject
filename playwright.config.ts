@@ -1,5 +1,4 @@
 import { defineConfig, devices } from "@playwright/test";
-import proxyData from "./testData/proxyList.json";
 
 /**
  * Read environment variables from file.
@@ -11,29 +10,48 @@ import proxyData from "./testData/proxyList.json";
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const projects = proxyData.map(proxy => ({
-	name: proxy.region,
-	use: {
-		...devices['Desktop Chrome'],
-		launchOptions: {
-			proxy: {
-				server: proxy.server,
-				username: proxy.username,
-				password: proxy.password,
-			},
-		},
-	},
-}));
-export default defineConfig({
-	use: {
-		/* Base URL to use in actions like `await page.goto('/')`. */
-		// baseURL: 'http://127.0.0.1:3000',
 
-		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-		trace: "on",
-		headless: false,
-		ignoreHTTPSErrors: true
-	},
+// const projects = landList.map((el, i) => ({
+// 	name: `${i}-${el["Affilka Landing URL"]},${el.GEO}`, // Ensure each project has a unique name
+// 	use: {
+// 		...devices["Desktop Chrome"],
+// 		launchOptions: {
+// 			// 	proxy: {
+// 			// 		server: 'proxy-server',
+
+// 			// 	}
+// 			// },
+// 			proxy: {
+// 				server: proxyData.find((proxy) => proxy.region === el.GEO)?.server as string,
+// 				username: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
+// 				password: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
+// 				// }
+// 			},
+// 		},
+// 		timeout: 5 * 60 * 1000,
+// 		actionTimeout: 15000,
+// 	},
+// 	metadata: {
+// 		url: el["Affilka Landing URL"],
+// 		server: proxyData.find((proxy) => proxy.region === el.GEO)?.server as string,
+// 		username: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
+// 		password: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
+// 	},
+// 	trace: "on",
+// 	headless: false,
+// 	ignoreHTTPSErrors: true,
+// }));
+export default defineConfig({
+
+	// use: {
+	// 	/* Base URL to use in actions like `await page.goto('/')`. */
+	// 	// baseURL: 'http://127.0.0.1:3000',
+
+	// 	/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+	// 	trace: "on",
+	// 	headless: false,
+	// 	ignoreHTTPSErrors: true,
+	// },
 	//globalSetup: 'global-setup.ts',
 	testDir: "./tests",
 
@@ -49,6 +67,13 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : 1,
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
 	reporter: "html",
+	use: {
+		launchOptions: {
+			proxy: {
+				server: 'proxy-server',
+			}
+		},
+	},
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	// use: {
 	// 	/* Base URL to use in actions like `await page.goto('/')`. */
@@ -60,26 +85,26 @@ export default defineConfig({
 	// 	ignoreHTTPSErrors: true
 	// },
 	//globalTimeout: 10 * 60 * 1000,
-	timeout: 2 * 60 * 1000,
+	timeout: 5 * 60 * 1000,
 	/* Configure projects for major browsers */
 	//projects: projects,
-	// projects: [
-	// 	{
-	// 		name: "RU",
-	// 		use: {
-	// 			...devices["Desktop Chrome"],
-	// 			launchOptions: {
-	// 				proxy: {
-	// 					server: "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-	// 					username: "geonode_Zr3aVjywHC-country-ru",
-	// 					password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
-	// 				},
-	// 			},
-	// 			actionTimeout: 60000,
-	// 			//region: "RU",
+	projects: [
+		{
+			name: "RU",
+			use: {
+				...devices["Desktop Chrome"],
+				launchOptions: {
+					proxy: {
+						server: "proxy"// "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+						// username: "geonode_Zr3aVjywHC-country-ru",
+						// password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+					},
+				},
+				actionTimeout: 60000,
+				//region: "RU",
 
-	// 		},
-
+			},
+		}],
 	// 	},
 	// 	{
 	// 		name: "TR",
@@ -96,35 +121,35 @@ export default defineConfig({
 	// 		},
 	// 	},]
 
-		// {
-		//   name: "firefox",
-		//   use: { ...devices["Desktop Firefox"] },
-		// },
+	// {
+	//   name: "firefox",
+	//   use: { ...devices["Desktop Firefox"] },
+	// },
 
-		// {
-		//   name: "webkit",
-		//   use: { ...devices["Desktop Safari"] },
-		// },
+	// {
+	//   name: "webkit",
+	//   use: { ...devices["Desktop Safari"] },
+	// },
 
-		/* Test against mobile viewports. */
-		// {
-		//   name: 'Mobile Chrome',
-		//   use: { ...devices['Pixel 5'] },
-		// },
-		// {
-		//   name: 'Mobile Safari',
-		//   use: { ...devices['iPhone 12'] },
-		// },
+	/* Test against mobile viewports. */
+	// {
+	//   name: 'Mobile Chrome',
+	//   use: { ...devices['Pixel 5'] },
+	// },
+	// {
+	//   name: 'Mobile Safari',
+	//   use: { ...devices['iPhone 12'] },
+	// },
 
-		/* Test against branded browsers. */
-		// {
-		//   name: 'Microsoft Edge',
-		//   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-		// },
-		// {
-		//   name: 'Google Chrome',
-		//   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-		// },
+	/* Test against branded browsers. */
+	// {
+	//   name: 'Microsoft Edge',
+	//   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+	// },
+	// {
+	//   name: 'Google Chrome',
+	//   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+	// },
 	//],
 
 	/* Run your local dev server before starting the tests */

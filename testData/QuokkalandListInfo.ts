@@ -1,15 +1,4 @@
-export interface Landing {
-	Brand: string;
-	Type: string;
-	Action: string[];
-	Regform: string;
-	GEO: string;
-	Format: string;
-	"Affilka Landing Name": string;
-	"Affilka Landing URL": string;
-}
-
-export const landList: Landing[] = [
+const landList = [
 	{
 		Brand: "ALEV",
 		Type: "Preland",
@@ -2631,3 +2620,97 @@ export const landList: Landing[] = [
 		"Affilka Landing URL": "https://404.landing-r7.com/",
 	},
 ];
+const tapLandsArr = landList.filter((land) => land.Action.includes("Tap") && land.Type === "Land");
+console.log(tapLandsArr.length);
+
+const RUlist = landList.filter((land) => land.GEO === "RU");
+console.log(RUlist.length);
+const TRlist = landList.filter((land) => land.GEO === "TR");
+console.log(TRlist.length);
+const KZlist = landList.filter((land) => land.GEO === "KZ");
+console.log(KZlist.length);
+const BRlist = landList.filter((land) => land.GEO === "BR");
+console.log(BRlist.length);
+const UZlist = landList.filter((land) => land.GEO === "UZ");
+console.log(UZlist.length);
+const PTlist = landList.filter((land) => land.GEO === "PT");
+console.log(PTlist.length);
+const DElist = landList.filter((land) => land.GEO === "DE");
+console.log(DElist.length);
+
+const ruWheel = RUlist.filter((land) => land.Action.includes("Wheel"));
+console.log(ruWheel.length);
+const trWheel = TRlist.filter((land) => land.Action.includes("Wheel"));
+console.log(trWheel.length);
+const kzWheel = KZlist.filter((land) => land.Action.includes("Wheel"));
+console.log(kzWheel.length);
+const brWheel = BRlist.filter((land) => land.Action.includes("Wheel"));
+console.log(brWheel.length);
+const uzWheel = UZlist.filter((land) => land.Action.includes("Wheel"));
+console.log(uzWheel.length);
+const ptWheel = PTlist.filter((land) => land.Action.includes("Wheel"));
+console.log(ptWheel.length);
+const deWheel = DElist.filter((land) => land.Action.includes("Wheel"));
+console.log(deWheel.length);
+
+const ruTap = RUlist.filter((land) => land.Action.includes("Tap"));
+console.log(ruTap.length);
+const trTap = TRlist.filter((land) => land.Action.includes("Tap"));
+console.log(trTap.length);
+const kzTap = KZlist.filter((land) => land.Action.includes("Tap"));
+console.log(kzTap.length);
+const brTap = BRlist.filter((land) => land.Action.includes("Tap"));
+console.log(brTap.length);
+const uzTap = UZlist.filter((land) => land.Action.includes("Tap"));
+console.log(uzTap.length);
+const ptTap = PTlist.filter((land) => land.Action.includes("Tap"));
+console.log(ptTap.length);
+const deTap = DElist.filter((land) => land.Action.includes("Tap"));
+console.log(deTap.length);
+
+const lands = landList.filter((land) => land.Type === "Land");
+
+console.log(lands.length);
+const preland = landList.filter((land) => land.Type === "Preland");
+console.log(preland.length);
+
+const wheelLands = lands.filter((land) => land.Action.includes("Wheel"));
+console.log(wheelLands.length);
+const wheelPrelands = preland.filter((land) => land.Action.includes("Wheel"));
+console.log(wheelPrelands.length);
+
+const TAPlands = lands.filter((land) => land.Action.includes("Tap"));
+console.log(TAPlands.length);
+const TAPprelands = preland.filter((land) => land.Action.includes("Tap"));
+console.log(TAPprelands.length);
+
+const wheelPrelandTR = wheelPrelands.filter((land) => land.GEO === "TR");
+console.log(wheelPrelandTR.length);
+const wheelPrelandRU = wheelPrelands.filter((land) => land.GEO === "RU");
+console.log(wheelPrelandRU.length);
+const wheelPrelandKZ = wheelPrelands.filter((land) => land.GEO === "KZ");
+console.log(wheelPrelandKZ.length);
+const wheelPrelandBR = wheelPrelands.filter((land) => land.GEO === "BR");
+console.log(wheelPrelandBR.length);
+const wheelPrelandUZ = wheelPrelands.filter((land) => land.GEO === "UZ");
+console.log(wheelPrelandUZ.length);
+const wheelPrelandPT = wheelPrelands.filter((land) => land.GEO === "PT");
+console.log(wheelPrelandPT.length);
+const wheelPrelandDE = wheelPrelands.filter((land) => land.GEO === "DE");
+console.log(wheelPrelandDE.length);
+
+const TAPprelandTR = TAPprelands.filter((land) => land.GEO === "TR");
+console.log(TAPprelandTR.length);
+const TAPprelandRU = TAPprelands.filter((land) => land.GEO === "RU");
+console.log(TAPprelandRU.length);
+const TAPprelandKZ = TAPprelands.filter((land) => land.GEO === "KZ");
+console.log(TAPprelandKZ.length);
+const TAPprelandBR = TAPprelands.filter((land) => land.GEO === "BR");
+console.log(TAPprelandBR.length);
+const TAPprelandUZ = TAPprelands.filter((land) => land.GEO === "UZ");
+console.log(TAPprelandUZ.length);
+const TAPprelandPT = TAPprelands.filter((land) => land.GEO === "PT");
+console.log(TAPprelandPT.length);
+const TAPprelandDE = TAPprelands.filter((land) => land.GEO === "DE");
+
+console.log(TAPprelandDE.length);

@@ -1,20 +1,14 @@
-
-import { test } from '@playwright/test';
 import { landList } from "../testData/landList.data";
-import { brandsRules } from "../testData/brandsFormRules";
-import { getFormRules } from '../app/helpers/getFormRules';
-import { Brand } from '../app/types/form.interface';
-import { Tap } from '../app/components/tap.component';
-import { RegForm } from '../app/components/regForm.component';
-import { tryNavigate } from '../app/helpers/tryNavigate';
-import { user } from '../testData/user';
 
 const tapLandsArr = landList.filter((land) => land.Action.includes("Tap"));
 const tapPreland = tapLandsArr.filter((land) => land.Type === "Land");
 //console.log("tapPreland", tapPreland);
-console.log("landList", tapPreland.filter((land) => land.GEO === "TR"));
+console.log(
+	"landList",
+	tapPreland.filter((land) => land.GEO === "TR"),
+);
 const filtr = tapPreland.filter((land) => land.GEO === "RU");
-let i = 0;
+//let i = 0;
 // test.describe('Tap Preland', () => {
 // 	for (const land of tapPreland) {
 

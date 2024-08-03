@@ -3,7 +3,7 @@
 
 // async function globalSetup(config: FullConfig) {
 //       // get current project index
-      
+
 //       for (const project of config.projects) {
 //             const projectName = project.name;
 //             process.env.PLAYWRIGHT_PROJECT_NAME = projectName;

@@ -4,8 +4,7 @@ import { step } from "../helpers/step";
 export class Tap {
 	private tapButton: Locator;
 	constructor(protected page: Page) {
-		
-	//	this.page = page;
+		//	this.page = page;
 		this.tapButton = this.page.locator(".hamster-btn");
 	}
 
