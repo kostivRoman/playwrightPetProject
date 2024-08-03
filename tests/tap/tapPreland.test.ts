@@ -16,7 +16,8 @@ let i = 0;
 test.describe('Tap Preland', () => {
 	for (const land of tapPreland) {
 		test(`${land.Action, land['Affilka Landing Name']}`, async ({ page }, testInfo) => {
-			if (testInfo.project.name !== land.GEO) {
+			//TODO fixf filter back
+			if (testInfo.project.name === land.GEO) {
 				test.skip();
 			}
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
@@ -39,16 +40,15 @@ test.describe('Tap Preland', () => {
 			});
 			const tap = new Tap(page);
 			const form = new RegForm(page, regFormRules);
-			await page.addLocatorHandler(page.locator('.modal'), async () => {
+			await page.addLocatorHandler(page.locator('.retry-btn'), async () => {
 				await page.locator(".retry-btn").click({ delay: 1000 });
-				console.log("inHendler");
 			});
 			//await page.goto("https://www.google.com");
 			await tryNavigate(page, land["Affilka Landing URL"]);
-				await tap.tap();
-				await tap.clickBonusButton();
-				await page.waitForTimeout(5000);
-			
+			await tap.tap();
+			await tap.clickBonusButton();
+			await page.waitForTimeout(5000);
+
 			await form.fillForm(user);
 			await page.pause();
 			await form.submit();

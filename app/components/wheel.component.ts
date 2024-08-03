@@ -53,6 +53,11 @@ export class Wheel {
     await button.hover({ force: true });
     await this.page.waitForTimeout(3000);
     await button.click({ delay: 1000, force: true });
+    await this.page.waitForTimeout(1000);
+    try {
+      await button.waitFor({ state: "hidden" });
+    }catch(error) {
+    }
   }
 
   @step()

@@ -18,6 +18,7 @@ export class Tap {
 		await this.tapButton.click({ clickCount: 10, delay: 500 });
 	}
 	async clickBonusButton() {
-		await this.page.locator(".modal-btn").click();
+		await this.page.locator(".modal-btn").first().waitFor({ state: "visible" });
+		await this.page.locator(".modal-btn").nth(0).click();
 	}
 }
