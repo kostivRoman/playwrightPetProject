@@ -42,7 +42,6 @@ import { defineConfig, devices } from "@playwright/test";
 // 	ignoreHTTPSErrors: true,
 // }));
 export default defineConfig({
-
 	// use: {
 	// 	/* Base URL to use in actions like `await page.goto('/')`. */
 	// 	// baseURL: 'http://127.0.0.1:3000',
@@ -70,8 +69,8 @@ export default defineConfig({
 	use: {
 		launchOptions: {
 			proxy: {
-				server: 'proxy-server',
-			}
+				server: "proxy-server",
+			},
 		},
 	},
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -95,16 +94,16 @@ export default defineConfig({
 				...devices["Desktop Chrome"],
 				launchOptions: {
 					proxy: {
-						server: "proxy"// "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+						server: "proxy", // "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
 						// username: "geonode_Zr3aVjywHC-country-ru",
 						// password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
 					},
 				},
 				actionTimeout: 60000,
 				//region: "RU",
-
 			},
-		}],
+		},
+	],
 	// 	},
 	// 	{
 	// 		name: "TR",

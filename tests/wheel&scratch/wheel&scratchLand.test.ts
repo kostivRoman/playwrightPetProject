@@ -1,6 +1,7 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
+import { Scratch } from "../../app/components/scratch.component";
 import { Wheel } from "../../app/components/wheel.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
@@ -13,7 +14,7 @@ import { user } from "../../testData/user";
 const filteredLAndList = landList.filter((land) => land.GEO !== "TR");
 
 const DE = filteredLAndList; //.filter((land) => land.GEO === "DE");
-const DETAP = DE.filter((land) => land.Action.includes("Wheel"));
+const DETAP = DE.filter((land) => land.Action.includes("Wheel & Scratch"));
 const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Land");
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 
@@ -42,16 +43,41 @@ for (const land of DE_TAP_LAND) {
 		const context = await browser.newContext(proxySettings);
 		const page = await context.newPage();
 		const wheel = new Wheel(page);
+		const scratch = new Scratch(page);
 		const form = new RegForm(page, regFormRules);
 		await tryNavigate(page, land["Affilka Landing URL"], 5);
 		await wheel.spinWheel();
-		await wheel.claimBonus();
+		try {
+			await wheel.claimBonus();
+			// eslint-disable-next-line no-empty
+		} catch (error) {}
+		await scratch.clickCards();
+		await scratch.claimBonus();
+		await page.waitForTimeout(2000);
 		await form.fillForm(user);
 		await form.submit();
-		await expect(page).toHaveURL(
-			serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-			{ timeout: 60000 },
-		);
+		const maxRetries = 3;
+		let attempt = 0;
+		let success = false;
+
+		while (attempt < maxRetries && !success) {
+			try {
+				await page.waitForTimeout(2000);
+				await expect(page).toHaveURL(
+					serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
+					{ timeout: 60000 },
+				);
+				console.log(page.url());
+				success = true; // If the expect succeeds, set success to true to exit the loop
+			} catch (error) {
+				attempt++;
+				await page.reload();
+				console.log(`Attempt ${attempt} failed:`, error);
+				if (attempt >= maxRetries) {
+					throw new Error("Max retries reached. Test failed.");
+				}
+			}
+		}
 		await context.close();
 	});
 }

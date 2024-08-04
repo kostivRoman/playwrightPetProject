@@ -11,23 +11,23 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-
-const DE = landList
+const DE = landList;
 const DETAP = DE.filter((land) => land.Action.includes("Tap"));
 const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Preland");
 for (const land of DE_TAP_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
-		"region": "DE",
-		"server": "http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		"username": "geonode_Zr3aVjywHC-country-de",
-		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+		region: "DE",
+		server:
+			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC-country-de",
+		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {
 		proxy: {
-			server: proxyObject?.server as string,
-			username: proxyObject?.username as string,
-			password: proxyObject?.password as string,
-		}
+			server: proxyObject.server,
+			username: proxyObject.username,
+			password: proxyObject.password,
+		},
 	};
 
 	test(`${land["Affilka Landing URL"]}`, async ({ browser }) => {
@@ -47,8 +47,10 @@ for (const land of DE_TAP_LAND) {
 		await form.fillForm(user);
 		await form.submit();
 		await page.pause();
-		await expect(page).toHaveURL(serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-			{ timeout: 60000 });
+		await expect(page).toHaveURL(
+			serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
+			{ timeout: 60000 },
+		);
 		// Expect a title "to contain" a substring.
 		//await expect(page).toHaveTitle(/Playwright/);
 		// await page.close();

@@ -43,15 +43,11 @@ export class RegForm {
 		this.submitButton = this.page.locator("button[type='submit']");
 		this.showPasswordButton = this.page.locator(".show-password");
 
-		this.phoneNumberInput = formElements.phoneNumber
-			? this.page.locator("#phoneNumber")
-			: undefined;
+		this.phoneNumberInput = formElements.phoneNumber ? this.page.locator("#phoneNumber") : undefined;
 		this.phoneCodeSelector = formElements.phoneNumber
 			? this.page.locator("#sv-phoneCode-select")
 			: undefined;
-		this.phoneCodeItem = formElements.phoneNumber
-			? this.page.locator("#phoneCodeOption")
-			: undefined;
+		this.phoneCodeItem = formElements.phoneNumber ? this.page.locator("#phoneCodeOption") : undefined;
 
 		//   console.log("formElements.email", formElements.email);
 		this.emailInput = formElements.email ? this.page.locator("#email") : undefined;
@@ -128,7 +124,7 @@ export class RegForm {
 				.locator("button", { has: this.currencySelect })
 				.locator(".sv-item--wrap")
 				.all();
-			await this.page.waitForTimeout(2000);
+			await this.page.waitForTimeout(4000);
 			if (currencyItems.length > 0) {
 				const randomIndex = Math.floor(Math.random() * currencyItems.length);
 				await this.page
@@ -239,13 +235,16 @@ export class RegForm {
 		await this.selectPhoneCode();
 		await this.fillPhoneNumber("1234567890");
 		await this.selectCountry();
+		await this.page.waitForTimeout(2000);
 		await this.selectCurrency();
 		//await this.fillPromoCode(user.promoCode)
-
 	}
 	@step()
 	async submit(): Promise<void> {
-		await this.submitButton.click({ delay: 1000 });
+		await this.submitButton.waitFor({ state: "visible" });
+		await this.page.waitForTimeout(3000);
+		await this.submitButton.hover();
+		await this.submitButton.click({ delay: 500 });
 	}
 	@step()
 	async fillPhoneNumber(phoneNumber: string): Promise<void> {

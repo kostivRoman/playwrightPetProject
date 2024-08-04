@@ -11,61 +11,61 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 const filteredLAndList = landList.filter((land) => land.GEO !== "TR");
 
-
-const DE = filteredLAndList//.filter((land) => land.GEO === "DE");
+const DE = filteredLAndList; //.filter((land) => land.GEO === "DE");
 const DETAP = DE.filter((land) => land.Action.includes("Wheel & Scratch"));
 const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Preland");
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 
 for (const land of DE_TAP_LAND) {
-      const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
-            "region": "DE",
-            "server": "http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-            "username": "geonode_Zr3aVjywHC-country-de",
-            "password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
-      };
-      const proxySettings: BrowserContextOptions = {
-            proxy: {
-                  server: proxyObject?.server as string,
-                  username: proxyObject?.username as string,
-                  password: proxyObject?.password as string,
-            }
-      };
+	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
+		region: "DE",
+		server:
+			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC-country-de",
+		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
+	};
+	const proxySettings: BrowserContextOptions = {
+		proxy: {
+			server: proxyObject.server,
+			username: proxyObject.username,
+			password: proxyObject.password,
+		},
+	};
 
-      test(`${land["Affilka Landing URL"]}, `, async ({ browser }) => {
-            console.log("land", land);
-            console.log("proxyObject", proxyObject);
-            console.log("proxySettings", proxySettings);
-            const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
-            const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-            const context = await browser.newContext(proxySettings);
-            const page = await context.newPage();
-            const wheel = new Wheel(page);
-            const scratch = new Scratch(page);
-            await tryNavigate(page, land["Affilka Landing URL"], 5);
-            await wheel.spinWheel();
-            await wheel.claimBonus();
-            await scratch.clickCards();
-            await scratch.claimBonus();
-            const maxRetries = 3;
-            let attempt = 0;
-            let success = false;
+	test(`${land["Affilka Landing URL"]}, `, async ({ browser }) => {
+		console.log("land", land);
+		console.log("proxyObject", proxyObject);
+		console.log("proxySettings", proxySettings);
+		const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
+		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+		const context = await browser.newContext(proxySettings);
+		const page = await context.newPage();
+		const wheel = new Wheel(page);
+		const scratch = new Scratch(page);
+		await tryNavigate(page, land["Affilka Landing URL"], 5);
+		await wheel.spinWheel();
+		await wheel.claimBonus();
+		await scratch.clickCards();
+		await scratch.claimBonus();
+		const maxRetries = 3;
+		let attempt = 0;
+		let success = false;
 
-            while (attempt < maxRetries && !success) {
-                  try {
-                        await expect(page).toHaveURL(serverList.find((server) => server.brand == land.Brand)?.url as RegExp);
-                        success = true; // If the expect succeeds, set success to true to exit the loop
-                  } catch (error) {
-                        attempt++;
-                        await page.reload();
-                        console.log(`Attempt ${attempt} failed:`, error);
-                        if (attempt >= maxRetries) {
-                              console.log("Max retries reached. Test failed.");
-                        }
-                  }
-            }
-            await context.close();
-      });
+		while (attempt < maxRetries && !success) {
+			try {
+				await expect(page).toHaveURL(
+					serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
+				);
+				success = true; // If the expect succeeds, set success to true to exit the loop
+			} catch (error) {
+				attempt++;
+				await page.reload();
+				console.log(`Attempt ${attempt} failed:`, error);
+				if (attempt >= maxRetries) {
+					console.log("Max retries reached. Test failed.");
+				}
+			}
+		}
+		await context.close();
+	});
 }
-
-
