@@ -1,5 +1,6 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
+import { Aviator } from "../../app/components/aviator.component";
 import { RegForm } from "../../app/components/regForm.component";
 import { Scratch } from "../../app/components/scratch.component";
 import { Wheel } from "../../app/components/wheel.component";
@@ -14,7 +15,7 @@ import { user } from "../../testData/user";
 const filteredLAndList = landList.filter((land) => land.GEO !== "TR");
 
 const DE = filteredLAndList; //.filter((land) => land.GEO === "DE");
-const DETAP = DE.filter((land) => land.Action.includes("Wheel & Scratch"));
+const DETAP = DE.filter((land) => land.Action.includes("Aviator"));
 const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Land");
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 
@@ -45,14 +46,16 @@ for (const land of DE_TAP_LAND) {
 		const wheel = new Wheel(page);
 		const scratch = new Scratch(page);
 		const form = new RegForm(page, regFormRules);
+		const aviator = new Aviator(page);
 		await tryNavigate(page, land["Affilka Landing URL"], 5);
-		await wheel.spinWheel();
-		try {
-			await wheel.claimBonus();
-			// eslint-disable-next-line no-empty
-		} catch (error) {}
-		await scratch.clickCards();
-		await scratch.claimBonus();
+		await aviator.clickMainButton();
+		// await wheel.spinWheel();
+		// try {
+		// 	await wheel.claimBonus();
+		// 	// eslint-disable-next-line no-empty
+		// } catch (error) { }
+		// await scratch.clickCards();
+		// await scratch.claimBonus();
 		await page.waitForTimeout(2000);
 		await form.fillForm(user);
 		await form.submit();
