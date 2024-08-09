@@ -108,7 +108,7 @@ export class RegForm {
 				throw new Error("No country items found");
 			}
 		} else {
-			console.log("Country is not needed");
+			//console.log("Country is not needed");
 		}
 	}
 	@step()
@@ -126,7 +126,7 @@ export class RegForm {
 				.all();
 			await this.page.waitForTimeout(4000);
 			if (currencyItems.length > 0) {
-				const randomIndex = Math.floor(Math.random() * currencyItems.length);
+				const randomIndex = Math.floor(Math.random() * currencyItems.length-1);
 				await this.page
 					.locator("button", { has: this.currencySelect })
 					.locator(".sv-item--wrap")
@@ -137,7 +137,7 @@ export class RegForm {
 				throw new Error("No country items found");
 			}
 		} else {
-			console.log("Currency is not needed");
+			//	console.log("Currency is not needed");
 		}
 	}
 	@step()
@@ -167,7 +167,7 @@ export class RegForm {
 	@step()
 	async fillEmail(email: string): Promise<void> {
 		if (this.formElements.email) {
-			await this.emailInput?.fill(email);
+			await this.emailInput?.fill(email,{timeout: 30000});
 			return;
 		}
 		console.log("Email is not needed");
@@ -186,7 +186,7 @@ export class RegForm {
 			await this.nameInput?.fill(name);
 			return;
 		} else {
-			console.log("Name is not needed");
+			//	console.log("Name is not needed");
 		}
 	}
 	@step()
@@ -197,7 +197,7 @@ export class RegForm {
 			await this.lastNameInput?.fill(lastName);
 			return;
 		}
-		console.log("LastName is not needed");
+		//	console.log("LastName is not needed");
 	}
 	@step()
 	async selectPhoneCode(): Promise<void> {

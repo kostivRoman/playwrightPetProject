@@ -20,7 +20,7 @@ export const serverList = [
 	},
 	{
 		brand: "R7",
-		url: /r7.casino/,
+		url: /r7casino/,
 	},
 	{
 		brand: "CAT",

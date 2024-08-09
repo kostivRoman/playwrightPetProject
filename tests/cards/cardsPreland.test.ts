@@ -1,7 +1,7 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
-import { Scratch } from "../../app/components/scratch.component";
-import { Wheel } from "../../app/components/wheel.component";
+import { RegForm } from "../../app/components/regForm.component";
+//import { Tap } from "../../app/components/tap.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
@@ -9,13 +9,13 @@ import { brandsRules } from "../../testData/brandsFormRules";
 import { landList } from "../../testData/landList.data";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
+//import { user } from "../../testData/user";
+import { Cards } from "../../app/components/card.component";
 
-const WHEEL_SCRATCH = landList.filter((land) => land.Action.includes("Wheel & Scratch"));
-const WHEEL_SCRATCH_PRELAND = WHEEL_SCRATCH.filter((land) => land.Type === "Preland");
-//console.log("DE_TAP_LAND", DE_TAP_LAND.length);
-
-for (const land of WHEEL_SCRATCH_PRELAND) {
-	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
+const CARDS = landList.filter((land) => land.Action.includes("Cards"));
+const CARDS_LAND = CARDS.filter((land) => land.Type == "Preland");
+for (const land of CARDS_LAND) {
+	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
 		region: "DE",
 		server:
 			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
@@ -31,22 +31,32 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 	};
 
 	test(
-		`${land.Action},${land.Format}${land["Affilka Landing URL"]}`,
+		`${land.Action}, ${land.GEO},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@wheel&scratch", `@${land.GEO}`, `@preland`],
+			tag: ["@cards", "@preland", `@${land.GEO}`],
 		},
 		async ({ browser }) => {
+			// console.log("land", land);
+			// console.log("proxyObject", proxyObject);
+			// console.log("proxySettings", proxySettings);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
-			const wheel = new Wheel(page);
-			const scratch = new Scratch(page);
-			await tryNavigate(page, land["Affilka Landing URL"], 5);
-			await wheel.spinWheel();
-			await wheel.claimBonus();
-			await scratch.clickCards();
-			await scratch.claimBonus();
+			const cards = new Cards(page);
+			//	const form = new RegForm(page, regFormRules);
+			//await page.goto('https://google.com/');
+			await tryNavigate(page, land["Affilka Landing URL"], 3);
+			await page.waitForTimeout(5000);
+			await cards.expectLoaded();
+			await cards.clickCards();
+			try {
+				await cards.clickCards();
+			} catch (error) {
+				console.log("error", error);
+			}
+			// await form.fillForm(user);
+			// await form.submit();
 			const maxRetries = 3;
 			let attempt = 0;
 			let success = false;
@@ -55,18 +65,24 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 				try {
 					await expect(page).toHaveURL(
 						serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
+						{ timeout: 60000 },
 					);
-					success = true; // If the expect succeeds, set success to true to exit the loop
+					success = true;
 				} catch (error) {
 					attempt++;
-					await page.reload();
-					//	console.log(`Attempt ${attempt} failed:`, error);
-					if (attempt >= maxRetries) {
-						//		console.log("Max retries reached. Test failed.");
+					if (attempt < maxRetries) {
+					//	console.log("Retry", attempt);
+						await page.reload();
+					} else {
+						throw error;
 					}
 				}
 			}
+			// Expect a title "to contain" a substring.
+			//await expect(page).toHaveTitle(/Playwright/);
+			// await page.close();
 			await context.close();
+			// await browser.close();
 		},
 	);
 }

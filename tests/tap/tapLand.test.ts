@@ -11,11 +11,11 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const DE = landList.filter((land) => land.GEO === "DE");
-const DETAP = DE.filter((land) => land.Action.includes("Tap"));
-const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Land");
-for (const land of DE_TAP_LAND) {
-	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
+const TAP = landList.filter((land) => land.Action.includes("Tap"));
+//TODO: TR excluded!!!
+const TAP_LAND = TAP.filter((land) => land.Type === "Land" && land.GEO !== "TR");
+for (const land of TAP_LAND) {
+	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
 		region: "DE",
 		server:
 			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
@@ -30,31 +30,34 @@ for (const land of DE_TAP_LAND) {
 		},
 	};
 
-	test(`${land["Affilka Landing URL"]}`, async ({ browser }) => {
-		// console.log("land", land);
-		// console.log("proxyObject", proxyObject);
-		// console.log("proxySettings", proxySettings);
-		const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
-		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-		const context = await browser.newContext(proxySettings);
-		const page = await context.newPage();
-		const tap = new Tap(page);
-		const form = new RegForm(page, regFormRules);
-		//await page.goto('https://google.com/');
-		await tryNavigate(page, land["Affilka Landing URL"], 5);
-		await tap.tap();
-		await tap.clickBonusButton();
-		await form.fillForm(user);
-		await form.submit();
-		await page.pause();
-		await expect(page).toHaveURL(
-			serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-			{ timeout: 60000 },
-		);
-		// Expect a title "to contain" a substring.
-		//await expect(page).toHaveTitle(/Playwright/);
-		// await page.close();
-		await context.close();
-		// await browser.close();
-	});
+	test(
+		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		{
+			tag: ["@tap", "@land", `@${land.GEO}`],
+		},
+		async ({ browser }) => {
+			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
+			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+			const context = await browser.newContext(proxySettings);
+			const page = await context.newPage();
+			const tap = new Tap(page);
+			const form = new RegForm(page, regFormRules);
+			await page.addLocatorHandler(page.locator(".form-inner.inner-error"), async () => {
+				await page.locator('retry-btn').click();
+			  });
+
+			await tryNavigate(page, land["Affilka Landing URL"], 3);
+			await page.waitForTimeout(3000);
+			await tap.tap();
+			await tap.clickBonusButton();
+			await form.fillForm(user);
+			await form.submit();
+			await expect(page).toHaveURL(
+				serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
+				{ timeout: 60000 },
+			);
+			await page.close();
+			await context.close();
+		},
+	);
 }

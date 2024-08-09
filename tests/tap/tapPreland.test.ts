@@ -11,10 +11,9 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const DE = landList;
-const DETAP = DE.filter((land) => land.Action.includes("Tap"));
-const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Preland");
-for (const land of DE_TAP_LAND) {
+const TAP = landList.filter((land) => land.Action.includes("Tap"));
+const TAP_PRELAND = TAP.filter((land) => land.Type == "Preland");
+for (const land of TAP_PRELAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
 		region: "DE",
 		server:
@@ -30,31 +29,33 @@ for (const land of DE_TAP_LAND) {
 		},
 	};
 
-	test(`${land["Affilka Landing URL"]}`, async ({ browser }) => {
-		console.log("land", land);
-		console.log("proxyObject", proxyObject);
-		console.log("proxySettings", proxySettings);
-		const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
-		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-		const context = await browser.newContext(proxySettings);
-		const page = await context.newPage();
-		const tap = new Tap(page);
-		const form = new RegForm(page, regFormRules);
-		//await page.goto('https://google.com/');
-		await tryNavigate(page, land["Affilka Landing URL"], 5);
-		await tap.tap();
-		await tap.clickBonusButton();
-		await form.fillForm(user);
-		await form.submit();
-		await page.pause();
-		await expect(page).toHaveURL(
-			serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-			{ timeout: 60000 },
-		);
-		// Expect a title "to contain" a substring.
-		//await expect(page).toHaveTitle(/Playwright/);
-		// await page.close();
-		await context.close();
-		// await browser.close();
-	});
+	test(
+		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		{
+			tag: ["@tap", "@preland", `@${land.GEO}`],
+		},
+		async ({ browser }) => {
+			// console.log("land", land);
+			// console.log("proxyObject", proxyObject);
+			// console.log("proxySettings", proxySettings);
+			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
+			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+			const context = await browser.newContext(proxySettings);
+			const page = await context.newPage();
+			const tap = new Tap(page);
+			//await page.goto('https://google.com/');
+			await tryNavigate(page, land["Affilka Landing URL"], 3);
+			await tap.tap();
+			await tap.clickBonusButton();			
+			await expect(page).toHaveURL(
+				serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
+				{ timeout: 60000 },
+			);
+			// Expect a title "to contain" a substring.
+			//await expect(page).toHaveTitle(/Playwright/);
+			 await page.close();
+			await context.close();
+			 await browser.close();
+		},
+	);
 }

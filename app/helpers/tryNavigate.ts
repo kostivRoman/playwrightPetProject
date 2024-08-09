@@ -1,3 +1,4 @@
+import { error } from "console";
 import { Page } from "playwright";
 
 export async function tryNavigate(page: Page, url: string, maxRetries = 5) {
@@ -9,11 +10,10 @@ export async function tryNavigate(page: Page, url: string, maxRetries = 5) {
 			///console.error(`Attempt ${attempt} failed: ${(error as Error)?.message}`);
 			// Properly wait for a second before retrying
 
-			console.log(error);
-			attempt++;
-		}
-		if (attempt === maxRetries) {
-			throw Error; // Rethrow the last error if all retries fail
+			//console.log(error)
+			if (attempt === maxRetries) {
+				throw new Error("Max retries"); // Rethrow the last error if all retries fail
+			}
 		}
 	}
 }

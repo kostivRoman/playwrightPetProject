@@ -1,46 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-
-// const projects = landList.map((el, i) => ({
-// 	name: `${i}-${el["Affilka Landing URL"]},${el.GEO}`, // Ensure each project has a unique name
-// 	use: {
-// 		...devices["Desktop Chrome"],
-// 		launchOptions: {
-// 			// 	proxy: {
-// 			// 		server: 'proxy-server',
-
-// 			// 	}
-// 			// },
-// 			proxy: {
-// 				server: proxyData.find((proxy) => proxy.region === el.GEO)?.server as string,
-// 				username: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
-// 				password: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
-// 				// }
-// 			},
-// 		},
-// 		timeout: 5 * 60 * 1000,
-// 		actionTimeout: 15000,
-// 	},
-// 	metadata: {
-// 		url: el["Affilka Landing URL"],
-// 		server: proxyData.find((proxy) => proxy.region === el.GEO)?.server as string,
-// 		username: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
-// 		password: proxyData.find((proxy) => proxy.region === el.GEO)?.username as string,
-// 	},
-// 	trace: "on",
-// 	headless: false,
-// 	ignoreHTTPSErrors: true,
-// }));
 export default defineConfig({
 	// use: {
 	// 	/* Base URL to use in actions like `await page.goto('/')`. */
@@ -53,7 +12,7 @@ export default defineConfig({
 	// },
 	//globalSetup: 'global-setup.ts',
 	testDir: "./tests",
-
+	globalTimeout: process.env.CI ? 2 * 60 * 60 * 1000 : undefined,
 	//testMatch: "**/*.spec.ts",
 
 	/* Run tests in files in parallel */
@@ -89,17 +48,25 @@ export default defineConfig({
 	//projects: projects,
 	projects: [
 		{
-			name: "RU",
+			name: "Chrome",
 			use: {
 				...devices["Desktop Chrome"],
-				launchOptions: {
-					proxy: {
-						server: "proxy", // "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-						// username: "geonode_Zr3aVjywHC-country-ru",
-						// password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
-					},
-				},
+				// launchOptions: {
+				// 	proxy: {
+				// 		server: "proxy", // "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+				// 		// username: "geonode_Zr3aVjywHC-country-ru",
+				// 		// password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+				// 	},
+				// },
 				actionTimeout: 60000,
+				trace: {
+					mode: "on",
+					screenshots: true,
+					snapshots: true,
+					attachments: true,
+					sources: true,
+
+				},
 				//region: "RU",
 			},
 		},

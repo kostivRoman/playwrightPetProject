@@ -11,14 +11,11 @@ import { landList } from "../../testData/landList.data";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
-const filteredLAndList = landList.filter((land) => land.GEO !== "TR");
 
-const DE = filteredLAndList; //.filter((land) => land.GEO === "DE");
-const DETAP = DE.filter((land) => land.Action.includes("Wheel & Scratch"));
-const DE_TAP_LAND = DETAP.filter((land) => land.Type === "Land");
-//console.log("DE_TAP_LAND", DE_TAP_LAND.length);
+const WHEEL_SCRATCH = landList.filter((land) => land.Action.includes("Wheel & Scratch"));
+const WHEEL_SCRATCH_LAND = WHEEL_SCRATCH.filter((land) => land.Type === "Land");
 
-for (const land of DE_TAP_LAND) {
+for (const land of WHEEL_SCRATCH_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
 		region: "DE",
 		server:
@@ -34,50 +31,53 @@ for (const land of DE_TAP_LAND) {
 		},
 	};
 
-	test(`${land["Affilka Landing URL"]}, `, async ({ browser }) => {
-		console.log("land", land);
-		console.log("proxyObject", proxyObject);
-		console.log("proxySettings", proxySettings);
-		const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
-		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-		const context = await browser.newContext(proxySettings);
-		const page = await context.newPage();
-		const wheel = new Wheel(page);
-		const scratch = new Scratch(page);
-		const form = new RegForm(page, regFormRules);
-		await tryNavigate(page, land["Affilka Landing URL"], 5);
-		await wheel.spinWheel();
-		try {
-			await wheel.claimBonus();
-			// eslint-disable-next-line no-empty
-		} catch (error) {}
-		await scratch.clickCards();
-		await scratch.claimBonus();
-		await page.waitForTimeout(2000);
-		await form.fillForm(user);
-		await form.submit();
-		const maxRetries = 3;
-		let attempt = 0;
-		let success = false;
-
-		while (attempt < maxRetries && !success) {
+	test(
+		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		{
+			tag: ["@wheel&scratch", "@land", `@${land.GEO}`],
+		},
+		async ({ browser }) => {
+			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
+			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+			const context = await browser.newContext(proxySettings);
+			const page = await context.newPage();
+			const wheel = new Wheel(page);
+			const scratch = new Scratch(page);
+			const form = new RegForm(page, regFormRules);
+			await tryNavigate(page, land["Affilka Landing URL"], 5);
+			await wheel.spinWheel();
 			try {
-				await page.waitForTimeout(2000);
-				await expect(page).toHaveURL(
-					serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
-					{ timeout: 60000 },
-				);
-				console.log(page.url());
-				success = true; // If the expect succeeds, set success to true to exit the loop
-			} catch (error) {
-				attempt++;
-				await page.reload();
-				console.log(`Attempt ${attempt} failed:`, error);
-				if (attempt >= maxRetries) {
-					throw new Error("Max retries reached. Test failed.");
+				await wheel.claimBonus();
+				// eslint-disable-next-line no-empty
+			} catch (error) {}
+			await scratch.clickCards();
+			await scratch.claimBonus();
+			await page.waitForTimeout(2000);
+			await form.fillForm(user);
+			await form.submit();
+			const maxRetries = 3;
+			let attempt = 0;
+			let success = false;
+
+			while (attempt < maxRetries && !success) {
+				try {
+					await page.waitForTimeout(2000);
+					await expect(page).toHaveURL(
+						serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
+						{ timeout: 60000 },
+					);
+					//	console.log(page.url());
+					success = true; // If the expect succeeds, set success to true to exit the loop
+				} catch (error) {
+					attempt++;
+					await page.reload();
+					//	console.log(`Attempt ${attempt} failed:`, error);
+					if (attempt >= maxRetries) {
+						throw new Error("Max retries reached. Test failed.");
+					}
 				}
 			}
-		}
-		await context.close();
-	});
+			await context.close();
+		},
+	);
 }
