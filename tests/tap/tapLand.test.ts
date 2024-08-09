@@ -42,7 +42,7 @@ for (const land of TAP_LAND) {
 			const page = await context.newPage();
 			const tap = new Tap(page);
 			const form = new RegForm(page, regFormRules);
-			await page.addLocatorHandler(page.locator(".form-inner.inner-error"), async () => {
+			await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
 				await page.locator('retry-btn').click();
 			  });
 

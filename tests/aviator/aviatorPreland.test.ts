@@ -43,22 +43,14 @@ for (const land of AVIATOR_PRELAND) {
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
-			const wheel = new Wheel(page);
-			const scratch = new Scratch(page);
-			const form = new RegForm(page, regFormRules);
+			await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
+				await page.locator("retry-btn").click();
+			});
 			const aviator = new Aviator(page);
 			await tryNavigate(page, land["Affilka Landing URL"], 5);
 			await aviator.clickMainButton();
-			// await wheel.spinWheel();
-			// try {
-			// 	await wheel.claimBonus();
-			// 	// eslint-disable-next-line no-empty
-			// } catch (error) { }
-			// await scratch.clickCards();
-			// await scratch.claimBonus();
 			await page.waitForTimeout(2000);
-			//	await form.fillForm(user);
-			//await form.submit();
+
 			const maxRetries = 3;
 			let attempt = 0;
 			let success = false;
@@ -73,6 +65,7 @@ for (const land of AVIATOR_PRELAND) {
 					//console.log(page.url());
 					success = true; // If the expect succeeds, set success to true to exit the loop
 				} catch (error) {
+					console.log(`Attempt ${attempt} failed:`, error);
 					attempt++;
 					await page.reload();
 					//	console.log(`Attempt ${attempt} failed:`, error);
