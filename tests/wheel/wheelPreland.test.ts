@@ -47,11 +47,12 @@ for (const land of WHEEL_PRELAND) {
 			//await tryNavigate(page, land["Affilka Landing URL"]);
 			await wheel.spinWheel();
 			await wheel.claimBonus();
-			await expect(page).toHaveURL(
+			await expect.soft(page).toHaveURL(
 				serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-				{ timeout: 60000 },
+				{ timeout: 40000 }
 			);
 			await context.close();
+			await page.close();
 		},
 	);
 }

@@ -1,9 +1,6 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { Aviator } from "../../app/components/aviator.component";
-import { RegForm } from "../../app/components/regForm.component";
-import { Scratch } from "../../app/components/scratch.component";
-import { Wheel } from "../../app/components/wheel.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
@@ -11,7 +8,6 @@ import { brandsRules } from "../../testData/brandsFormRules";
 import { landList } from "../../testData/landList.data";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
-import { user } from "../../testData/user";
 
 const AVIATOR = landList.filter((land) => land.Action.includes("Aviator"));
 const AVIATOR_PRELAND = AVIATOR.filter((land) => land.Type == "Preland");
@@ -60,14 +56,18 @@ for (const land of AVIATOR_PRELAND) {
 					await page.waitForTimeout(2000);
 					await expect(page).toHaveURL(
 						serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
-						{ timeout: 60000 },
 					);
 					//console.log(page.url());
 					success = true; // If the expect succeeds, set success to true to exit the loop
 				} catch (error) {
 					console.log(`Attempt ${attempt} failed:`, error);
 					attempt++;
-					await page.reload();
+					try {
+						await page.reload();
+					} catch (error) {
+
+					}
+
 					//	console.log(`Attempt ${attempt} failed:`, error);
 					if (attempt >= maxRetries) {
 						throw new Error("Max retries reached. Test failed.");
@@ -75,6 +75,7 @@ for (const land of AVIATOR_PRELAND) {
 				}
 			}
 			await context.close();
+			await page.close();
 		},
 	);
 }

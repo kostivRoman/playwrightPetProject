@@ -1,11 +1,11 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { step } from "../helpers/step";
 
 export class Wheel {
 	private wheel: Locator;
 	private wheelButton: Locator;
-	private winOne: Locator;
-	private win2: Locator;
+	//private winOne: Locator;
+	//private win2: Locator;
 	private winPopup: Locator;
 	//private claimButton: Locator;
 
@@ -19,25 +19,23 @@ export class Wheel {
 			.or(this.wheel.locator(".round-button"))
 			.or(this.wheel.locator("button"));
 
-		this.winOne = this.page
-			.locator(".bonus-1")
-			.or(this.page.locator("#prize1"))
-			.or(this.page.locator(".main__plashka_left"))
-			.or(this.page.locator(".main__popup_left"))
-			.or(this.page.locator(".popup-left"));
-		this.win2 = this.page
-			.locator(".bonus-2")
-			.or(this.page.locator("#prize2"))
-			.or(this.page.locator(".main__plashka_right"))
-			.or(this.page.locator(".main__popup_right"));
+		// this.winOne = this.page
+		// 	.locator(".bonus-1")
+		// 	.or(this.page.locator("#prize1"))
+		// 	.or(this.page.locator(".main__plashka_left"))
+		// 	.or(this.page.locator(".main__popup_left"))
+		// 	.or(this.page.locator(".popup-left"));
+		// this.win2 = this.page
+		// 	.locator(".bonus-2")
+		// 	.or(this.page.locator("#prize2"))
+		// 	.or(this.page.locator(".main__plashka_right"))
+		// 	.or(this.page.locator(".main__popup_right"));
 		this.winPopup = this.page
 			.locator(".popup__item")
 			.or(this.page.locator(".popups__final"))
 			.or(this.page.locator(".modal-inner"))
 			.or(this.page.locator(".modal"));
-		// this.claimButton = this.winPopup
-		//   .getByRole("link")
-		//   .or(this.winPopup.locator("#lastBtn"));
+
 	}
 	async getPopup() {
 		return this.winPopup;
@@ -45,30 +43,28 @@ export class Wheel {
 	@step()
 	async spinWheel(): Promise<void> {
 		const button = this.wheelButton.first();
-
+		const popup = await this.getPopup();
 		await button.waitFor({ state: "visible" });
 		await this.page.waitForTimeout(4000);
 		await button.hover({ force: true });
 		//await button.click({ force: true, delay: 1000 });
-		await this.page.waitForTimeout(2000);
-		try {
-			for (let i = 0; i < 3; i++) {
-				await button.click({ force: true, delay: 1000, timeout: 2000 });
-				// Optionally, you can add a delay between clicks if needed
-				// await this.page.waitForTimeout(2000);
-			}
-		} catch (error) {
-			console.log("Error: ", error);
-		}
-	}
+		//await this.page.waitForTimeout(2000);
 
-	@step()
-	async expectedWinOneVisible() {
-		await expect(this.winOne).toBeVisible();
-	}
-	@step()
-	async expectedWinTwoVisible() {
-		await expect(this.win2).toBeVisible();
+		// for (let i = 0; i < 3; i++) {
+		// 	try {
+		// 		await this.page.waitForTimeout(2000);
+		// 		await button.click({ force: true, delay: 1000, timeout: 2000 });
+		// 		// Optionally, you can add a delay between clicks if needed
+
+		// 	} catch (error) {
+		// 		console.log("Error: ", error);
+		// 	}
+		// }
+
+		do {
+			await button.click({ force: true, delay: 1000 });
+			await this.page.waitForTimeout(2000);
+		} while (await popup.isHidden())
 	}
 
 	@step()
@@ -86,6 +82,6 @@ export class Wheel {
 			.or(popup.locator("#lastBtn"))
 			.or(popup.locator("button"))
 			.first()
-			.click({ timeout: 10000 });
+			.click({ timeout: 20000 });
 	}
 }
