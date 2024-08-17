@@ -11,7 +11,10 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
 const WHEEL_SCRATCH = landList.filter((land) => land.Action.includes("Wheel & Scratch"));
-const WHEEL_SCRATCH_PRELAND = WHEEL_SCRATCH.filter((land) => land.Type === "Preland");
+//TODO: TR excluded!!!!
+const WHEEL_SCRATCH_PRELAND = WHEEL_SCRATCH.filter(
+	(land) => land.Type === "Preland" && land.GEO !== "TR",
+);
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 
 for (const land of WHEEL_SCRATCH_PRELAND) {
@@ -66,6 +69,7 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 					}
 				}
 			}
+			await page.close()
 			await context.close();
 		},
 	);

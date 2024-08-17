@@ -11,15 +11,13 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-//const DE = landList//.filter((land) => land.GEO === "DE");
 const CARDS = landList.filter((land) => land.Action.includes("Cards"));
 const CARDS_LAND = CARDS.filter((land) => land.Type == "Land");
 for (const land of CARDS_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
-		region: "DE",
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {
@@ -36,9 +34,6 @@ for (const land of CARDS_LAND) {
 			tag: ["@cards", "@land", `@${land.GEO}`],
 		},
 		async ({ browser }) => {
-			// console.log("land", land);
-			// console.log("proxyObject", proxyObject);
-			// console.log("proxySettings", proxySettings);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
@@ -53,11 +48,8 @@ for (const land of CARDS_LAND) {
 				serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
 				{ timeout: 60000 },
 			);
-			// Expect a title "to contain" a substring.
-			//await expect(page).toHaveTitle(/Playwright/);
-			// await page.close();
+			await page.close()
 			await context.close();
-			// await browser.close();
 		},
 	);
 }

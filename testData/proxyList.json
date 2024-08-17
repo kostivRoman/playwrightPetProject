@@ -1,8 +1,8 @@
 [
 	{
 		"region": "TR",
-		"server": "http://geonode_Zr3aVjywHC-country-tr:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		"username": "geonode_Zr3aVjywHC-country-tr",
+		"server": "http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9001",
+		"username": "geonode_Zr3aVjywHC",
 		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
 	},
 	{
@@ -31,8 +31,8 @@
 	},
 	{
 		"region": "RU",
-		"server": "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		"username": "geonode_Zr3aVjywHC-country-ru",
+		"server": "http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:10002",
+		"username": "geonode_Zr3aVjywHC",
 		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
 	},
 	{

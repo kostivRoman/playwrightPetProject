@@ -47,6 +47,7 @@ for (const land of WHEEL_LAND) {
 			serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
 			{ timeout: 60000 },
 		);
+		await page.close()
 		await context.close();
 	});
 }

@@ -15,7 +15,7 @@ import { user } from "../../testData/user";
 
 const AVIATOR = landList.filter((land) => land.Action.includes("Aviator"));
 //TODO: TR excluded!!!
-const AVIATOR_LAND = AVIATOR.filter((land) => land.Type == "Land" && land.GEO !== "TR");
+const AVIATOR_LAND = AVIATOR.filter((land) => land.Type == "Land");
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 
 for (const land of AVIATOR_LAND) {
@@ -49,8 +49,8 @@ for (const land of AVIATOR_LAND) {
 			const form = new RegForm(page, regFormRules);
 			const aviator = new Aviator(page);
 			await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
-				await page.locator('retry-btn').click();
-			  });
+				await page.locator("retry-btn").click();
+			});
 			await tryNavigate(page, land["Affilka Landing URL"], 5);
 			await aviator.clickMainButton();
 			// await wheel.spinWheel();
@@ -79,12 +79,13 @@ for (const land of AVIATOR_LAND) {
 				} catch (error) {
 					attempt++;
 					await page.reload();
-				//	console.log(`Attempt ${attempt} failed:`, error);
+					//	console.log(`Attempt ${attempt} failed:`, error);
 					if (attempt >= maxRetries) {
 						throw new Error("Max retries reached. Test failed.");
 					}
 				}
 			}
+			await page.close()
 			await context.close();
 		},
 	);

@@ -78,7 +78,7 @@ export class RegForm {
 	@step()
 	async selectCountry(): Promise<void> {
 		if (this.formElements.country) {
-			await this.countrySelect?.waitFor({ state: "visible" });
+			await this.countrySelect?.waitFor({ timeout: 5000 });
 			await this.page.waitForTimeout(500);
 			await this.countrySelect?.click({ force: true, delay: 1000 });
 
@@ -108,38 +108,39 @@ export class RegForm {
 				throw new Error("No country items found");
 			}
 		} else {
-			//console.log("Country is not needed");
+			console.log("Country is not needed");
 		}
 	}
 	@step()
 	async selectCurrency(): Promise<void> {
-		if (this.formElements.currency) {
-			await this.currencySelect?.waitFor({ state: "visible" });
-			//await this.page.waitForTimeout(1000);
+		try {
+			await this.currencySelect?.waitFor({ timeout: 5000 });
+			await this.page.waitForTimeout(1000);
 			await this.currencySelect?.click({ force: true, delay: 1000 });
-
-			// Wait for the country items to be visible
-			await this.page.waitForSelector(".sv-item--wrap", { state: "visible" });
 			const currencyItems = await this.page
 				.locator("button", { has: this.currencySelect })
 				.locator(".sv-item--wrap")
 				.all();
 			await this.page.waitForTimeout(4000);
-			if (currencyItems.length > 0) {
-				const randomIndex = Math.floor(Math.random() * currencyItems.length-1);
-				await this.page
-					.locator("button", { has: this.currencySelect })
-					.locator(".sv-item--wrap")
-					.nth(randomIndex)
-					.click({ delay: 1000, timeout: 5000 });
-				//return;
-			} else {
-				throw new Error("No country items found");
-			}
-		} else {
-			//	console.log("Currency is not needed");
+
+			const randomIndex = Math.floor(Math.random() * currencyItems.length - 1);
+			await this.page
+				.locator("button", { has: this.currencySelect })
+				.locator(".sv-item--wrap")
+				.nth(randomIndex)
+				.hover();
+			await this.page
+				.locator("button", { has: this.currencySelect })
+				.locator(".sv-item--wrap")
+				.nth(randomIndex)
+				.click({ delay: 1000, timeout: 5000 });
+		} catch (error) {
+			throw new Error('Currency not found!');
 		}
+		return;
+
 	}
+
 	@step()
 	async expectedInvalidEmail(): Promise<void> {
 		if (this.emailInput) {
@@ -150,6 +151,20 @@ export class RegForm {
 	async fillPassword(password: string): Promise<void> {
 		if (this.passwordInput) {
 			await this.passwordInput.fill(password);
+			return;
+		}
+		else {
+			console.log("Password is not needed");
+		}
+	}
+	@step()
+	async fillEmail(email: string): Promise<void> {
+		if (this.emailInput) {
+			await this.emailInput?.fill(email, { timeout: 30000 });
+			return;
+		}
+		else {
+			console.log("Email is not needed");
 		}
 	}
 	@step()
@@ -164,14 +179,7 @@ export class RegForm {
 			.soft(this.promoCodeInput!)
 			.toHaveAttribute("aria-invalid", "true", { timeout: 30000 });
 	}
-	@step()
-	async fillEmail(email: string): Promise<void> {
-		if (this.formElements.email) {
-			await this.emailInput?.fill(email,{timeout: 30000});
-			return;
-		}
-		console.log("Email is not needed");
-	}
+
 	@step()
 	async fillPromoCode(promoCode: string): Promise<void> {
 		if (this.formElements.promoCodeText) {
@@ -180,24 +188,23 @@ export class RegForm {
 	}
 	@step()
 	async fillName(name: string): Promise<void> {
-		if (this.formElements.name) {
+		if (this.nameInput) {
 			await this.nameInput?.waitFor({ state: "visible" });
 			await this.page.waitForTimeout(500);
 			await this.nameInput?.fill(name);
-			return;
 		} else {
-			//	console.log("Name is not needed");
+			console.log("Name is not needed");
 		}
 	}
 	@step()
 	async fillLastName(lastName: string): Promise<void> {
-		if (this.formElements.name) {
+		if (this.lastNameInput) {
 			await this.lastNameInput?.waitFor({ state: "visible" });
 			await this.page.waitForTimeout(500);
 			await this.lastNameInput?.fill(lastName);
-			return;
+		} else {
+			console.log("LastName is not needed");
 		}
-		//	console.log("LastName is not needed");
 	}
 	@step()
 	async selectPhoneCode(): Promise<void> {
@@ -227,17 +234,18 @@ export class RegForm {
 
 	@step()
 	async fillForm(user: UserData): Promise<void> {
-		await this.page.waitForTimeout(5000);
+
 		await this.fillName(user.name);
 		await this.fillLastName(user.lastName);
 		await this.fillEmail(user.email);
+		await this.page.waitForTimeout(2000);
 		await this.fillPassword(user.password);
 		await this.selectPhoneCode();
 		await this.fillPhoneNumber("1234567890");
 		await this.selectCountry();
 		await this.page.waitForTimeout(2000);
 		await this.selectCurrency();
-		//await this.fillPromoCode(user.promoCode)
+		await this.fillPromoCode(user.promoCode)
 	}
 	@step()
 	async submit(): Promise<void> {

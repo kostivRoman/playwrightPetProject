@@ -1,3 +1,4 @@
+
 export const serverList = [
 	{
 		brand: "ALEV",
@@ -5,7 +6,7 @@ export const serverList = [
 	},
 	{
 		brand: "GAMA",
-		url: /game/,
+		url: /gamacasino/,
 		//https://game777win.com/
 	},
 	{
@@ -26,4 +27,12 @@ export const serverList = [
 		brand: "CAT",
 		url: /catcasino/,
 	},
+	{
+		brand: "Casibra",
+		url: /casibra/,
+	},
+	{
+		brand: "DOIT",
+		url: /do777play/,
+	}
 ];

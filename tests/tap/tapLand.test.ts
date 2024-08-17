@@ -13,7 +13,7 @@ import { user } from "../../testData/user";
 
 const TAP = landList.filter((land) => land.Action.includes("Tap"));
 //TODO: TR excluded!!!
-const TAP_LAND = TAP.filter((land) => land.Type === "Land" && land.GEO !== "TR");
+const TAP_LAND = TAP.filter((land) => land.Type === "Land" && land.GEO);
 for (const land of TAP_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
 		region: "DE",
@@ -43,8 +43,8 @@ for (const land of TAP_LAND) {
 			const tap = new Tap(page);
 			const form = new RegForm(page, regFormRules);
 			await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
-				await page.locator('retry-btn').click();
-			  });
+				await page.locator("retry-btn").click();
+			});
 
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
 			await page.waitForTimeout(3000);
@@ -56,7 +56,6 @@ for (const land of TAP_LAND) {
 				serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
 				{ timeout: 60000 },
 			);
-			await page.close();
 			await context.close();
 		},
 	);

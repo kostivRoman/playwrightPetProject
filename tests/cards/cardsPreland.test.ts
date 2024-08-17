@@ -1,6 +1,5 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
-import { RegForm } from "../../app/components/regForm.component";
 //import { Tap } from "../../app/components/tap.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
@@ -50,13 +49,6 @@ for (const land of CARDS_LAND) {
 			await page.waitForTimeout(5000);
 			await cards.expectLoaded();
 			await cards.clickCards();
-			try {
-				await cards.clickCards();
-			} catch (error) {
-				console.log("error", error);
-			}
-			// await form.fillForm(user);
-			// await form.submit();
 			const maxRetries = 3;
 			let attempt = 0;
 			let success = false;
@@ -71,18 +63,16 @@ for (const land of CARDS_LAND) {
 				} catch (error) {
 					attempt++;
 					if (attempt < maxRetries) {
-					//	console.log("Retry", attempt);
+						//	console.log("Retry", attempt);
 						await page.reload();
 					} else {
 						throw error;
 					}
 				}
 			}
-			// Expect a title "to contain" a substring.
-			//await expect(page).toHaveTitle(/Playwright/);
-			// await page.close();
+			await page.close()
 			await context.close();
-			// await browser.close();
+
 		},
 	);
 }

@@ -46,16 +46,16 @@ for (const land of TAP_PRELAND) {
 			//await page.goto('https://google.com/');
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
 			await tap.tap();
-			await tap.clickBonusButton();			
+			await tap.clickBonusButton();
 			await expect(page).toHaveURL(
 				serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
 				{ timeout: 60000 },
 			);
 			// Expect a title "to contain" a substring.
 			//await expect(page).toHaveTitle(/Playwright/);
-			 await page.close();
+			await page.close();
 			await context.close();
-			 await browser.close();
+			await browser.close();
 		},
 	);
 }

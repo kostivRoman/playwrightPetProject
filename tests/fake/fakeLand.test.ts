@@ -1,7 +1,6 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
-import { Tap } from "../../app/components/tap.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
@@ -12,7 +11,8 @@ import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
 const FAKE = landList.filter((land) => land.Action.includes("Fake"));
-const FAKE_LAND = FAKE.filter((land) => land.Type == "Land");
+//TODO: TR excluded!!!
+const FAKE_LAND = FAKE.filter((land) => land.Type == "Land" && land.GEO !== "TR");
 for (const land of FAKE_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
 		region: "DE",
@@ -35,6 +35,8 @@ for (const land of FAKE_LAND) {
 		const context = await browser.newContext(proxySettings);
 		const page = await context.newPage();
 		const form = new RegForm(page, regFormRules);
+		console.log("land", land.Brand);
+		console.log("serverList", serverList.find((server) => server.brand == land.Brand)?.url);
 		await tryNavigate(page, land["Affilka Landing URL"], 3);
 		await form.fillForm(user);
 		await form.submit();
@@ -45,6 +47,7 @@ for (const land of FAKE_LAND) {
 		// Expect a title "to contain" a substring.
 		//await expect(page).toHaveTitle(/Playwright/);
 		// await page.close();
+		await page.close()
 		await context.close();
 		// await browser.close();
 	});

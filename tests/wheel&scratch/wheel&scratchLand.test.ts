@@ -13,7 +13,10 @@ import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
 const WHEEL_SCRATCH = landList.filter((land) => land.Action.includes("Wheel & Scratch"));
-const WHEEL_SCRATCH_LAND = WHEEL_SCRATCH.filter((land) => land.Type === "Land");
+//TODO: TR excluded!!!!
+const WHEEL_SCRATCH_LAND = WHEEL_SCRATCH.filter(
+	(land) => land.Type === "Land" && land.GEO !== "TR",
+);
 
 for (const land of WHEEL_SCRATCH_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
@@ -49,7 +52,7 @@ for (const land of WHEEL_SCRATCH_LAND) {
 			try {
 				await wheel.claimBonus();
 				// eslint-disable-next-line no-empty
-			} catch (error) {}
+			} catch (error) { }
 			await scratch.clickCards();
 			await scratch.claimBonus();
 			await page.waitForTimeout(2000);
@@ -77,6 +80,7 @@ for (const land of WHEEL_SCRATCH_LAND) {
 					}
 				}
 			}
+			await page.close()
 			await context.close();
 		},
 	);

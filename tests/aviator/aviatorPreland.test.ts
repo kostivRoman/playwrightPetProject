@@ -1,10 +1,7 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { Aviator } from "../../app/components/aviator.component";
-import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
-import { Brand } from "../../app/types/form.interface";
-import { brandsRules } from "../../testData/brandsFormRules";
 import { landList } from "../../testData/landList.data";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
@@ -35,8 +32,6 @@ for (const land of AVIATOR_PRELAND) {
 			tag: ["@aviator", "@land", `@${land.GEO}`],
 		},
 		async ({ browser }) => {
-			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
-			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
@@ -64,6 +59,7 @@ for (const land of AVIATOR_PRELAND) {
 					attempt++;
 					try {
 						await page.reload();
+						// eslint-disable-next-line no-empty
 					} catch (error) {
 
 					}
@@ -72,10 +68,11 @@ for (const land of AVIATOR_PRELAND) {
 					if (attempt >= maxRetries) {
 						throw new Error("Max retries reached. Test failed.");
 					}
+					return;
 				}
 			}
+			await page.close()
 			await context.close();
-			await page.close();
 		},
 	);
 }

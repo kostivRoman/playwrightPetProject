@@ -1,7 +1,7 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
+import { Betting } from "../../app/components/betting.component";
 import { RegForm } from "../../app/components/regForm.component";
-import { Tap } from "../../app/components/tap.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
@@ -9,17 +9,14 @@ import { brandsRules } from "../../testData/brandsFormRules";
 import { landList } from "../../testData/landList.data";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
-import { user } from "../../testData/user";
-import { Betting } from "../../app/components/betting.component";
 
 const BET = landList.filter((land) => land.Action.includes("Betting"));
 const BET_PRELAND = BET.filter((land) => land.Type === "Preland");
 for (const land of BET_PRELAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
-		region: "DE",
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {
