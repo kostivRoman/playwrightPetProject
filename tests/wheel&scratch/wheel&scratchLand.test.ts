@@ -52,7 +52,7 @@ for (const land of WHEEL_SCRATCH_LAND) {
 			try {
 				await wheel.claimBonus();
 				// eslint-disable-next-line no-empty
-			} catch (error) { }
+			} catch (error) {}
 			await scratch.clickCards();
 			await scratch.claimBonus();
 			await page.waitForTimeout(2000);
@@ -62,25 +62,24 @@ for (const land of WHEEL_SCRATCH_LAND) {
 			let attempt = 0;
 			let success = false;
 
-			while (attempt < maxRetries && !success) {
+			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+			let urlMatched = false;
+
+			for (const url of expectedUrls) {
 				try {
-					await page.waitForTimeout(2000);
-					await expect(page).toHaveURL(
-						serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
-						{ timeout: 60000 },
-					);
-					//	console.log(page.url());
-					success = true; // If the expect succeeds, set success to true to exit the loop
+					await expect(page).toHaveURL(url, { timeout: 60000 });
+					console.log(`URL matched: ${url}`);
+					urlMatched = true;
+					break;
 				} catch (error) {
-					attempt++;
-					await page.reload();
-					//	console.log(`Attempt ${attempt} failed:`, error);
-					if (attempt >= maxRetries) {
-						throw new Error("Max retries reached. Test failed.");
-					}
+					//console.log(`URL did not match: ${url}`);
 				}
 			}
-			await page.close()
+
+			if (!urlMatched) {
+				throw new Error("None of the expected URLs matched the current URL.");
+			}
+			await page.close();
 			await context.close();
 		},
 	);

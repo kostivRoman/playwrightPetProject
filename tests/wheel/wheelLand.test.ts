@@ -11,7 +11,6 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-
 //TODO:TR is not a valid GEO!!!!
 const WHEEL = landList.filter((land) => land.Action.includes("Wheel") && land.GEO !== "TR");
 const WHEEL_LAND = WHEEL.filter((land) => land.Type === "Land");
@@ -35,7 +34,7 @@ for (const land of WHEEL_LAND) {
 	test(`${land.GEO},${land.Brand},${land["Affilka Landing URL"]}, `, async ({ browser }) => {
 		const codeRule = () => {
 			return land["Affilka Landing URL"].includes("code");
-		}
+		};
 		const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 		regFormRules.promoCodeText = codeRule();
@@ -67,7 +66,7 @@ for (const land of WHEEL_LAND) {
 		if (!urlMatched) {
 			throw new Error("None of the expected URLs matched the current URL.");
 		}
-		await page.close()
+		await page.close();
 		await context.close();
 	});
 }

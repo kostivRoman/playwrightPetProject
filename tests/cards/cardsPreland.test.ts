@@ -47,26 +47,25 @@ for (const land of CARDS_LAND) {
 			const maxRetries = 3;
 			let attempt = 0;
 			let success = false;
-			while (attempt < maxRetries && !success) {
+			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+			let urlMatched = false;
+
+			for (const url of expectedUrls) {
 				try {
-					await expect(page).toHaveURL(
-						serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
-						{ timeout: 60000 },
-					);
-					success = true;
+					await expect(page).toHaveURL(url, { timeout: 60000 });
+					console.log(`URL matched: ${url}`);
+					urlMatched = true;
+					break;
 				} catch (error) {
-					attempt++;
-					if (attempt < maxRetries) {
-						//	console.log("Retry", attempt);
-						await page.reload();
-					} else {
-						throw error;
-					}
+					//console.log(`URL did not match: ${url}`);
 				}
 			}
-			await page.close()
-			await context.close();
 
+			if (!urlMatched) {
+				throw new Error("None of the expected URLs matched the current URL.");
+			}
+			await page.close();
+			await context.close();
 		},
 	);
 }

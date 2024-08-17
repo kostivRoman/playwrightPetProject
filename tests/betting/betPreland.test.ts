@@ -33,9 +33,6 @@ for (const land of BET_PRELAND) {
 			tag: ["@betting", "@preland", `@${land.GEO}`],
 		},
 		async ({ browser }) => {
-			console.log("BET_PRELAND", BET_PRELAND.length);
-			// console.log("proxyObject", proxyObject);
-			// console.log("proxySettings", proxySettings);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
@@ -47,13 +44,23 @@ for (const land of BET_PRELAND) {
 			await betting.clickMainButton();
 			//await form.fillForm(user);
 			await form.submit();
-			await expect(page).toHaveURL(
-				serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-				{ timeout: 60000 },
-			);
-			// Expect a title "to contain" a substring.
-			//await expect(page).toHaveTitle(/Playwright/);
-			// await page.close();
+			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+			let urlMatched = false;
+
+			for (const url of expectedUrls) {
+				try {
+					await expect(page).toHaveURL(url, { timeout: 60000 });
+					console.log(`URL matched: ${url}`);
+					urlMatched = true;
+					break;
+				} catch (error) {
+					//console.log(`URL did not match: ${url}`);
+				}
+			}
+
+			if (!urlMatched) {
+				throw new Error("None of the expected URLs matched the current URL.");
+			}
 			await context.close();
 			// await browser.close();
 		},

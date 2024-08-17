@@ -42,10 +42,23 @@ for (const land of FAKE_PRELAND) {
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
 			await form.fillForm(user);
 			await form.submit();
-			await expect(page).toHaveURL(
-				serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
-				{ timeout: 60000 },
-			);
+			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+			let urlMatched = false;
+
+			for (const url of expectedUrls) {
+				try {
+					await expect(page).toHaveURL(url, { timeout: 60000 });
+					console.log(`URL matched: ${url}`);
+					urlMatched = true;
+					break;
+				} catch (error) {
+					//console.log(`URL did not match: ${url}`);
+				}
+			}
+
+			if (!urlMatched) {
+				throw new Error("None of the expected URLs matched the current URL.");
+			}
 			await page.close();
 			await context.close();
 		},

@@ -1,4 +1,3 @@
-
 export const serverList = [
 	{
 		brand: "ALEV",
@@ -34,5 +33,5 @@ export const serverList = [
 	{
 		brand: "DOIT",
 		url: [/casino/, /do777play/],
-	}
+	},
 ];

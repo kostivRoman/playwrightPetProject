@@ -45,11 +45,23 @@ for (const land of WHEEL_PRELAND) {
 			//await tryNavigate(page, land["Affilka Landing URL"]);
 			await wheel.spinWheel();
 			await wheel.claimBonus();
-			await expect
-				.soft(page)
-				.toHaveURL(serverList.find((server) => server.brand === land.Brand)?.url as RegExp, {
-					timeout: 40000,
-				});
+			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+			let urlMatched = false;
+
+			for (const url of expectedUrls) {
+				try {
+					await expect(page).toHaveURL(url, { timeout: 60000 });
+					console.log(`URL matched: ${url}`);
+					urlMatched = true;
+					break;
+				} catch (error) {
+					//console.log(`URL did not match: ${url}`);
+				}
+			}
+
+			if (!urlMatched) {
+				throw new Error("None of the expected URLs matched the current URL.");
+			}
 			await context.close();
 			await page.close();
 		},

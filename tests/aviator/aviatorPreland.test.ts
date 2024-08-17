@@ -41,37 +41,24 @@ for (const land of AVIATOR_PRELAND) {
 			await tryNavigate(page, land["Affilka Landing URL"], 5);
 			await aviator.clickMainButton();
 			await page.waitForTimeout(2000);
+			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+			let urlMatched = false;
 
-			const maxRetries = 3;
-			let attempt = 0;
-			let success = false;
-
-			while (attempt < maxRetries && !success) {
+			for (const url of expectedUrls) {
 				try {
-					await page.waitForTimeout(2000);
-					await expect(page).toHaveURL(
-						serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
-					);
-					//console.log(page.url());
-					success = true; // If the expect succeeds, set success to true to exit the loop
+					await expect(page).toHaveURL(url, { timeout: 60000 });
+					console.log(`URL matched: ${url}`);
+					urlMatched = true;
+					break;
 				} catch (error) {
-					console.log(`Attempt ${attempt} failed:`, error);
-					attempt++;
-					try {
-						await page.reload();
-						// eslint-disable-next-line no-empty
-					} catch (error) {
-
-					}
-
-					//	console.log(`Attempt ${attempt} failed:`, error);
-					if (attempt >= maxRetries) {
-						throw new Error("Max retries reached. Test failed.");
-					}
-					return;
+					//console.log(`URL did not match: ${url}`);
 				}
 			}
-			await page.close()
+
+			if (!urlMatched) {
+				throw new Error("None of the expected URLs matched the current URL.");
+			}
+			await page.close();
 			await context.close();
 		},
 	);

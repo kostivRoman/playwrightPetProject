@@ -37,7 +37,7 @@ for (const land of TAP_LAND) {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const codeRule = () => {
 				return land["Affilka Landing URL"].includes("code");
-			}
+			};
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			regFormRules.promoCodeText = codeRule();
 			const context = await browser.newContext(proxySettings);
@@ -53,10 +53,23 @@ for (const land of TAP_LAND) {
 			await tap.clickBonusButton();
 			await form.fillForm(user);
 			await form.submit();
-			await expect(page).toHaveURL(
-				serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-				{ timeout: 60000 },
-			);
+			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+			let urlMatched = false;
+
+			for (const url of expectedUrls) {
+				try {
+					await expect(page).toHaveURL(url, { timeout: 60000 });
+					console.log(`URL matched: ${url}`);
+					urlMatched = true;
+					break;
+				} catch (error) {
+					//console.log(`URL did not match: ${url}`);
+				}
+			}
+
+			if (!urlMatched) {
+				throw new Error("None of the expected URLs matched the current URL.");
+			}
 			await context.close();
 			await page.close();
 		},

@@ -5,7 +5,7 @@ export class Aviator {
 	private mainButton: Locator;
 	constructor(protected page: Page) {
 		//this.page = page;
-		this.mainButton = this.page.locator("#lastBtn")
+		this.mainButton = this.page.locator("#lastBtn");
 	}
 	@step()
 	async clickMainButton() {

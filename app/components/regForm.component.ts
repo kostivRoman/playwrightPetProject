@@ -55,13 +55,11 @@ export class RegForm {
 
 		//console.log("formElements.country", formElements.country);
 		//console.log("this.page.locator('.select-button')", this.page.locator(".select-button"));
-		this.countrySelect = this.page.locator("#sv-countryCode-select")
-			;
+		this.countrySelect = this.page.locator("#sv-countryCode-select");
 		this.countryItem = this.page.locator(".sv-item--wrap");
 		//this.page.locator("#countryOption");
 
-		this.promoCodeInput = this.page.locator("#registrationPromoCode")
-
+		this.promoCodeInput = this.page.locator("#registrationPromoCode");
 
 		this.currencySelect = this.page.locator("#sv-currency-select");
 
@@ -129,11 +127,9 @@ export class RegForm {
 			} catch (error) {
 				throw new Error("Currency selector is not visible");
 			}
-
 		} else {
 			await expect(this.currencySelect).not.toBeVisible();
 		}
-
 	}
 
 	@step()
@@ -147,8 +143,7 @@ export class RegForm {
 		if (this.passwordInput) {
 			await this.passwordInput.fill(password);
 			return;
-		}
-		else {
+		} else {
 			console.log("Password is not needed");
 		}
 	}
@@ -157,8 +152,7 @@ export class RegForm {
 		if (this.emailInput) {
 			await this.emailInput?.fill(email, { timeout: 30000 });
 			return;
-		}
-		else {
+		} else {
 			console.log("Email is not needed");
 		}
 	}
@@ -232,7 +226,6 @@ export class RegForm {
 
 	@step()
 	async fillForm(user: UserData): Promise<void> {
-
 		await this.fillName(user.name);
 		await this.fillLastName(user.lastName);
 		await this.fillEmail(user.email);
@@ -243,7 +236,7 @@ export class RegForm {
 		await this.selectCountry();
 		await this.page.waitForTimeout(2000);
 		await this.selectCurrency();
-		await this.fillPromoCode(user.promoCode)
+		await this.fillPromoCode(user.promoCode);
 	}
 	@step()
 	async submit(): Promise<void> {
