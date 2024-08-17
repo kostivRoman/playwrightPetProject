@@ -35,16 +35,11 @@ for (const land of CARDS_LAND) {
 			tag: ["@cards", "@preland", `@${land.GEO}`],
 		},
 		async ({ browser }) => {
-			// console.log("land", land);
-			// console.log("proxyObject", proxyObject);
-			// console.log("proxySettings", proxySettings);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const cards = new Cards(page);
-			//	const form = new RegForm(page, regFormRules);
-			//await page.goto('https://google.com/');
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
 			await page.waitForTimeout(5000);
 			await cards.expectLoaded();
@@ -52,7 +47,6 @@ for (const land of CARDS_LAND) {
 			const maxRetries = 3;
 			let attempt = 0;
 			let success = false;
-
 			while (attempt < maxRetries && !success) {
 				try {
 					await expect(page).toHaveURL(

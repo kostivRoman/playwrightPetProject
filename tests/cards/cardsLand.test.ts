@@ -1,7 +1,6 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
-import { Tap } from "../../app/components/tap.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
@@ -38,9 +37,7 @@ for (const land of CARDS_LAND) {
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
-			const tap = new Tap(page);
 			const form = new RegForm(page, regFormRules);
-			//await page.goto('https://google.com/');
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
 			await form.fillForm(user);
 			await form.submit();

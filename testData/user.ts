@@ -6,7 +6,7 @@ export const user: UserData = {
 	password: `${randomUUID()}`,
 	country: "Portugal",
 	currency: "CAD",
-	promoCode: "CAT",
+	promoCode: "PROMO",
 	name: "name",
 	lastName: "lastName",
 };

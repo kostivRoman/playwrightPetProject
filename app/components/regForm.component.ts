@@ -19,11 +19,11 @@ export class RegForm {
 	private countryItem?: Locator;
 	private currencySelect?: Locator;
 	private currencyItem?: Locator;
-	private promoCodeInput?: Locator;
+	private promoCodeInput: Locator;
 	//private sighUpButton: Locator;
 	private submitButton: Locator;
 	private showPasswordButton: Locator;
-	private nameInput?: Locator;
+	private nameInput: Locator;
 	private lastNameInput?: Locator;
 	private formElements: UserRegistrationForm;
 	private phoneNumberInput?: Locator;
@@ -63,18 +63,19 @@ export class RegForm {
 		this.countryItem = formElements.country ? this.page.locator(".sv-item--wrap") : undefined;
 		//this.page.locator("#countryOption");
 
-		this.promoCodeInput = formElements.promoCodeText
-			? this.page.locator("#registrationPromoCode")
-			: undefined;
+		this.promoCodeInput = this.page.locator("#registrationPromoCode")
+
 
 		this.currencySelect = formElements.currency
 			? this.page.locator("#sv-currency-select")
 			: undefined;
 
-		this.nameInput = this.formElements.name ? this.page.locator("#firstName") : undefined;
+		this.nameInput = this.page.locator("#firstName");
 		this.lastNameInput = this.formElements.name ? this.page.locator("#lastName") : undefined;
 	}
-
+	async expectLoaded(): Promise<void> {
+		await this.submitButton.waitFor({ state: "visible" });
+	}
 	@step()
 	async selectCountry(): Promise<void> {
 		if (this.formElements.country) {
@@ -124,11 +125,6 @@ export class RegForm {
 			await this.page.waitForTimeout(4000);
 
 			const randomIndex = Math.floor(Math.random() * currencyItems.length - 1);
-			await this.page
-				.locator("button", { has: this.currencySelect })
-				.locator(".sv-item--wrap")
-				.nth(randomIndex)
-				.hover();
 			await this.page
 				.locator("button", { has: this.currencySelect })
 				.locator(".sv-item--wrap")
@@ -184,16 +180,18 @@ export class RegForm {
 	async fillPromoCode(promoCode: string): Promise<void> {
 		if (this.formElements.promoCodeText) {
 			await this.promoCodeInput?.fill(promoCode);
+		} else {
+			await expect(this.promoCodeInput).not.toBeVisible();
 		}
 	}
 	@step()
 	async fillName(name: string): Promise<void> {
-		if (this.nameInput) {
-			await this.nameInput?.waitFor({ state: "visible" });
+		if (this.formElements.name) {
+			await this.nameInput.waitFor({ state: "visible" });
 			await this.page.waitForTimeout(500);
 			await this.nameInput?.fill(name);
 		} else {
-			console.log("Name is not needed");
+			await expect(this.nameInput).not.toBeVisible();
 		}
 	}
 	@step()

@@ -17,10 +17,9 @@ const WHEEL_LAND = WHEEL.filter((land) => land.Type === "Land");
 
 for (const land of WHEEL_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
-		region: "DE",
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {
@@ -32,14 +31,20 @@ for (const land of WHEEL_LAND) {
 	};
 
 	test(`${land["Affilka Landing URL"]}, `, async ({ browser }) => {
+		const codeRule = () => {
+			return land["Affilka Landing URL"].includes("code");
+		}
 		const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+		regFormRules.promoCodeText = codeRule();
 		const context = await browser.newContext(proxySettings);
 		const page = await context.newPage();
 		const wheel = new Wheel(page);
 		const form = new RegForm(page, regFormRules);
 		await tryNavigate(page, land["Affilka Landing URL"], 5);
+		await page.waitForTimeout(3000);
 		await wheel.spinWheel();
+		await page.waitForTimeout(5000);
 		await wheel.claimBonus();
 		await form.fillForm(user);
 		await form.submit();

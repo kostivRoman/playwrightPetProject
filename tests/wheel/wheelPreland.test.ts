@@ -1,6 +1,5 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
-import { RegForm } from "../../app/components/regForm.component";
 import { Wheel } from "../../app/components/wheel.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
@@ -41,7 +40,6 @@ for (const land of WHEEL_PRELAND) {
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const wheel = new Wheel(page);
-			const form = new RegForm(page, regFormRules);
 			//await page.goto('https://google.com/');
 			await tryNavigate(page, land["Affilka Landing URL"], 5);
 			//await tryNavigate(page, land["Affilka Landing URL"]);

@@ -12,14 +12,12 @@ import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
 const TAP = landList.filter((land) => land.Action.includes("Tap"));
-//TODO: TR excluded!!!
 const TAP_LAND = TAP.filter((land) => land.Type === "Land" && land.GEO);
 for (const land of TAP_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
-		region: "DE",
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {
@@ -37,7 +35,11 @@ for (const land of TAP_LAND) {
 		},
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
+			const codeRule = () => {
+				return land["Affilka Landing URL"].includes("code");
+			}
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+			regFormRules.promoCodeText = codeRule();
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const tap = new Tap(page);
@@ -47,7 +49,6 @@ for (const land of TAP_LAND) {
 			});
 
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
-			await page.waitForTimeout(3000);
 			await tap.tap();
 			await tap.clickBonusButton();
 			await form.fillForm(user);
@@ -57,6 +58,7 @@ for (const land of TAP_LAND) {
 				{ timeout: 60000 },
 			);
 			await context.close();
+			await page.close();
 		},
 	);
 }

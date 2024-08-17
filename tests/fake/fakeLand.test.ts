@@ -11,14 +11,12 @@ import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
 const FAKE = landList.filter((land) => land.Action.includes("Fake"));
-//TODO: TR excluded!!!
-const FAKE_LAND = FAKE.filter((land) => land.Type == "Land" && land.GEO !== "TR");
+const FAKE_LAND = FAKE.filter((land) => land.Type == "Land" && land.GEO);
 for (const land of FAKE_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
-		region: "DE",
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {
@@ -44,11 +42,7 @@ for (const land of FAKE_LAND) {
 			serverList.find((server) => server.brand == land.Brand)?.url as RegExp,
 			{ timeout: 60000 },
 		);
-		// Expect a title "to contain" a substring.
-		//await expect(page).toHaveTitle(/Playwright/);
-		// await page.close();
 		await page.close()
 		await context.close();
-		// await browser.close();
 	});
 }

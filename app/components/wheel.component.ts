@@ -9,27 +9,26 @@ export class Wheel {
 		this.page = page;
 		this.wheelButton = this.page
 			.locator("#playBtn")
-		this.claimButton = this.page.locator("#winModalLink");
+		this.claimButton = this.page.locator("#winModalLink").or(this.page.locator("#winModalBtn"));
 	}
 
 	@step()
 	async spinWheel(): Promise<void> {
 		await this.wheelButton.waitFor({ state: "visible" });
-		for (let i = 0; i < 3; i++) {
+		await this.page.waitForTimeout(5000);
+		for (let i = 0; i < 2; i++) {
+			await this.page.waitForTimeout(2000);
 			try {
-				await this.page.waitForTimeout(2000);
-				await this.wheelButton.click({ force: true, timeout: 20000 });
+				await this.wheelButton.click({ force: true, delay: 2000 });
 			} catch (e) {
-				console.log("Error: ", e);
+				console.log(e);
 			}
 		}
 
-		await this.page.waitForTimeout(2000);
 	}
 
 	@step()
 	async claimBonus() {
-		await this.claimButton.waitFor({ state: "visible" });
 		await this.claimButton.click();
 
 	}
