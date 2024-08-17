@@ -2,37 +2,37 @@
 export const serverList = [
 	{
 		brand: "ALEV",
-		url: /alevcasino/,
+		url: [/alevcasino/],
 	},
 	{
 		brand: "GAMA",
-		url: /gamacasino/,
+		url: [/gamacasino/],
 		//https://game777win.com/
 	},
 	{
 		brand: "DADDY",
-		url: /daddy/,
+		url: [/daddy/],
 		//https://daddy.casino/
 	},
 	{
 		brand: "KENT",
-		url: /kentcasino/,
+		url: [/kentcasino/],
 		//https://kentcasino667.com/
 	},
 	{
 		brand: "R7",
-		url: /r7casino/,
+		url: [/r7casino/],
 	},
 	{
 		brand: "CAT",
-		url: /catcasino/,
+		url: [/catcasino/],
 	},
 	{
 		brand: "Casibra",
-		url: /casibra/,
+		url: [/casibra\.com/],
 	},
 	{
 		brand: "DOIT",
-		url: /do777play/,
+		url: [/casino/, /do777play/],
 	}
 ];

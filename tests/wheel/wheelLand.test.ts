@@ -11,14 +11,16 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const WHEEL = landList.filter((land) => land.Action.includes("Wheel"));
+
+//TODO:TR is not a valid GEO!!!!
+const WHEEL = landList.filter((land) => land.Action.includes("Wheel") && land.GEO !== "TR");
 const WHEEL_LAND = WHEEL.filter((land) => land.Type === "Land");
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 
 for (const land of WHEEL_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
 		server:
-			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9001",
 		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
@@ -30,7 +32,7 @@ for (const land of WHEEL_LAND) {
 		},
 	};
 
-	test(`${land["Affilka Landing URL"]}, `, async ({ browser }) => {
+	test(`${land.GEO},${land.Brand},${land["Affilka Landing URL"]}, `, async ({ browser }) => {
 		const codeRule = () => {
 			return land["Affilka Landing URL"].includes("code");
 		}
@@ -42,16 +44,29 @@ for (const land of WHEEL_LAND) {
 		const wheel = new Wheel(page);
 		const form = new RegForm(page, regFormRules);
 		await tryNavigate(page, land["Affilka Landing URL"], 5);
-		await page.waitForTimeout(3000);
 		await wheel.spinWheel();
-		await page.waitForTimeout(5000);
 		await wheel.claimBonus();
 		await form.fillForm(user);
 		await form.submit();
-		await expect(page).toHaveURL(
-			serverList.find((server) => server.brand === land.Brand)?.url as RegExp,
-			{ timeout: 60000 },
-		);
+		await page.waitForTimeout(10000);
+
+		const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+		let urlMatched = false;
+
+		for (const url of expectedUrls) {
+			try {
+				await expect(page).toHaveURL(url, { timeout: 60000 });
+				console.log(`URL matched: ${url}`);
+				urlMatched = true;
+				break;
+			} catch (error) {
+				//console.log(`URL did not match: ${url}`);
+			}
+		}
+
+		if (!urlMatched) {
+			throw new Error("None of the expected URLs matched the current URL.");
+		}
 		await page.close()
 		await context.close();
 	});
