@@ -1,21 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-	// use: {
-	// 	/* Base URL to use in actions like `await page.goto('/')`. */
-	// 	// baseURL: 'http://127.0.0.1:3000',
-
-	// 	/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-	// 	trace: "on",
-	// 	headless: false,
-	// 	ignoreHTTPSErrors: true,
-	// },
-	//globalSetup: 'global-setup.ts',
 	testDir: "./tests",
 	globalTimeout: process.env.CI ? 2 * 60 * 60 * 1000 : undefined,
-	//testMatch: "**/*.spec.ts",
-
-	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
 	forbidOnly: !!process.env.CI,
@@ -32,33 +19,13 @@ export default defineConfig({
 			},
 		},
 	},
-
-	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-	// use: {
-	// 	/* Base URL to use in actions like `await page.goto('/')`. */
-	// 	// baseURL: 'http://127.0.0.1:3000',
-
-	// 	/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-	// 	trace: "on",
-	// 	headless: false,
-	// 	ignoreHTTPSErrors: true
-	// },
-	//globalTimeout: 10 * 60 * 1000,
 	timeout: 5 * 60 * 1000,
-	/* Configure projects for major browsers */
-	//projects: projects,
 	projects: [
 		{
 			name: "Chrome",
 			use: {
 				...devices["Desktop Chrome"],
-				// launchOptions: {
-				// 	proxy: {
-				// 		server: "proxy", // "http://geonode_Zr3aVjywHC-country-ru:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-				// 		// username: "geonode_Zr3aVjywHC-country-ru",
-				// 		// password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
-				// 	},
-				// },
+
 				actionTimeout: 60000,
 				// trace:
 				// {
@@ -69,7 +36,7 @@ export default defineConfig({
 				// 	sources: true,
 				// },
 				ignoreHTTPSErrors: true,
-				trace: "on",
+				trace: "retain-on-failure",
 				//headless: false,
 				//region: "RU",
 			},

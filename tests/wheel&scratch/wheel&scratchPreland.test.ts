@@ -19,10 +19,10 @@ const WHEEL_SCRATCH_PRELAND = WHEEL_SCRATCH.filter(
 
 for (const land of WHEEL_SCRATCH_PRELAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
-		region: "DE",
+
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {

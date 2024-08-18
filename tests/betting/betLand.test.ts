@@ -35,9 +35,12 @@ for (const land of BETTING_LAND) {
 		{
 			tag: ["@betting", "@land", `@${land.GEO}`],
 		},
-		async ({ browser }) => {
+		async ({ browser }, testInfo) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+			const codeRule = () => land["Affilka Landing URL"].includes("code");
+			regFormRules.promoCodeText = codeRule();
+			testInfo.annotations = { ...testInfo.annotations, ...land };
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const form = new RegForm(page, regFormRules);

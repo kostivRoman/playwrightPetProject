@@ -52,19 +52,14 @@ for (const land of WHEEL_SCRATCH_LAND) {
 			try {
 				await wheel.claimBonus();
 				// eslint-disable-next-line no-empty
-			} catch (error) {}
+			} catch (error) { }
 			await scratch.clickCards();
 			await scratch.claimBonus();
 			await page.waitForTimeout(2000);
 			await form.fillForm(user);
 			await form.submit();
-			const maxRetries = 3;
-			let attempt = 0;
-			let success = false;
-
 			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
 			let urlMatched = false;
-
 			for (const url of expectedUrls) {
 				try {
 					await expect(page).toHaveURL(url, { timeout: 60000 });

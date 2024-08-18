@@ -15,14 +15,18 @@ export class Wheel {
 	async spinWheel(): Promise<void> {
 		await this.page.waitForTimeout(5000);
 		const buttons = await this.page.locator("#playBtn").all();
-		for (const button of buttons) {
-			for (let i = 0; i < 2; i++) {
-				await this.page.waitForTimeout(2000);
-				try {
-					await button.hover({ force: true });
-					await button.click({ force: true, delay: 3000 });
-				} catch (e) {
-					console.log(e);
+		if (buttons.length === 0) {
+			throw new Error("No wheel button found");
+		} else {
+			for (const button of buttons) {
+				for (let i = 0; i < 2; i++) {
+					await this.page.waitForTimeout(2000);
+					try {
+						await button.hover({ force: true, timeout: 5000 });
+						await button.click({ force: true, delay: 3000, timeout: 5000 });
+					} catch (e) {
+						console.log(e);
+					}
 				}
 			}
 		}
