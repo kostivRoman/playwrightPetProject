@@ -15,7 +15,7 @@ const FAKE_LAND = FAKE.filter((land) => land.Type == "Land" && land.GEO);
 for (const land of FAKE_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
 		server:
-			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9001",
 		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
@@ -27,7 +27,7 @@ for (const land of FAKE_LAND) {
 		},
 	};
 
-	test(`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`, async ({ browser }) => {
+	test(`${land.Action},${land.GEO},${land.Brand},${land["Affilka Landing URL"]}`, async ({ browser }) => {
 		const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 		const context = await browser.newContext(proxySettings);

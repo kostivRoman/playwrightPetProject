@@ -5,12 +5,12 @@ export const serverList = [
 	},
 	{
 		brand: "GAMA",
-		url: [/gamacasino/,/gama.casino/],
+		url: [/gamacasino/, /gama.casino/],
 		//https://game777win.com/
 	},
 	{
 		brand: "DADDY",
-		url: [/daddy/],
+		url: [/daddy\.casino/],
 		//https://daddy.casino/
 	},
 	{

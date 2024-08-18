@@ -4,12 +4,9 @@ import { step } from "../helpers/step";
 export class Cards {
 	private cardList: Locator;
 	private popup1: Locator;
-	//private bonusButton: Locator;
 	constructor(protected page: Page) {
-		//	this.page = page;
 		this.cardList = this.page.locator(".main__text");
 		this.popup1 = this.page.locator(".popup-1").or(this.page.locator(".popup-2"));
-		//this.bonusButton = this.page.locator(".second-button").or(this.page.locator(".modal-btn"));
 	}
 
 	@step()
@@ -24,7 +21,7 @@ export class Cards {
 				await this.page.waitForTimeout(2000);
 				await card.click({ force: true, delay: 1000, timeout: 2000 });
 			} catch (error) {
-				//console.log("error", error);
+				console.log("error", error);
 			}
 		}
 		await this.claimBonus();

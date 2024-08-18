@@ -59,11 +59,12 @@ for (const land of TAP_LAND) {
 			for (const url of expectedUrls) {
 				try {
 					await expect(page).toHaveURL(url, { timeout: 60000 });
+					//await expect(page).toHaveURL(url, { timeout: 60000 });
 					console.log(`URL matched: ${url}`);
 					urlMatched = true;
 					break;
 				} catch (error) {
-					//console.log(`URL did not match: ${url}`);
+					console.log(`URL did not match: ${url}`);
 				}
 			}
 
