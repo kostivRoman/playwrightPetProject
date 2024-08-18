@@ -40,7 +40,6 @@ for (const land of BETTING_LAND) {
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const codeRule = () => land["Affilka Landing URL"].includes("code");
 			regFormRules.promoCodeText = codeRule();
-			testInfo.annotations = { ...testInfo.annotations, ...land };
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const form = new RegForm(page, regFormRules);

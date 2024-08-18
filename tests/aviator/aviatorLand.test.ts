@@ -18,7 +18,7 @@ const AVIATOR_LAND = AVIATOR.filter((land) => land.Type == "Land");
 for (const land of AVIATOR_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
 		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
@@ -38,13 +38,19 @@ for (const land of AVIATOR_LAND) {
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-			const context = await browser.newContext(proxySettings);
+			const context = await browser.newContext({
+				proxy: proxySettings.proxy,
+				viewport: { width: 1280, height: 720 },
+				userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+				ignoreHTTPSErrors: true, // Skip SSL protocol errors
+			});
 			const page = await context.newPage();
 			const form = new RegForm(page, regFormRules);
 			const aviator = new Aviator(page);
 			await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
 				await page.locator("retry-btn").click();
 			});
+			//await tryNavigate(page, "https://www.google.com", 5);
 			await tryNavigate(page, land["Affilka Landing URL"], 5);
 			await aviator.clickMainButton();
 			await form.fillForm(user);
