@@ -51,7 +51,7 @@ for (const land of AVIATOR_PRELAND) {
 					urlMatched = true;
 					break;
 				} catch (error) {
-					//console.log(`URL did not match: ${url}`);
+					console.log(`URL did not match: ${url}`);
 				}
 			}
 

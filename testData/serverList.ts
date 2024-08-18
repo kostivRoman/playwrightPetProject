@@ -5,7 +5,7 @@ export const serverList = [
 	},
 	{
 		brand: "GAMA",
-		url: [/gamacasino/],
+		url: [/gamacasino/,/gama.casino/],
 		//https://game777win.com/
 	},
 	{
