@@ -34,9 +34,8 @@ for (const land of CARDS_LAND) {
 			const page = await context.newPage();
 			const cards = new Cards(page);
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
-			await page.waitForTimeout(5000);
 			await cards.clickCards();
-
+			await cards.clickCards()
 			let urlMatched = false;
 
 			for (const url of expectedUrls) {

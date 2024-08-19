@@ -31,7 +31,7 @@ for (const land of BETTING_LAND) {
 	};
 
 	test(
-		`${land.Action},${land.GEO},${land.Regform}${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
 			tag: ["@betting", "@land", `@${land.GEO}`],
 		},

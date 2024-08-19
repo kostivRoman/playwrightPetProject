@@ -36,6 +36,9 @@ for (const land of AVIATOR_LAND) {
 			tag: ["@aviator", "@land", `@${land.GEO}`],
 		},
 		async ({ browser }) => {
+			const codeRule = () => {
+				return land["Affilka Landing URL"].includes("code");
+			};
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext({
@@ -44,23 +47,19 @@ for (const land of AVIATOR_LAND) {
 				userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
 				ignoreHTTPSErrors: true, // Skip SSL protocol errors
 			});
+			regFormRules.promoCodeText = codeRule()
 			const page = await context.newPage();
 			const form = new RegForm(page, regFormRules);
 			const aviator = new Aviator(page);
 			await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
 				await page.locator("retry-btn").click();
 			});
-			//await tryNavigate(page, "https://www.google.com", 5);
 			await tryNavigate(page, land["Affilka Landing URL"], 5);
 			await aviator.clickMainButton();
 			await form.fillForm(user);
 			await form.submit();
-			const maxRetries = 3;
-			let attempt = 0;
-			let success = false;
 			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
 			let urlMatched = false;
-
 			for (const url of expectedUrls) {
 				try {
 					await expect(page).toHaveURL(url, { timeout: 60000 });
@@ -68,7 +67,7 @@ for (const land of AVIATOR_LAND) {
 					urlMatched = true;
 					break;
 				} catch (error) {
-					//console.log(`URL did not match: ${url}`);
+					console.log(`URL did not match: ${url}`);
 				}
 			}
 

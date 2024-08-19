@@ -15,10 +15,11 @@ export class Cards {
 	}
 	@step()
 	async clickCards() {
-		const cards = await this.cardList.locator(".cat").all();
+		const cards = await this.page.locator(".cat").all();
 		for (const card of cards) {
 			try {
 				await this.page.waitForTimeout(2000);
+				await card.hover({ force: true, timeout: 2000 })
 				await card.click({ force: true, delay: 1000, timeout: 2000 });
 			} catch (error) {
 				console.log("error", error);

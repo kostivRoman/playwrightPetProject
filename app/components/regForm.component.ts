@@ -62,14 +62,12 @@ export class RegForm {
 				await this.page.waitForTimeout(1000);
 				await this.countrySelect.click({ force: true, delay: 1000 });
 				const countryItems = await this.page
-					.locator("button", { has: this.countrySelect })
-					.locator(".sv-item--wrap")
+					.locator("#countryOption")
 					.all();
 				await this.page.waitForTimeout(1000);
-				const randomIndex = Math.floor(Math.random() * countryItems.length);
+				const randomIndex = Math.floor(Math.random() * (countryItems.length - 1));
 				await this.page
-					.locator("button", { has: this.countrySelect })
-					.locator(".sv-item--wrap")
+					.locator("#countryOption")
 					.nth(randomIndex)
 					.click();
 			} catch (error) {
@@ -87,17 +85,12 @@ export class RegForm {
 				await this.page.waitForTimeout(1000);
 				await this.currencySelect.click({ force: true, delay: 1000 });
 				const currencyItems = await this.page
-					.locator("button", { has: this.currencySelect })
-					.locator(".sv-item--wrap")
-					.all();
+					.locator("#currencyOption").all()
 				await this.page.waitForTimeout(4000);
 
 				const randomIndex = Math.floor(Math.random() * currencyItems.length - 1);
 				await this.page
-					.locator("button", { has: this.currencySelect })
-					.locator(".sv-item--wrap")
-					.nth(randomIndex)
-					.click({ delay: 1000, timeout: 5000 });
+					.locator('#currencyOption').nth(randomIndex).click({ delay: 1000 })
 			} catch (error) {
 				throw new Error("Currency selector is not visible");
 			}
@@ -152,7 +145,7 @@ export class RegForm {
 	@step()
 	async fillName(name: string): Promise<void> {
 		if (this.formElements.name) {
-			await this.nameInput.waitFor({ state: "visible" });
+			await this.nameInput.waitFor({ state: "visible", timeout: 20000 });
 			await this.page.waitForTimeout(500);
 			await this.nameInput?.fill(name);
 		} else {
@@ -174,20 +167,12 @@ export class RegForm {
 		if (this.formElements.phoneNumber) {
 			try {
 				await this.phoneCodeSelector.click({ force: true, delay: 1000, timeout: 20000 });
-				//await this.page.waitForSelector(".sv-item--wrap", { state: "visible" });
-				const phoneCodeItems = await this.page
-					.locator("button", { has: this.phoneCodeSelector })
-					.locator(".sv-item--wrap")
-					.all();
+				const phoneCodeItems = await this.page.locator('#phoneCodeOption').all()
 				await this.page.waitForTimeout(1000);
 
 				// Generate a random index
-				const randomIndex = Math.floor(Math.random() * phoneCodeItems.length);
-				await this.page
-					.locator("button", { has: this.phoneCodeSelector })
-					.locator(".sv-item--wrap")
-					.nth(randomIndex)
-					.click({ delay: 1000, force: true });
+				const randomIndex = Math.floor(Math.random() * (phoneCodeItems.length - 1));
+				await this.page.locator('#phoneCodeOption').nth(randomIndex).click({ delay: 1000 })
 			} catch (error) {
 				throw new Error("Phone code selector is not visible");
 			}
@@ -203,7 +188,7 @@ export class RegForm {
 		await this.fillEmail(user.email);
 		await this.page.waitForTimeout(2000);
 		await this.fillPassword(user.password);
-		await this.selectPhoneCode();
+		//await this.selectPhoneCode();
 		await this.fillPhoneNumber("1234567890");
 		await this.selectCountry();
 		await this.page.waitForTimeout(2000);
