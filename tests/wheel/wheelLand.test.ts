@@ -12,7 +12,7 @@ import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
 //TODO:TR is not a valid GEO!!!!
-const WHEEL = landList.filter((land) => land.Action.includes("Wheel") && land.GEO !== "TR");
+const WHEEL = landList.filter((land) => land.Action.includes("Wheel"));
 const WHEEL_LAND = WHEEL.filter((land) => land.Type === "Land");
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 

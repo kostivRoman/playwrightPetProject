@@ -40,7 +40,16 @@ for (const land of TAP_LAND) {
 			};
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			regFormRules.promoCodeText = codeRule();
-			const context = await browser.newContext(proxySettings);
+			const context = await browser.newContext({
+				proxy: {
+					server: proxyObject.server,
+					username: proxyObject.username,
+					password: proxyObject.password,
+				},
+				viewport: { width: 1280, height: 720 },
+				userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+				ignoreHTTPSErrors: true, // Skip SSL protocol errors
+			});
 			const page = await context.newPage();
 			const tap = new Tap(page);
 			const form = new RegForm(page, regFormRules);

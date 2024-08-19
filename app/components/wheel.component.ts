@@ -14,6 +14,7 @@ export class Wheel {
 	@step()
 	async spinWheel(): Promise<void> {
 		await this.page.waitForTimeout(5000);
+		await this.wheelButton.first().waitFor({ state: "visible" });
 		const buttons = await this.page.locator("#playBtn").all();
 		if (buttons.length === 0) {
 			throw new Error("No wheel button found");

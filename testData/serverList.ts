@@ -10,7 +10,7 @@ export const serverList = [
 	},
 	{
 		brand: "DADDY",
-		url: [/daddy\.casino/],
+		url: [/daddy\.casino/, /daddycasino/],
 		//https://daddy.casino/
 	},
 	{

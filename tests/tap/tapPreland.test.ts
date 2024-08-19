@@ -1,15 +1,11 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
-import { RegForm } from "../../app/components/regForm.component";
 import { Tap } from "../../app/components/tap.component";
-import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
-import { Brand } from "../../app/types/form.interface";
-import { brandsRules } from "../../testData/brandsFormRules";
 import { landList } from "../../testData/landList.data";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
-import { user } from "../../testData/user";
+
 
 const TAP = landList.filter((land) => land.Action.includes("Tap"));
 const TAP_PRELAND = TAP.filter((land) => land.Type == "Preland");
@@ -35,15 +31,9 @@ for (const land of TAP_PRELAND) {
 			tag: ["@tap", "@preland", `@${land.GEO}`],
 		},
 		async ({ browser }) => {
-			// console.log("land", land);
-			// console.log("proxyObject", proxyObject);
-			// console.log("proxySettings", proxySettings);
-			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
-			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const tap = new Tap(page);
-			//await page.goto('https://google.com/');
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
 			await tap.tap();
 			await tap.clickBonusButton();
@@ -57,7 +47,7 @@ for (const land of TAP_PRELAND) {
 					urlMatched = true;
 					break;
 				} catch (error) {
-					//console.log(`URL did not match: ${url}`);
+					console.log(`URL did not match: ${url}`);
 				}
 			}
 
