@@ -193,7 +193,7 @@ export class RegForm {
 		await this.selectCountry();
 		await this.page.waitForTimeout(2000);
 		await this.selectCurrency();
-		//await this.fillPromoCode(user.promoCode);
+		await this.fillPromoCode(user.promoCode);
 	}
 	@step()
 	async submit(): Promise<void> {
