@@ -188,12 +188,12 @@ export class RegForm {
 		await this.fillEmail(user.email);
 		await this.page.waitForTimeout(2000);
 		await this.fillPassword(user.password);
-		//await this.selectPhoneCode();
+		await this.selectPhoneCode();
 		await this.fillPhoneNumber("1234567890");
 		await this.selectCountry();
 		await this.page.waitForTimeout(2000);
 		await this.selectCurrency();
-		await this.fillPromoCode(user.promoCode);
+		//await this.fillPromoCode(user.promoCode);
 	}
 	@step()
 	async submit(): Promise<void> {

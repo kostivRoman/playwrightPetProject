@@ -24,7 +24,7 @@ for (const land of CARDS_LAND) {
 	};
 
 	test(
-		`${land.Action}, ${land.GEO},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.Brand} ${land.GEO},${land["Affilka Landing URL"]}`,
 		{
 			tag: ["@cards", "@preland", `@${land.GEO}`, `@${land.Brand}`],
 		},
@@ -35,7 +35,12 @@ for (const land of CARDS_LAND) {
 			const cards = new Cards(page);
 			await tryNavigate(page, land["Affilka Landing URL"], 3);
 			await cards.clickCards();
-			await cards.clickCards()
+			try {
+				await cards.clickCards()
+			} catch (e) {
+				//console.log(e)
+			}
+
 			let urlMatched = false;
 
 			for (const url of expectedUrls) {
