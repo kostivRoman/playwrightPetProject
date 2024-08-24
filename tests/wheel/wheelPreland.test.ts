@@ -35,28 +35,36 @@ for (const land of WHEEL_PRELAND) {
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const wheel = new Wheel(page);
-			await tryNavigate(page, land["Affilka Landing URL"], 5);
-			await wheel.spinWheel();
-			await wheel.claimBonus();
-			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
-			let urlMatched = false;
+			try {
+				await tryNavigate(page, land["Affilka Landing URL"], 5);
+				await wheel.spinWheel();
+				await wheel.claimBonus();
+				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				let urlMatched = false;
 
-			for (const url of expectedUrls) {
-				try {
-					await expect(page).toHaveURL(url, { timeout: 60000 });
-					console.log(`URL matched: ${url}`);
-					urlMatched = true;
-					break;
-				} catch (error) {
-					console.log(`URL did not match: ${url}`);
+				for (const url of expectedUrls) {
+					try {
+						await expect(page).toHaveURL(url, { timeout: 60000 });
+						console.log(`URL matched: ${url}`);
+						urlMatched = true;
+						break;
+					} catch (error) {
+						console.log(`URL did not match: ${url}`);
+					}
 				}
-			}
 
-			if (!urlMatched) {
-				throw new Error("None of the expected URLs matched the current URL.");
+				if (!urlMatched) {
+					throw new Error("None of the expected URLs matched the current URL.");
+				}
+			} catch (error) {
+				//@ts-ignore
+				console.error(`Test failed: ${error.message}`);
+				throw error; // Re-throw the error to mark the test as failed
+			} finally {
+				// Ensure the page and context are closed
+				await page.close();
+				await context.close();
 			}
-			await context.close();
-			await page.close();
 		},
 	);
 }

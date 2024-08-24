@@ -47,35 +47,43 @@ for (const land of WHEEL_SCRATCH_LAND) {
 			const wheel = new Wheel(page);
 			const scratch = new Scratch(page);
 			const form = new RegForm(page, regFormRules);
-			await tryNavigate(page, land["Affilka Landing URL"], 5);
-			await wheel.spinWheel();
 			try {
-				await wheel.claimBonus();
-				// eslint-disable-next-line no-empty
-			} catch (error) { }
-			await scratch.clickCards();
-			await scratch.claimBonus();
-			await page.waitForTimeout(2000);
-			await form.fillForm(user);
-			await form.submit();
-			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
-			let urlMatched = false;
-			for (const url of expectedUrls) {
+				await tryNavigate(page, land["Affilka Landing URL"], 5);
+				await wheel.spinWheel();
 				try {
-					await expect(page).toHaveURL(url, { timeout: 60000 });
-					console.log(`URL matched: ${url}`);
-					urlMatched = true;
-					break;
-				} catch (error) {
-					//console.log(`URL did not match: ${url}`);
+					await wheel.claimBonus();
+					// eslint-disable-next-line no-empty
+				} catch (error) { }
+				await scratch.clickCards();
+				await scratch.claimBonus();
+				await page.waitForTimeout(2000);
+				await form.fillForm(user);
+				await form.submit();
+				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				let urlMatched = false;
+				for (const url of expectedUrls) {
+					try {
+						await expect(page).toHaveURL(url, { timeout: 60000 });
+						console.log(`URL matched: ${url}`);
+						urlMatched = true;
+						break;
+					} catch (error) {
+						//console.log(`URL did not match: ${url}`);
+					}
 				}
-			}
 
-			if (!urlMatched) {
-				throw new Error("None of the expected URLs matched the current URL.");
+				if (!urlMatched) {
+					throw new Error("None of the expected URLs matched the current URL.");
+				}
+			} catch (error) {
+				//@ts-ignore
+				console.error(`Test failed: ${error.message}`);
+				throw error; // Re-throw the error to mark the test as failed
+			} finally {
+				// Ensure the page and context are closed
+				await page.close();
+				await context.close();
 			}
-			await page.close();
-			await context.close();
 		},
 	);
 }

@@ -3,7 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
 	testDir: "./tests",
 	globalTimeout: process.env.CI ? 2 * 60 * 60 * 1000 : undefined,
-	fullyParallel: true,
+	fullyParallel: false,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
 	forbidOnly: !!process.env.CI,
 	/* Retry on CI only */
@@ -36,7 +36,7 @@ export default defineConfig({
 				// 	sources: true,
 				// },
 				ignoreHTTPSErrors: true,
-				trace: "retain-on-failure",
+				trace: "on",
 				//headless: false,
 				//region: "RU",
 			},
