@@ -3037,17 +3037,6 @@
 	},
 	{
 		"Brand": "R7",
-		"Type": "Preland",
-		"Action": "Tap",
-		"Action2": "Hamster",
-		"Regform": "Short",
-		"GEO": "RU",
-		"Format": "new",
-		"Affilka Landing Name": "Preland / Hamster / Short + Code / RU",
-		"Affilka Landing URL": "https://140.landing-r7.com/ru/hamster/r7-short-code-zub-prl"
-	},
-	{
-		"Brand": "R7",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Golden Girl",

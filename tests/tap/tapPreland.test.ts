@@ -1,7 +1,7 @@
 import test, { expect } from "playwright/test";
 import { Tap } from "../../app/components/tap.component";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
-import { landList } from "../../testData/landList.data";
+import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
