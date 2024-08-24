@@ -6,16 +6,15 @@ import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
 import { brandsRules } from "../../testData/brandsFormRules";
-import { landList } from "../../testData/landList.data";
+import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
 const WHEEL_SCRATCH = landList.filter((land) => land.Action.includes("Wheel & Scratch"));
-//TODO: TR excluded!!!!
 const WHEEL_SCRATCH_PRELAND = WHEEL_SCRATCH.filter(
-	(land) => land.Type === "Preland" && land.GEO !== "TR",
+	(land) => land.Type === "Preland"
 );
-//console.log("DE_TAP_LAND", DE_TAP_LAND.length);
+
 
 for (const land of WHEEL_SCRATCH_PRELAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {

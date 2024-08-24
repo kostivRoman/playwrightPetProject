@@ -5,12 +5,11 @@ import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
 import { brandsRules } from "../../testData/brandsFormRules";
-import { landList } from "../../testData/landList.data";
+import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-//TODO:TR is not a valid GEO!!!!
 const WHEEL = landList.filter((land) => land.Action.includes("Wheel"));
 const WHEEL_LAND = WHEEL.filter((land) => land.Type === "Land");
 //console.log("DE_TAP_LAND", DE_TAP_LAND.length);

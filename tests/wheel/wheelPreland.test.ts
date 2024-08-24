@@ -2,7 +2,7 @@ import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { Wheel } from "../../app/components/wheel.component";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
-import { landList } from "../../testData/landList.data";
+import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
