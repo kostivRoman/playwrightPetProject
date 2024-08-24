@@ -93,6 +93,7 @@ export class RegForm {
 					.locator('#currencyOption').nth(randomIndex).click({ delay: 1000 })
 			} catch (error) {
 				throw new Error("Currency selector is not visible");
+
 			}
 		} else {
 			await expect(this.currencySelect).not.toBeVisible();
@@ -192,7 +193,12 @@ export class RegForm {
 		await this.fillPhoneNumber("1234567890");
 		await this.selectCountry();
 		await this.page.waitForTimeout(2000);
-		await this.selectCurrency();
+		try {
+			await this.selectCurrency();
+		} catch (error) {
+			throw new Error("Currency selector is not visible");
+		}
+		//await this.selectCurrency();
 		await this.fillPromoCode(user.promoCode);
 	}
 	@step()
