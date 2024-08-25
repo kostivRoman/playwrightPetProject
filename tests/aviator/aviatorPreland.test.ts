@@ -12,10 +12,9 @@ const AVIATOR_PRELAND = AVIATOR.filter((land) => land.Type == "Preland");
 
 for (const land of AVIATOR_PRELAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
-		region: "DE",
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	const proxySettings: BrowserContextOptions = {
@@ -38,28 +37,46 @@ for (const land of AVIATOR_PRELAND) {
 				await page.locator("retry-btn").click();
 			});
 			const aviator = new Aviator(page);
-			await tryNavigate(page, land["Affilka Landing URL"], 5);
-			await aviator.clickMainButton();
-			await page.waitForTimeout(2000);
-			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
-			let urlMatched = false;
-
-			for (const url of expectedUrls) {
+			try {
+				await tryNavigate(page, land["Affilka Landing URL"], 5);
+				await aviator.clickMainButton();
 				try {
-					await expect(page).toHaveURL(url, { timeout: 60000 });
-					console.log(`URL matched: ${url}`);
-					urlMatched = true;
-					break;
-				} catch (error) {
-					console.log(`URL did not match: ${url}`);
-				}
-			}
+					await aviator.clickPlayButton();
+					await aviator.clickWinButton();
 
-			if (!urlMatched) {
-				throw new Error("None of the expected URLs matched the current URL.");
+				} catch (error) {
+					console.log("Play button not found");
+				}
+
+
+
+				await page.waitForTimeout(2000);
+				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				let urlMatched = false;
+
+				for (const url of expectedUrls) {
+					try {
+						await expect(page).toHaveURL(url, { timeout: 60000 });
+						console.log(`URL matched: ${url}`);
+						urlMatched = true;
+						break;
+					} catch (error) {
+						console.log(`URL did not match: ${url}`);
+					}
+				}
+
+				if (!urlMatched) {
+					throw new Error("None of the expected URLs matched the current URL.");
+				}
+			} catch (error) {
+				//@ts-ignore
+				console.error(`Test failed: ${error.message}`);
+				throw error; // Re-throw the error to mark the test as failed
+			} finally {
+				// Ensure the page and context are closed
+				await page.close();
+				await context.close();
 			}
-			await page.close();
-			await context.close();
 		},
 	);
 }

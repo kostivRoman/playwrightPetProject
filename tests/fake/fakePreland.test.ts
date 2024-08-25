@@ -31,7 +31,7 @@ for (const land of FAKE_PRELAND) {
 	test(
 		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@fake", "@preland", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
@@ -53,7 +53,7 @@ for (const land of FAKE_PRELAND) {
 						urlMatched = true;
 						break;
 					} catch (error) {
-						//console.log(`URL did not match: ${url}`);
+						console.log(`URL did not match: ${url}`);
 					}
 				}
 

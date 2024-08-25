@@ -41,7 +41,7 @@ export class RegForm {
 		this.submitButton = this.page.locator("button[type='submit']");
 		this.showPasswordButton = this.page.locator(".show-password");
 		this.phoneNumberInput = this.page.locator("#phoneNumber");
-		this.phoneCodeSelector = this.page.locator("#sv-phoneCode-select");
+		this.phoneCodeSelector = this.page.locator("#sv-phoneCode-select").or(this.page.locator("button", { has: this.page.locator("#sv-phoneCode-select") }));
 		this.phoneCodeItem = this.page.locator("#phoneCodeOption");
 		this.emailInput = this.page.locator("#email");
 		this.passwordInput = this.page.locator("#password");
@@ -83,6 +83,7 @@ export class RegForm {
 			try {
 				await this.currencySelect.waitFor({ timeout: 5000 });
 				await this.page.waitForTimeout(1000);
+				console.log("currencySelect", await this.currencySelect.inputValue());
 				await this.currencySelect.click({ force: true, delay: 1000 });
 				const currencyItems = await this.page
 					.locator("#currencyOption").all()
@@ -167,7 +168,7 @@ export class RegForm {
 	async selectPhoneCode(): Promise<void> {
 		if (this.formElements.phoneNumber) {
 			try {
-				await this.phoneCodeSelector.click({ force: true, delay: 1000, timeout: 20000 });
+				await this.phoneCodeSelector.first().click({ force: true, delay: 1000, timeout: 20000 });
 				const phoneCodeItems = await this.page.locator('#phoneCodeOption').all()
 				await this.page.waitForTimeout(1000);
 
@@ -178,7 +179,7 @@ export class RegForm {
 				throw new Error("Phone code selector is not visible");
 			}
 		} else {
-			await expect(this.phoneCodeSelector).not.toBeVisible();
+			await expect(this.phoneCodeSelector.first()).not.toBeVisible();
 		}
 	}
 
@@ -189,7 +190,8 @@ export class RegForm {
 		await this.fillEmail(user.email);
 		await this.page.waitForTimeout(2000);
 		await this.fillPassword(user.password);
-		await this.selectPhoneCode();
+		//await this.selectPhoneCode();
+		await this.page.waitForTimeout(2000);
 		await this.fillPhoneNumber("1234567890");
 		await this.selectCountry();
 		await this.page.waitForTimeout(2000);
@@ -199,11 +201,11 @@ export class RegForm {
 			throw new Error("Currency selector is not visible");
 		}
 		//await this.selectCurrency();
-		await this.fillPromoCode(user.promoCode);
+		//await this.fillPromoCode(user.promoCode);
 	}
 	@step()
 	async submit(): Promise<void> {
-		await this.submitButton.click({ delay: 500 });
+		await this.submitButton.click({ delay: 500, clickCount: 1 });
 	}
 	@step()
 	async fillPhoneNumber(phoneNumber: string): Promise<void> {

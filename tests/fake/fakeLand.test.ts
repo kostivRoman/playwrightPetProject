@@ -11,7 +11,7 @@ import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
 const FAKE = landList.filter((land) => land.Action.includes("Fake"));
-const FAKE_LAND = FAKE.filter((land) => land.Type == "Land" && land.GEO);
+const FAKE_LAND = FAKE.filter((land) => land.Type == "Land");
 for (const land of FAKE_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
 		server:
@@ -27,41 +27,51 @@ for (const land of FAKE_LAND) {
 		},
 	};
 
-	test(`${land.Action},${land.GEO},${land.Brand},${land["Affilka Landing URL"]}`, async ({ browser }) => {
-		const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
-		const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-		const context = await browser.newContext(proxySettings);
-		const page = await context.newPage();
-		const form = new RegForm(page, regFormRules);
-		try {
-			await tryNavigate(page, land["Affilka Landing URL"], 3);
-			await form.fillForm(user);
-			await form.submit();
-			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
-			let urlMatched = false;
+	test(`${land.Action},${land.GEO},${land.Brand},${land["Affilka Landing URL"]}`,
+		{
+			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.GEO}`, `@${land.Brand}`],
+		},
+		async ({ browser }, testInfo) => {
+			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
+			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+			const context = await browser.newContext(proxySettings);
+			const page = await context.newPage();
+			//console.log('reg', await regFormRules);
+			testInfo.annotations.push({
+				type: "regFormRules",
+				description: JSON.stringify(regFormRules),
+			});
+			const form = new RegForm(page, regFormRules);
+			try {
+				await tryNavigate(page, land["Affilka Landing URL"], 3);
+				await form.fillForm(user);
+				await form.submit();
+				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				let urlMatched = false;
 
-			for (const url of expectedUrls) {
-				try {
-					await expect(page).toHaveURL(url, { timeout: 60000 });
-					console.log(`URL matched: ${url}`);
-					urlMatched = true;
-					break;
-				} catch (error) {
-					console.log(`URL did not match: ${url}`);
+				for (const url of expectedUrls) {
+					try {
+						await expect(page).toHaveURL(url, { timeout: 60000 });
+						console.log(`URL matched: ${url}`);
+						urlMatched = true;
+						break;
+					} catch (error) {
+						console.log(`URL did not match: ${url}`);
+					}
 				}
-			}
 
-			if (!urlMatched) {
-				throw new Error("None of the expected URLs matched the current URL.");
+				if (!urlMatched) {
+					console.log(`Expected URLs: ${page.url()}`);
+					throw new Error("None of the expected URLs matched the current URL.");
+				}
+			} catch (error) {
+				//@ts-ignore
+				console.error(`Test failed: ${error.message}`);
+				throw error; // Re-throw the error to mark the test as failed
+			} finally {
+				// Ensure the page and context are closed
+				await page.close();
+				await context.close();
 			}
-		} catch (error) {
-			//@ts-ignore
-			console.error(`Test failed: ${error.message}`);
-			throw error; // Re-throw the error to mark the test as failed
-		} finally {
-			// Ensure the page and context are closed
-			await page.close();
-			await context.close();
-		}
-	});
+		});
 }
