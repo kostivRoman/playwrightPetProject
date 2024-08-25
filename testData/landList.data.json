@@ -2420,50 +2420,6 @@
 		"Affilka Landing URL": "https://515.kent-landmark.com/ru/hamster/kent-short-code"
 	},
 	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "Fake",
-		"Action2": "Promo",
-		"Regform": "Short",
-		"GEO": "RU",
-		"Format": "new",
-		"Affilka Landing Name": "Land / Fake / Stake / Short / RU",
-		"Affilka Landing URL": "https://285.sapphirelanding.com/ru/Stake"
-	},
-	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "Fake",
-		"Action2": "Promo",
-		"Regform": "Short",
-		"GEO": "RU",
-		"Format": "new",
-		"Affilka Landing Name": "Land / Fake / Vavada-Win / Short / RU",
-		"Affilka Landing URL": "https://616.sapphirelanding.com/ru/Vavada-Win"
-	},
-	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "",
-		"Action2": "Spin Vip",
-		"Regform": "Long",
-		"GEO": "RU",
-		"Format": "new",
-		"Affilka Landing Name": "Land / SpinVip / Long / RU",
-		"Affilka Landing URL": "https://882.genteellanding.com/ru/spin-vip/4long"
-	},
-	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "",
-		"Action2": "Spin Vip",
-		"Regform": "Long",
-		"GEO": "RU",
-		"Format": "new",
-		"Affilka Landing Name": "Land / SpinVip2 / Short + Code",
-		"Affilka Landing URL": "https://754.genteellanding.com/ru/spin-vip/5long"
-	},
-	{
 		"Brand": "R7",
 		"Type": "Preland",
 		"Action": "Wheel & Scratch",

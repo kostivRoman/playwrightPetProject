@@ -36,11 +36,20 @@ for (const land of FAKE_LAND) {
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
+			// Get current IP address
+			const response = await page.request.get('https://api.ipify.org?format=json');
+			const currentIp = await (await response.json()).ip;
+			console.log('Current IP address:', currentIp);
 			//console.log('reg', await regFormRules);
 			testInfo.annotations.push({
 				type: "regFormRules",
 				description: JSON.stringify(regFormRules),
-			});
+			},
+				{
+					type: "currentIp",
+					description: currentIp,
+
+				});
 			const form = new RegForm(page, regFormRules);
 			try {
 				await tryNavigate(page, land["Affilka Landing URL"], 3);
