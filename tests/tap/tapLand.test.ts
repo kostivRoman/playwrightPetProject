@@ -23,9 +23,9 @@ for (const land of TAP_LAND) {
 	test(
 		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@tap", "@land", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.GEO}`, `@${land.Brand}`, `@${land.Regform}`],
 		},
-		async ({ browser }) => {
+		async ({ browser }, testInfo) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const codeRule = () => {
 				return land["Affilka Landing URL"].includes("code");
@@ -43,9 +43,19 @@ for (const land of TAP_LAND) {
 				ignoreHTTPSErrors: true, // Skip SSL protocol errors
 			});
 			const page = await context.newPage();
+			const response = await page.request.get('https://api.ipify.org?format=json');
+			const currentIp = await (await response.json()).ip;
 			const tap = new Tap(page);
 			const form = new RegForm(page, regFormRules);
+			testInfo.annotations.push({
+				type: "regFormRules",
+				description: JSON.stringify(regFormRules),
+			},
+				{
+					type: "currentIp",
+					description: currentIp,
 
+				});
 			try {
 				await tryNavigate(page, land["Affilka Landing URL"], 3);
 				await tap.tap();

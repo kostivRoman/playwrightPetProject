@@ -28,9 +28,9 @@ for (const land of BET_PRELAND) {
 	};
 
 	test(
-		`${land["Affilka Landing URL"]}`,
+		`${land.Brand},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@betting", "@preland", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.GEO}`],
 		},
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;

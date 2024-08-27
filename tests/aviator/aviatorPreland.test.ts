@@ -28,7 +28,7 @@ for (const land of AVIATOR_PRELAND) {
 	test(
 		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}  `,
 		{
-			tag: ["@aviator", "@land", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.GEO}`, `@${land.Brand}`],
 		},
 		async ({ browser }) => {
 			const context = await browser.newContext(proxySettings);

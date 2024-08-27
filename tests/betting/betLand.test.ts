@@ -31,7 +31,7 @@ for (const land of BETTING_LAND) {
 	test(
 		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@betting", "@land", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
@@ -40,8 +40,19 @@ for (const land of BETTING_LAND) {
 			regFormRules.promoCodeText = codeRule();
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
+			const response = await page.request.get('https://api.ipify.org?format=json');
+			const currentIp = await (await response.json()).ip;
 			const form = new RegForm(page, regFormRules);
 			const betting = new Betting(page);
+			testInfo.annotations.push({
+				type: "regFormRules",
+				description: JSON.stringify(regFormRules),
+			},
+				{
+					type: "currentIp",
+					description: currentIp,
+
+				});
 			try {
 				await tryNavigate(page, land["Affilka Landing URL"], 5);
 				await betting.clickMainButton();

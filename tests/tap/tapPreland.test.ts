@@ -20,9 +20,9 @@ for (const land of TAP_PRELAND) {
 	test(
 		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@tap", "@preland", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.GEO}`, `@${land.Brand}`, `@${land.Regform}`],
 		},
-		async ({ browser }) => {
+		async ({ browser }, testInfo) => {
 			const context = await browser.newContext({
 				proxy: {
 					server: proxyObject.server,
@@ -34,7 +34,19 @@ for (const land of TAP_PRELAND) {
 				ignoreHTTPSErrors: true, // Skip SSL protocol errors
 			});
 			const page = await context.newPage();
+			const response = await page.request.get('https://api.ipify.org?format=json');
+			const currentIp = await (await response.json()).ip;
 			const tap = new Tap(page);
+			testInfo.annotations.push(
+				// 	{
+				// 	type: "regFormRules",
+				// 	description: JSON.stringify(regFormRules),
+				// },
+				{
+					type: "currentIp",
+					description: currentIp,
+
+				});
 			try {
 				await tryNavigate(page, land["Affilka Landing URL"], 3);
 				await tap.tap();

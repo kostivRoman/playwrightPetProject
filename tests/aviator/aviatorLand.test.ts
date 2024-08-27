@@ -35,7 +35,7 @@ for (const land of AVIATOR_LAND) {
 		{
 			tag: ["@aviator", "@land", `@${land.GEO}`],
 		},
-		async ({ browser }) => {
+		async ({ browser }, testInfo) => {
 			const codeRule = () => {
 				return land["Affilka Landing URL"].includes("code");
 			};
@@ -51,6 +51,18 @@ for (const land of AVIATOR_LAND) {
 			const page = await context.newPage();
 			const form = new RegForm(page, regFormRules);
 			const aviator = new Aviator(page);
+			const response = await page.request.get('https://api.ipify.org?format=json');
+			const currentIp = await (await response.json()).ip;
+			testInfo.annotations.push({
+				type: "regFormRules",
+				description: JSON.stringify(regFormRules),
+			},
+				{
+					type: "currentIp",
+					description: currentIp,
+
+				});
+
 			// await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
 			// 	await page.locator("retry-btn").click();
 			// });
