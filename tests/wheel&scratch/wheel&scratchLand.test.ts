@@ -1,4 +1,3 @@
-import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
 import { Scratch } from "../../app/components/scratch.component";
@@ -12,37 +11,38 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const WHEEL_SCRATCH = landList.filter((land) => land.Action.includes("Wheel & Scratch"));
+const WHEEL_SCRATCH = landList.filter((land) => land.Action === "Wheel & Scratch");
 
 const WHEEL_SCRATCH_LAND = WHEEL_SCRATCH.filter(
-	(land) => land.Type === "Land" && land.GEO !== "TR",
+	(land) => land.Type === "Land"
 );
 
 for (const land of WHEEL_SCRATCH_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
-		region: "DE",
 		server:
-			"http://geonode_Zr3aVjywHC-country-de:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		username: "geonode_Zr3aVjywHC-country-de",
+			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
+		username: "geonode_Zr3aVjywHC",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
-	};
-	const proxySettings: BrowserContextOptions = {
-		proxy: {
-			server: proxyObject.server,
-			username: proxyObject.username,
-			password: proxyObject.password,
-		},
 	};
 
 	test(
 		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@wheel&scratch", "@land", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.Regform}`, `@${land.GEO}`, `@${land.Brand}`],
 		},
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-			const context = await browser.newContext(proxySettings);
+			const context = await browser.newContext({
+				proxy: {
+					server: proxyObject.server,
+					username: proxyObject.username,
+					password: proxyObject.password,
+				},
+				viewport: { width: 1280, height: 720 },
+				//userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+				ignoreHTTPSErrors: true, // Skip SSL protocol errors
+			});
 			const page = await context.newPage();
 			const wheel = new Wheel(page);
 			const scratch = new Scratch(page);
@@ -51,11 +51,18 @@ for (const land of WHEEL_SCRATCH_LAND) {
 				await tryNavigate(page, land["Affilka Landing URL"], 5);
 				await wheel.spinWheel();
 				try {
-					await wheel.claimBonus();
+					await scratch.claimBonus();
 					// eslint-disable-next-line no-empty
 				} catch (error) { }
 				await scratch.clickCards();
-				await scratch.claimBonus();
+				await scratch.claimBonus2();
+				try {
+					await scratch.clickCards();
+					// eslint-disable-next-line no-empty
+				}
+				catch (error) {
+					console.log(error);
+				}
 				await page.waitForTimeout(2000);
 				await form.fillForm(user);
 				await form.submit();
@@ -68,7 +75,7 @@ for (const land of WHEEL_SCRATCH_LAND) {
 						urlMatched = true;
 						break;
 					} catch (error) {
-						//console.log(`URL did not match: ${url}`);
+						console.log(`URL did not match: ${url}`);
 					}
 				}
 

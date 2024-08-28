@@ -6,7 +6,7 @@ import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
-const WHEEL = landList.filter((land) => land.Action.includes("Wheel"));
+const WHEEL = landList.filter((land) => land.Action === "Wheel");
 const WHEEL_PRELAND = WHEEL.filter((land) => land.Type === "Preland");
 // console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 // let i = 0;
@@ -29,7 +29,7 @@ for (const land of WHEEL_PRELAND) {
 	test(
 		`${land.Action},${land.Brand}, ${land.GEO},s ${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@wheel", "@preland", `@${land.GEO}`, `@${land.Brand}`],
+			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.Regform}`, `@${land.GEO}`, `@${land.Brand}`],
 		},
 		async ({ browser }) => {
 			const context = await browser.newContext(proxySettings);

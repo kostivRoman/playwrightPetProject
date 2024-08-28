@@ -11,7 +11,7 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const AVIATOR = landList.filter((land) => land.Action.includes("Aviator"));
+const AVIATOR = landList.filter((land) => land.Action === "Aviator");
 const AVIATOR_LAND = AVIATOR.filter((land) => land.Type == "Land");
 //console.log("DE_TAP_LAND", AVIATOR_LAND.length);
 

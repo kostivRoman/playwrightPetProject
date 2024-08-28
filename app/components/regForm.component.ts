@@ -42,7 +42,8 @@ export class RegForm {
     this.submitButton = this.page.locator("button[type='submit']");
     this.showPasswordButton = this.page.locator(".show-password");
     this.phoneNumberInput = this.page.locator("#phoneNumber");
-    this.phoneCodeSelector = this.page.locator("#sv-phoneCode-select").or(this.page.locator("button", { has: this.page.locator("#sv-phoneCode-select") }));
+    this.phoneCodeSelector = this.page.locator("#sv-phoneCode-select")
+    //.or(this.page.locator("button", { has: this.page.locator("#sv-phoneCode-select") }));
     this.phoneCodeItem = this.page.locator("#phoneCodeOption");
     this.emailInput = this.page.locator("#email");
     this.passwordInput = this.page.locator("#password");
@@ -83,8 +84,6 @@ export class RegForm {
     if (this.formElements.currency) {
       try {
         await this.currencySelect.waitFor({ timeout: 5000 });
-        await this.page.waitForTimeout(1000);
-        //  console.log("currencySelect", await this.currencySelect.inputValue());
         const defaultCurrency = await this.currencySelect.inputValue();
         await this.currencySelect.click({ force: true, delay: 1000 });
         const currencyItems = await this.page
@@ -170,11 +169,9 @@ export class RegForm {
   async selectPhoneCode(): Promise<void> {
     if (this.formElements.phoneNumber) {
       try {
-        const defaultPhoneCode = await this.phoneCodeSelector.inputValue();
-        console.log("defaultPhoneCode", defaultPhoneCode);
+        const defaultPhoneCode = await this.phoneCodeSelector.first().inputValue();
         await this.phoneCodeSelector.first().click({ force: true, delay: 1000, timeout: 20000 });
         const phoneCodeItems = await this.page.locator('#phoneCodeOption').all()
-        await this.page.waitForTimeout(1000);
         const filteredLocators = await filterLocators(defaultPhoneCode, phoneCodeItems);
         const randomIndex = Math.floor(Math.random() * filteredLocators.length);
         // Generate a random index
@@ -195,8 +192,7 @@ export class RegForm {
     await this.fillEmail(user.email);
     await this.page.waitForTimeout(2000);
     await this.fillPassword(user.password);
-    //await this.selectPhoneCode();
-    await this.page.waitForTimeout(2000);
+    await this.selectPhoneCode();
     await this.fillPhoneNumber("1234567890");
     await this.selectCountry();
     await this.page.waitForTimeout(2000);

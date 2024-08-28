@@ -7,7 +7,7 @@ export class Scratch {
 	constructor(protected page: Page) {
 		//	this.page = page;
 		this.cardList = this.page.locator(".cards");
-		this.bonusButton = this.page.locator(".second-button").or(this.page.locator(".modal-btn"));
+		this.bonusButton = this.page.locator("#modalBtnOne");
 	}
 
 	@step()
@@ -16,21 +16,23 @@ export class Scratch {
 	}
 	@step()
 	async clickCards() {
-		const cards = await this.cardList.getByRole("button").all();
-		for (const card of cards) {
+
+		for (let i = 1, length = 3; i < length; i++) {
 			try {
-				await this.page.waitForTimeout(2000);
-				await card.click({ force: true, delay: 1000, timeout: 2000 });
+				await this.page.waitForTimeout(5000);
+				await this.page.locator(`#scratchBtn-${i}`).last().click({ timeout: 5000, force: true });
 			} catch (error) {
-				//console.log("error", error);
+				console.log("error", error);
 			}
 		}
 	}
 	@step()
 	async claimBonus() {
 		const button = this.bonusButton.first();
-		await button.waitFor({ state: "visible" });
-		await this.page.waitForTimeout(3000);
-		await button.click({ delay: 1000, timeout: 5000, force: true });
+		await button.click({ delay: 1000, timeout: 5000 });
+	}
+	@step()
+	async claimBonus2() {
+		await this.page.locator("#winModalBtn").first().click({ timeout: 5000 });
 	}
 }

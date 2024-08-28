@@ -33,7 +33,7 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 	};
 
 	test(
-		`${land.Action},${land.Format}${land["Affilka Landing URL"]}`,
+		`${land.Action},${land["Affilka Landing URL"]}`,
 		{
 			tag: ["@wheel&scratch", `@${land.GEO}`, `@preland`],
 		},
@@ -50,10 +50,6 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 				await wheel.claimBonus();
 				await scratch.clickCards();
 				await scratch.claimBonus();
-				const maxRetries = 3;
-				let attempt = 0;
-				let success = false;
-
 				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
 				let urlMatched = false;
 

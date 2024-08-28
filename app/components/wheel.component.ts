@@ -20,7 +20,7 @@ export class Wheel {
 			throw new Error("No wheel button found");
 		} else {
 			for (const button of buttons) {
-				for (let i = 0; i < 2; i++) {
+				for (let i = 0; i < 3; i++) {
 					await this.page.waitForTimeout(2000);
 					try {
 						await button.hover({ force: true, timeout: 5000 });
@@ -35,6 +35,6 @@ export class Wheel {
 
 	@step()
 	async claimBonus() {
-		await this.claimButton.click();
+		await this.claimButton.click({ timeout: 5000 });
 	}
 }
