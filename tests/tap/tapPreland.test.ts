@@ -6,7 +6,7 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
 
-const TAP = landList.filter((land) => land.Action.includes("Tap"));
+const TAP = landList.filter((land) => land.Action === "Tap");
 const TAP_PRELAND = TAP.filter((land) => land.Type == "Preland");
 for (const land of TAP_PRELAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
@@ -16,11 +16,10 @@ for (const land of TAP_PRELAND) {
 		username: "geonode_Zr3aVjywHC-country-de",
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
-
 	test(
-		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.GEO}`, `@${land.Brand}`, `@${land.Regform}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
 			const context = await browser.newContext({

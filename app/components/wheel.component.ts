@@ -35,6 +35,6 @@ export class Wheel {
 
 	@step()
 	async claimBonus() {
-		await this.claimButton.click({ timeout: 5000 });
+		await this.claimButton.click({ timeout: 20000 });
 	}
 }

@@ -6,7 +6,7 @@ import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
-const CARDS = landList.filter((land) => land.Action.includes("Cards"));
+const CARDS = landList.filter((land) => land.Action === "Cards");
 const CARDS_LAND = CARDS.filter((land) => land.Type == "Preland");
 for (const land of CARDS_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
@@ -22,11 +22,10 @@ for (const land of CARDS_LAND) {
 			password: proxyObject.password,
 		},
 	};
-
 	test(
-		`${land.Action},${land.Brand} ${land.GEO},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@cards", "@preland", `@${land.GEO}`, `@${land.Brand}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
 			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];

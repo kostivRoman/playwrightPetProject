@@ -10,7 +10,7 @@ import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
-const WHEEL_SCRATCH = landList.filter((land) => land.Action.includes("Wheel & Scratch"));
+const WHEEL_SCRATCH = landList.filter((land) => land.Action === "Wheel&Scratch");
 const WHEEL_SCRATCH_PRELAND = WHEEL_SCRATCH.filter(
 	(land) => land.Type === "Preland"
 );
@@ -33,9 +33,9 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 	};
 
 	test(
-		`${land.Action},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@wheel&scratch", `@${land.GEO}`, `@preland`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;

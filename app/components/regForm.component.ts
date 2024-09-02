@@ -87,7 +87,7 @@ export class RegForm {
         const defaultCurrency = await this.currencySelect.inputValue();
         await this.currencySelect.click({ force: true, delay: 1000 });
         const currencyItems = await this.page
-          .locator("#currencyOption").all()
+          .locator("#currencyOption").all();
         const filteredLocators = await filterLocators(defaultCurrency, currencyItems);
         const randomIndex = Math.floor(Math.random() * filteredLocators.length);
         console.log("randomIndex", randomIndex);
@@ -95,7 +95,6 @@ export class RegForm {
         await filteredLocators[randomIndex].click({ delay: 1000 });
       } catch (error) {
         throw error;
-
       }
     } else {
       await expect(this.currencySelect).not.toBeVisible();

@@ -10,7 +10,7 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const CARDS = landList.filter((land) => land.Action.includes("Cards"));
+const CARDS = landList.filter((land) => land.Action === "Bonus Modal");
 const CARDS_LAND = CARDS.filter((land) => land.Type == "Land");
 for (const land of CARDS_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
@@ -26,11 +26,10 @@ for (const land of CARDS_LAND) {
 			password: proxyObject.password,
 		},
 	};
-
 	test(
-		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: [`@${land.Action}`, `${land.Type}`, `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;

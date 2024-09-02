@@ -10,7 +10,7 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const TAP = landList.filter((land) => land.Action.includes("Tap"));
+const TAP = landList.filter((land) => land.Action === "Tap");
 const TAP_LAND = TAP.filter((land) => land.Type === "Land" && land.GEO);
 for (const land of TAP_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
@@ -21,9 +21,9 @@ for (const land of TAP_LAND) {
 	};
 
 	test(
-		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.GEO}`, `@${land.Brand}`, `@${land.Regform}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;

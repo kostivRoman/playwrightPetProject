@@ -26,9 +26,9 @@ for (const land of WHEEL_SCRATCH_LAND) {
 	};
 
 	test(
-		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.Regform}`, `@${land.GEO}`, `@${land.Brand}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;

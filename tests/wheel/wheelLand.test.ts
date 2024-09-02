@@ -23,10 +23,12 @@ for (const land of WHEEL_LAND) {
 	};
 
 
-	test(`${land.GEO},${land.Brand},${land["Affilka Landing URL"]}`,
+	test(
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Type}`, `@${land.Regform}`, `@${land.GEO}`, `@${land.Brand}`],
-		}, async ({ browser }) => {
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
+		},
+		async ({ browser }) => {
 			const codeRule = () => {
 				return land["Affilka Landing URL"].includes("code");
 			};

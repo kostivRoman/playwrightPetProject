@@ -31,9 +31,9 @@ for (const land of AVIATOR_LAND) {
 	};
 
 	test(
-		`${land.Action},${land.GEO},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
 		{
-			tag: ["@aviator", "@land", `@${land.GEO}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
 			const codeRule = () => {
@@ -55,13 +55,14 @@ for (const land of AVIATOR_LAND) {
 			const currentIp = await (await response.json()).ip;
 			testInfo.annotations.push({
 				type: "regFormRules",
-				description: JSON.stringify(regFormRules),
+				description: JSON.stringify(regFormRules)
 			},
 				{
 					type: "currentIp",
 					description: currentIp,
 
-				});
+				},
+			);
 
 			// await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
 			// 	await page.locator("retry-btn").click();
