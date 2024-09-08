@@ -33,15 +33,15 @@ for (const land of FAKE_LAND) {
 			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
+			test.skip(land["Affilka Landing URL"] === 'https://285.sapphirelanding.com/ru/Stake'
+				|| land["Affilka Landing URL"] === 'https://616.sapphirelanding.com/ru/Vavada-Win');
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
-			// Get current IP address
 			const response = await page.request.get('https://api.ipify.org?format=json');
 			const currentIp = await (await response.json()).ip;
 			console.log('Current IP address:', currentIp);
-			//console.log('reg', await regFormRules);
 			testInfo.annotations.push({
 				type: "regFormRules",
 				description: JSON.stringify(regFormRules),

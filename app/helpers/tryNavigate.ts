@@ -3,7 +3,7 @@ import { Page } from "playwright";
 export async function tryNavigate(page: Page, url: string, maxRetries = 5) {
 	for (let attempt = 1; attempt <= maxRetries; attempt++) {
 		try {
-			await page.goto(url, { timeout: 2 * 60000 }); // Try to navigate to the URL
+			await page.goto(url, { timeout: 2 * 60000, waitUntil: 'load' }); // Try to navigate to the URL
 			return; // If successful, return without throwing an error
 		} catch (error) {
 			console.error(`Attempt ${attempt} failed: ${(error as Error)?.message}`);

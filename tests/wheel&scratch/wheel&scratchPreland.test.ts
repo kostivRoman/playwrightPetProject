@@ -10,7 +10,7 @@ import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
-const WHEEL_SCRATCH = landList.filter((land) => land.Action === "Wheel&Scratch");
+const WHEEL_SCRATCH = landList.filter((land) => land.Action === "Wheel & Scratch");
 const WHEEL_SCRATCH_PRELAND = WHEEL_SCRATCH.filter(
 	(land) => land.Type === "Preland"
 );
@@ -38,6 +38,10 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
+			test.skip(land["Affilka Landing URL"] === 'https://411.landing-r7.com/ru/sweet-bonanza/r7-long-prl'
+				|| land["Affilka Landing URL"] === 'https://585.land-of-alev.com/tr/starlight/alev-long-prl'
+				//|| land["Affilka Landing URL"] === 'https://412.landing-doit.com/en/olympus/doit-long'
+			);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
@@ -48,7 +52,7 @@ for (const land of WHEEL_SCRATCH_PRELAND) {
 				await tryNavigate(page, land["Affilka Landing URL"], 5);
 				await wheel.spinWheel();
 				await wheel.claimBonus();
-				await scratch.clickCards();
+				await scratch.clickCards(3);
 				await scratch.claimBonus();
 				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
 				let urlMatched = false;

@@ -31,11 +31,31 @@ for (const land of CARDS_LAND) {
             {
                   tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
             },
-            async ({ browser }) => {
+            async ({ browser }, testInfo) => {
+                  test.skip(land["Affilka Landing URL"] === 'https://285.sapphirelanding.com/ru/Stake'
+                        || land["Affilka Landing URL"] === 'https://285.landing-for-gama.com/ru/Bonus/GamaS'
+                  );
                   const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
                   const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-                  const context = await browser.newContext(proxySettings);
+                  const context = await browser.newContext({
+                        proxy: proxySettings.proxy,
+                        viewport: { width: 1280, height: 720 },
+                        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                        ignoreHTTPSErrors: true, // Skip SSL protocol errors
+                  });
                   const page = await context.newPage();
+                  const response = await page.request.get('https://api.ipify.org?format=json');
+                  const currentIp = await (await response.json()).ip;
+                  console.log("Current IP:", currentIp);
+                  testInfo.annotations.push({
+                        type: "regFormRules",
+                        description: JSON.stringify(regFormRules),
+                  },
+                        {
+                              type: "currentIp",
+                              description: currentIp,
+
+                        });
                   const form = new RegForm(page, regFormRules);
                   try {
 

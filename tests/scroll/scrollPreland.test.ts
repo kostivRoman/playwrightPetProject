@@ -11,7 +11,7 @@ import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
 const FAKE = landList.filter((land) => land.Action === "Scroll");
-const FAKE_LAND = FAKE.filter((land) => land.Type == "Preland");
+const FAKE_LAND = FAKE.filter((land) => land.Type === "Preland");
 for (const land of FAKE_LAND) {
       const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
             server:

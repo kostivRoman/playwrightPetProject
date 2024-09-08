@@ -1,7 +1,9 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
+import { Scratch } from "../../app/components/scratch.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
 import { brandsRules } from "../../testData/brandsFormRules";
@@ -38,22 +40,29 @@ for (const land of FAKE_LAND) {
                   const context = await browser.newContext(proxySettings);
                   const page = await context.newPage();
                   // Get current IP address
-                  const response = await page.request.get('https://api.ipify.org?format=json');
-                  const currentIp = await (await response.json()).ip;
-                  console.log('Current IP address:', currentIp);
-                  //console.log('reg', await regFormRules);
-                  testInfo.annotations.push({
-                        type: "regFormRules",
-                        description: JSON.stringify(regFormRules),
-                  },
-                        {
-                              type: "currentIp",
-                              description: currentIp,
+                  try {
+                        const currentIp = await getCurrentIpAddress(page);
+                        console.log('Current IP address:', currentIp);
+                        testInfo.annotations.push({
+                              type: "regFormRules",
+                              description: JSON.stringify(regFormRules),
+                        },
+                              {
+                                    type: "currentIp",
+                                    description: currentIp,
 
-                        });
+                              });
+                  } catch (error) {
+                        console.error(`Failed to get current IP address: ${(error as Error).message}`);
+                  }
+                  //console.log('reg', await regFormRules);
+
                   const form = new RegForm(page, regFormRules);
+                  const scroll = new Scratch(page);
                   try {
                         await tryNavigate(page, land["Affilka Landing URL"], 3);
+                        await scroll.claimBonus();
+                        await scroll.claimBonus2();
                         await form.fillForm(user);
                         await form.submit();
                         const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];

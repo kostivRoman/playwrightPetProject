@@ -47,6 +47,7 @@ for (const land of BETTING_LAND) {
 			const page = await context.newPage();
 			const response = await page.request.get('https://api.ipify.org?format=json');
 			const currentIp = await (await response.json()).ip;
+			console.log("Current IP:", currentIp);
 			const form = new RegForm(page, regFormRules);
 			const betting = new Betting(page);
 			testInfo.annotations.push({

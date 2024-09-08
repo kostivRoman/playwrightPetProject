@@ -6,7 +6,7 @@ import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 
-const WHEEL = landList.filter((land) => land.Action === "Slots");
+const WHEEL = landList.filter((land) => land.Action === "Wheel");
 const WHEEL_PRELAND = WHEEL.filter((land) => land.Type === "Preland");
 // console.log("DE_TAP_LAND", DE_TAP_LAND.length);
 // let i = 0;
@@ -31,9 +31,19 @@ for (const land of WHEEL_PRELAND) {
 		{
 			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
-		async ({ browser }) => {
+		async ({ browser }, testInfo) => {
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
+			const response = await page.request.get('https://api.ipify.org?format=json');
+			const currentIp = await (await response.json()).ip;
+			console.log('Current IP address:', currentIp);
+			//console.log('reg', await regFormRules);
+			testInfo.annotations.push(
+				{
+					type: "currentIp",
+					description: currentIp,
+
+				});
 			const wheel = new Wheel(page);
 			try {
 				await tryNavigate(page, land["Affilka Landing URL"], 5);

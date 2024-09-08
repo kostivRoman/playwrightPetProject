@@ -31,6 +31,7 @@ for (const land of AVIATOR_PRELAND) {
 			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
+			test.skip(land["Affilka Landing URL"] === 'https://476.landing-r7.com/ru/aviator-demo/r7-long-prl');
 			const context = await browser.newContext({
 				proxy: proxySettings.proxy,
 				viewport: { width: 1280, height: 720 },

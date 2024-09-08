@@ -35,6 +35,7 @@ for (const land of TAP_PRELAND) {
 			const page = await context.newPage();
 			const response = await page.request.get('https://api.ipify.org?format=json');
 			const currentIp = await (await response.json()).ip;
+			console.log('Current IP address:', currentIp);
 			const tap = new Tap(page);
 			testInfo.annotations.push(
 				// 	{

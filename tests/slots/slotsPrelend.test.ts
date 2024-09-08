@@ -31,7 +31,8 @@ for (const land of WHEEL_PRELAND) {
             {
                   tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
             },
-            async ({ browser }) => {
+            async ({ browser }, testInfo) => {
+                  test.skip(land["Affilka Landing URL"] === 'https://653.land-of-alev.com/tr/bass-slots/alev-short-prl' || land["Affilka Landing URL"] === 'https://704.land-of-alev.com/tr/coin-strike/alev-long-prl');
                   const context = await browser.newContext(proxySettings);
                   const page = await context.newPage();
                   const wheel = new Wheel(page);

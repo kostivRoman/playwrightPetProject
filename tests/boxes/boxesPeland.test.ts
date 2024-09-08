@@ -1,6 +1,7 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { Box } from "../../app/components/box.component";
+import { Scratch } from "../../app/components/scratch.component";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
@@ -27,14 +28,31 @@ for (const land of CARDS_LAND) {
             {
                   tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
             },
-            async ({ browser }) => {
+            async ({ browser }, testInfo) => {
                   const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
-                  const context = await browser.newContext(proxySettings);
+                  const context = await browser.newContext({
+                        proxy: proxySettings.proxy,
+                        viewport: { width: 1280, height: 720 },
+                        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                        ignoreHTTPSErrors: true, // Skip SSL protocol errors
+                  });
                   const page = await context.newPage();
                   const box = new Box(page);
+                  const scratch = new Scratch(page);
+                  const response = await page.request.get('https://api.ipify.org?format=json');
+                  const currentIp = await (await response.json()).ip;
+                  console.log("Current IP:", currentIp);
+                  testInfo.annotations.push(
+                        {
+                              type: "currentIp",
+                              description: currentIp,
+
+                        });
                   try {
                         await tryNavigate(page, land["Affilka Landing URL"], 3);
-                        await box.spinBox();
+                        await scratch.clickCards(4);
+                        await page.waitForTimeout(3000);
+                        await box.claimBonus();
 
                         let urlMatched = false;
 

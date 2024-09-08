@@ -304,7 +304,7 @@
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Pink Girl",
-		"Regform": "Short",
+		"Regform": "Long",
 		"GEO": "RU",
 		"Affilka Landing Name": "Land / Wheel / Pink Girl + 1 Spin + City / Long /  RU",
 		"Affilka Landing URL": "https://986.kent-landmark.com/ru/pink-girl/1s-city-long"
@@ -442,7 +442,7 @@
 	{
 		"Brand": "Casibra",
 		"Type": "Land",
-		"Action": "Promo",
+		"Action": "Wheel",
 		"Action2": "Tiger",
 		"Regform": "Short",
 		"GEO": "BR",

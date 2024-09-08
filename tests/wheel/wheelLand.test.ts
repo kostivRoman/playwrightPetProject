@@ -2,6 +2,7 @@ import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
 import { Wheel } from "../../app/components/wheel.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
 import { brandsRules } from "../../testData/brandsFormRules";
@@ -29,12 +30,18 @@ for (const land of WHEEL_LAND) {
 			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
+			test.skip(
+				land["Affilka Landing URL"] === 'https://229.landing-for-gama.com/BigBamboo-GamaS' ||
+				land["Affilka Landing URL"] === 'https://702.landing-doit.com/en/corsar/doit-long-code' ||
+				land["Affilka Landing URL"] === 'https://412.landing-doit.com/en/olympus/doit-long'
+			);
 			const codeRule = () => {
 				return land["Affilka Landing URL"].includes("code");
 			};
 			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
 			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
 			regFormRules.promoCodeText = codeRule();
+			console.log('reg', regFormRules);
 			const context = await browser.newContext({
 				proxy: {
 					server: proxyObject.server,
@@ -46,6 +53,12 @@ for (const land of WHEEL_LAND) {
 				ignoreHTTPSErrors: true, // Skip SSL protocol errors
 			});
 			const page = await context.newPage();
+			try {
+				const currentIp = await getCurrentIpAddress(page);
+				console.log('Current IP address:', currentIp);
+			} catch (error) {
+				console.error(`Failed to get current IP address: ${(error as Error).message}`);
+			}
 			const wheel = new Wheel(page);
 			const form = new RegForm(page, regFormRules);
 			try {

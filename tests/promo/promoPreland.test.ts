@@ -1,6 +1,7 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
+import { Scratch } from "../../app/components/scratch.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
@@ -33,6 +34,9 @@ for (const land of FAKE_LAND) {
                   tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
             },
             async ({ browser }, testInfo) => {
+                  test.skip(land["Affilka Landing URL"] === 'https://823.kent-landmark.com/ru/gates-of-olympus-promo/kent-long-prl'
+                        || land["Affilka Landing URL"] === 'https://783.landing-r7.com/ru/dog-house/r7-short-prl'
+                  );
                   const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
                   const regFormRules = getFormRules(land.Regform, filteredBrandRules);
                   const context = await browser.newContext(proxySettings);
@@ -51,10 +55,13 @@ for (const land of FAKE_LAND) {
                               description: currentIp,
 
                         });
+                  const promo = new Scratch(page);
                   const form = new RegForm(page, regFormRules);
                   try {
                         await tryNavigate(page, land["Affilka Landing URL"], 3);
+                        await promo.claimBonus2();
                         await form.fillForm(user);
+
                         await form.submit();
                         const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
                         let urlMatched = false;

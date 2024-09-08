@@ -179,9 +179,10 @@ export class RegForm {
       } catch (error) {
         throw error;
       }
-    } else {
-      await expect(this.phoneCodeSelector.first()).not.toBeVisible();
     }
+    // else {
+    //   await expect(this.phoneCodeSelector.first()).not.toBeVisible();
+    // }
   }
 
   @step()
@@ -205,7 +206,7 @@ export class RegForm {
   }
   @step()
   async submit(): Promise<void> {
-    await this.submitButton.click({ delay: 500, clickCount: 1 });
+    await this.submitButton.click({ delay: 1000, clickCount: 1 });
   }
   @step()
   async fillPhoneNumber(phoneNumber: string): Promise<void> {

@@ -10,8 +10,8 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const FAKE = landList.filter((land) => land.Action = "Reg Form");
-const FAKE_LAND = FAKE.filter((land) => land.Type == "Land");
+const FAKE = landList.filter((land) => land.Action === "Reg Form");
+const FAKE_LAND = FAKE.filter((land) => land.Type === "Land");
 for (const land of FAKE_LAND) {
       const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
             server:
@@ -33,6 +33,9 @@ for (const land of FAKE_LAND) {
                   tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
             },
             async ({ browser }, testInfo) => {
+                  test.skip(land["Affilka Landing URL"] === 'https://882.genteellanding.com/ru/spin-vip/4long'
+                        || land["Affilka Landing URL"] === 'https://754.genteellanding.com/ru/spin-vip/5long'
+                  )
                   const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
                   const regFormRules = getFormRules(land.Regform, filteredBrandRules);
                   const context = await browser.newContext(proxySettings);

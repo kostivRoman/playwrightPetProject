@@ -7,7 +7,7 @@ export class Box {
       constructor(protected page: Page) {
             this.page = page;
             this.spinButton = this.page.locator("#playBtn");
-            this.winButton = this.page.locator("#winModalBtn");
+            this.winButton = this.page.locator("#winModalBtn").or(this.page.locator("#winModalLink"));
       }
 
       @step()

@@ -19,7 +19,7 @@ export class Aviator {
 	@step()
 	async clickWinButton() {
 		await this.page.waitForTimeout(2000);
-		await this.winButton.click();
+		await this.winButton.click({ delay: 1000 });
 	}
 	@step()
 	async clickPlayButton() {

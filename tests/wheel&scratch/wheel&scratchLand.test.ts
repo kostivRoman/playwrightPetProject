@@ -54,10 +54,10 @@ for (const land of WHEEL_SCRATCH_LAND) {
 					await scratch.claimBonus();
 					// eslint-disable-next-line no-empty
 				} catch (error) { }
-				await scratch.clickCards();
+				await scratch.clickCards(3);
 				await scratch.claimBonus2();
 				try {
-					await scratch.clickCards();
+					await scratch.clickCards(3);
 					// eslint-disable-next-line no-empty
 				}
 				catch (error) {

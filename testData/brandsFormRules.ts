@@ -21,7 +21,7 @@ export const brandsRules: Brand[] = [
 			password: true,
 			country: false,
 			currency: true,
-			phoneNumber: true,
+			phoneNumber: false,
 			promoHidden: false,
 			promoOpen: false,
 			promoCodeText: true,

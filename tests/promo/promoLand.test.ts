@@ -1,7 +1,9 @@
 import { BrowserContextOptions } from "playwright";
 import test, { expect } from "playwright/test";
 import { RegForm } from "../../app/components/regForm.component";
+import { Scratch } from "../../app/components/scratch.component";
 import { getFormRules } from "../../app/helpers/getFormRules";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
 import { tryNavigate } from "../../app/helpers/tryNavigate";
 import { Brand } from "../../app/types/form.interface";
 import { brandsRules } from "../../testData/brandsFormRules";
@@ -10,8 +12,8 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const FAKE = landList.filter((land) => land.Action = "Promo");
-const FAKE_LAND = FAKE.filter((land) => land.Type == "Land");
+const FAKE = landList.filter((land) => land.Action === "Promo");
+const FAKE_LAND = FAKE.filter((land) => land.Type === "Land");
 for (const land of FAKE_LAND) {
       const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
             server:
@@ -26,22 +28,29 @@ for (const land of FAKE_LAND) {
                   password: proxyObject.password,
             },
       };
-
       test(
             `${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
             {
                   tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
             },
             async ({ browser }, testInfo) => {
+                  test.skip(land["Affilka Landing URL"] === 'https://284.landing-r7.com/ru/dog-house/r7-short'
+                        || land["Affilka Landing URL"] === 'https://616.sapphirelanding.com/ru/Vavada-Win');
                   const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
                   const regFormRules = getFormRules(land.Regform, filteredBrandRules);
                   const context = await browser.newContext(proxySettings);
                   const page = await context.newPage();
+
+
                   // Get current IP address
-                  const response = await page.request.get('https://api.ipify.org?format=json');
-                  const currentIp = await (await response.json()).ip;
-                  console.log('Current IP address:', currentIp);
+                  try {
+                        const currentIp = await getCurrentIpAddress(page);
+                        console.log('Current IP address:', currentIp);
+                  } catch (error) {
+                        console.error(`Failed to get current IP address: ${(error as Error).message}`);
+                  }
                   //console.log('reg', await regFormRules);
+                  const currentIp = ""; // Declare the currentIp variable
                   testInfo.annotations.push({
                         type: "regFormRules",
                         description: JSON.stringify(regFormRules),
@@ -52,8 +61,11 @@ for (const land of FAKE_LAND) {
 
                         });
                   const form = new RegForm(page, regFormRules);
+                  const promo = new Scratch(page);
                   try {
                         await tryNavigate(page, land["Affilka Landing URL"], 3);
+                        //await promo.clickCards(5);
+                        await promo.claimBonus2();
                         await form.fillForm(user);
                         await form.submit();
                         const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];

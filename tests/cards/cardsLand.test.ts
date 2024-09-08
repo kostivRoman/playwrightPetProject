@@ -10,7 +10,7 @@ import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
 
-const CARDS = landList.filter((land) => land.Action === "Bonus Modal");
+const CARDS = landList.filter((land) => land.Action === "Cards");
 const CARDS_LAND = CARDS.filter((land) => land.Type == "Land");
 for (const land of CARDS_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {

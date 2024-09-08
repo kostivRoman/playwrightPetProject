@@ -63,7 +63,7 @@ for (const land of AVIATOR_LAND) {
 
 				},
 			);
-
+			console.log("currentIp", currentIp);
 			// await page.addLocatorHandler(page.locator(".form-inner.error-inner"), async () => {
 			// 	await page.locator("retry-btn").click();
 			// });
