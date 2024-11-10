@@ -7,7 +7,7 @@ export class Scratch {
 	constructor(protected page: Page) {
 		//	this.page = page;
 		this.cardList = this.page.locator(".cards");
-		this.bonusButton = this.page.locator("#modalBtnOne");
+		this.bonusButton = this.page.locator("#modalBtnOne").or(this.page.locator("#winModalLink")).or(this.page.locator("#playBtn"));
 	}
 
 	@step()
@@ -16,7 +16,7 @@ export class Scratch {
 	}
 	@step()
 	async clickCards(tryCount: number) {
-		for (let i = 1; i < tryCount; i++) {
+		for (let i = 1; i <= tryCount; i++) {
 			try {
 				await this.page.waitForTimeout(5000);
 				await this.page.locator(`#scratchBtn-${i}`).last().click({ timeout: 10000, force: true });
@@ -28,10 +28,13 @@ export class Scratch {
 	@step()
 	async claimBonus() {
 		const button = this.bonusButton.first();
-		await button.click({ delay: 1000, timeout: 10000 });
+		await button.hover({  timeout: 15000 });
+		await button.click({ timeout: 15000 });
 	}
 	@step()
 	async claimBonus2() {
-		await this.page.locator("#winModalBtn").first().click({ timeout: 10000 });
+		//await this.page.locator("#winModalBtn").first().or(this.page.locator('#playBtn')).hover({ timeout: 15000 });
+		await this.page.locator("#winModalBtn").first().or(this.page.locator('#winModalLink')).click({ timeout: 15000 ,force:true});
+
 	}
 }

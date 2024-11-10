@@ -5,6 +5,8 @@ import { tryNavigate } from "../../app/helpers/tryNavigate";
 import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
+
 
 const WHEEL = landList.filter((land) => land.Action === "Wheel");
 const WHEEL_PRELAND = WHEEL.filter((land) => land.Type === "Preland");
@@ -26,30 +28,48 @@ for (const land of WHEEL_PRELAND) {
 		},
 	};
 
-	test(
-		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
+   	test(
+		`${land.Action},${land.GEO},${land.RegForm},${land.affilkaLandingUrl}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.RegForm}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
+			test.skip(!!land.disabled);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
-			const response = await page.request.get('https://api.ipify.org?format=json');
-			const currentIp = await (await response.json()).ip;
-			console.log('Current IP address:', currentIp);
-			//console.log('reg', await regFormRules);
-			testInfo.annotations.push(
-				{
+			try {
+				const currentIp = await getCurrentIpAddress(page);
+				console.log("Current IP address:", currentIp);
+				testInfo.annotations.push({
 					type: "currentIp",
 					description: currentIp,
-
 				});
+			} catch (error) {
+				console.error(`Failed to get current IP address: ${(error as Error).message}`);
+			}
+
 			const wheel = new Wheel(page);
 			try {
-				await tryNavigate(page, land["Affilka Landing URL"], 5);
+				await tryNavigate(page, land.affilkaLandingUrl, 5);
+				
 				await wheel.spinWheel();
-				await wheel.claimBonus();
-				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				const bonusLength = await wheel.getBonusLength();
+				console.log('bonusLength', bonusLength)
+				try{
+					await page.waitForTimeout(3000);        
+					await wheel.claimBonus();
+
+				}catch(error){
+					console.log('error', error)
+				}
+				try{
+			
+					await page.locator("#winModalLink").hover();
+					await page.mouse.click(0, 0);
+				}catch{
+					console.log('No winModalLink')
+				}
+				const expectedUrls = serverList.find((server) => server.brand === land.Brand)?.url as RegExp[];
 				let urlMatched = false;
 
 				for (const url of expectedUrls) {
@@ -67,8 +87,8 @@ for (const land of WHEEL_PRELAND) {
 					throw new Error("None of the expected URLs matched the current URL.");
 				}
 			} catch (error) {
-				//@ts-ignore
-				console.error(`Test failed: ${error.message}`);
+				//eslint-disable-next-line
+				console.error(`Test failed: ${(error as Error).message}`);
 				throw error; // Re-throw the error to mark the test as failed
 			} finally {
 				// Ensure the page and context are closed

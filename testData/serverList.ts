@@ -34,4 +34,8 @@ export const serverList = [
 		brand: "DOIT",
 		url: [/casino/, /do777play/],
 	},
+	{
+		brand: "Kometa",
+		url: [/kometacasino/],
+	},
 ];

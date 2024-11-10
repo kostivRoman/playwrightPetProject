@@ -4,489 +4,618 @@
 		"Type": "Preland",
 		"Action": "Aviator",
 		"Action2": "Aviator",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Aviator Demo / Long / RU",
-		"Affilka Landing URL": "https://476.landing-r7.com/ru/aviator-demo/r7-long-prl"
+		"affilkaLandingName": "Preland / Aviator Demo / Long / RU",
+		"affilkaLandingUrl": "https://476.landing-r7.com/ru/aviator-demo/r7-long-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Wheel",
+		"Action2": "Brand Promo",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Wheel / Brand Promo / Long / RU",
+		"affilkaLandingUrl": "https://834.kometalanding.com/ru/brand-promo/kometa-long-prl",
+		"disabled": true
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Guess",
+		"Action2": "Shell Game",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Guess / Shell Game / Long / RU",
+		"affilkaLandingUrl": "https://846.kometalanding.com/ru/shell-game/kometa-long-prl-red",
+		"disabled": true
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Plinko",
+		"Action2": "Plinko Brand Colors",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Plinko / Plinko Brand Colors / Long / RU",
+		"affilkaLandingUrl": "https://673.kometalanding.com/ru/plinko/kometa-long-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Wheel",
+		"Action2": "Streamer FRG",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Wheel / Streamer FRG / Long / RU",
+		"affilkaLandingUrl": "https://317.kometalanding.com/ru/streamers/kometa-long-wheel-frg-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Land",
+		"Action": "Reg Form",
+		"Action2": "Zloy Streamer Regform",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Land / Promo / Zloy Streamer Regform / Long / RU",
+		"affilkaLandingUrl": "https://720.kometalanding.com/ru/streamers/promo-kometa-long-zloyn"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Land",
+		"Action": "Wheel",
+		"Action2": "Brand Promo + Active Promo",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Land / Wheel / Brand Promo + Active Promo / Long / RU",
+		"affilkaLandingUrl": "https://944.kometalanding.com/ru/brand-promo/kometa-long-active-promo",
+		"disabled": true
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Promo",
+		"Action2": "Zeus vs Hades",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Promo / Zeus vs Hades / Long / RU",
+		"affilkaLandingUrl": "https://322.kometalanding.com/ru/zeus-vs-hades/kometa-long-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Scroll",
+		"Action2": "Case",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Scroll / Case / Long / RU",
+		"affilkaLandingUrl": "https://696.kometalanding.com/ru/case/kometa-long-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Slots",
+		"Action2": "Sweet Bonanza",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Slot / Sweet Bonanza / Long / RU",
+		"affilkaLandingUrl": "https://805.kometalanding.com/ru/sweet-bonanza-slot/kometa-long-prl",
+		"disabled": true
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Slots",
+		"Action2": "John Hunter and the Tomb of the Scarab Queenl",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Slot / John Hunter and the Tomb of the Scarab Queen / Long / RU",
+		"affilkaLandingUrl": "https://451.kometalanding.com/ru/john-hunter-slot/kometa-long-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Promo",
+		"Action2": "Big Bass Splash",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Promo / Big Bass Splash / Long / RU",
+		"affilkaLandingUrl": "https://988.kometalanding.com/ru/big-bass-splash-promo/kometa-long-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Wheel",
+		"Action2": "Crazy time",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Preland / Wheel / Crazy time / Long / RU",
+		"affilkaLandingUrl": "https://662.kometalanding.com/ru/crazy-time/kometa-long-prl"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Slots",
+		"Action2": "Sweet Bonanza",
+		"RegForm": "Long + Active Promo",
+		"GEO": "RU",
+		"affilkaLandingName": "Land / Slot / Sweet Bonanza / Long + Active Promo (TREPUTIN2) / RU",
+		"affilkaLandingUrl": "https://159.kometalanding.com/ru/sweet-bonanza-slot/kometa-long-active-promo-treputin2",
+		"disabled": true
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Preland",
+		"Action": "Fake",
+		"Action2": "Reg Form",
+		"RegForm": "Long",
+		"GEO": "RU",
+		"affilkaLandingName": "Land / Fake / Reg Form / Long + Active Promo (ZLOYN)",
+		"affilkaLandingUrl": "https://246.kometalanding.com/ru/win/kometa-long-active-promo-zloyn"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Land",
+		"Action": "Regform",
+		"Action2": "Reg Form",
+		"RegForm": "Long + Active Promo",
+		"GEO": "RU",
+		"affilkaLandingName": "Land / Regform / Streamer Mellstroy + Active promo / Long + Active promo / RU",
+		"affilkaLandingUrl": "https://784.kometalanding.com/ru/streamers/kometa-long-active-promo-mellstroy"
+	},
+	{
+		"Brand": "Kometa",
+		"Type": "Land",
+		"Action": "Wheel",
+		"Action2": "Space Girl 2",
+		"RegForm": "Long + Active Promo",
+		"GEO": "RU",
+		"affilkaLandingName": "Land / Wheel 2 / Space Girl 2 / Long + Active Promo / RU",
+		"affilkaLandingUrl": "https://952.kometalanding.com/ru/space-girl-2/kometa-long-wheel2-active-promo",
+		"disabled": true
 	},
 	{
 		"Brand": "R7",
 		"Type": "Preland",
 		"Action": "Aviator",
 		"Action2": "Aviator",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Aviator / Short / RU",
-		"Affilka Landing URL": "https://486.landing-r7.com/ru/aviator/r7-short-prl"
+		"affilkaLandingName": "Preland / Aviator / Short / RU",
+		"affilkaLandingUrl": "https://486.landing-r7.com/ru/aviator/r7-short-prl"
 	},
 	{
 		"Brand": "ALEV",
 		"Type": "Preland",
 		"Action": "Slots",
 		"Action2": "Bass Slops",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "TR",
-		"Affilka Landing Name": "Preland / Slot / Bass Slots / Short / TR",
-		"Affilka Landing URL": "https://653.land-of-alev.com/tr/bass-slots/alev-short-prl"
+		"affilkaLandingName": "Preland / Slot / Bass Slots / Short / TR",
+		"affilkaLandingUrl": "https://653.alev-landmark.com/tr/bass-slots/alev-short-prl"
 	},
 	{
 		"Brand": "GAMA",
 		"Type": "Land",
-		"Action": "Wheel",
+		"Action": "Slots",
 		"Action2": "Big Bamboo",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Land / Wheel / Big Bamboo / Short",
-		"Affilka Landing URL": "https://229.landing-for-gama.com/BigBamboo-GamaS"
+		"affilkaLandingName": "Land / Wheel / Big Bamboo / Short",
+		"affilkaLandingUrl": "https://229.landing-for-gama.com/BigBamboo-GamaS"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Preland",
 		"Action": "Boxes",
 		"Action2": "Big Bamboo Girl",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Boxes / Big Bamboo Girl / Short / RU",
-		"Affilka Landing URL": "https://486.kent-landmark.com/ru/bigbamboo-girl/kent-short-prl"
+		"affilkaLandingName": "Preland / Boxes / Big Bamboo Girl / Short / RU",
+		"affilkaLandingUrl": "https://486.kent-landmark.com/ru/bigbamboo-girl/kent-short-prl"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Land",
 		"Action": "Boxes",
 		"Action2": "Book of Era",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Boxes / Book of Era / Short / RU",
-		"Affilka Landing URL": "https://598.kent-landmark.com/ru/book-of-era/kent-short"
+		"affilkaLandingName": "Land / Boxes / Book of Era / Short / RU",
+		"affilkaLandingUrl": "https://598.kent-landmark.com/ru/book-of-era/kent-short"
 	},
 	{
 		"Brand": "Casibra",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Brand Promo",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "BR",
-		"Affilka Landing Name": "Land / Wheel / BrandPomo /  Short / BR",
-		"Affilka Landing URL": "https://720.landing-casibra.com/br/brand-promo/casibra-short"
+		"affilkaLandingName": "Land / Wheel / BrandPomo / Short / BR",
+		"affilkaLandingUrl": "https://720.landing-casibra.com/br/brand-promo/casibra-short"
 	},
 	{
 		"Brand": "CAT",
 		"Type": "Preland",
 		"Action": "Wheel",
 		"Action2": "Cat Casino",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Wheel / Cat Casino / Long / RU",
-		"Affilka Landing URL": "https://809.landing-for-cat.com/ru/cat-casino/cat-long-prl"
+		"affilkaLandingName": "Preland / Wheel / Cat Casino / Long / RU",
+		"affilkaLandingUrl": "https://809.landing-for-cat.com/ru/cat-casino/cat-long-prl"
 	},
 	{
 		"Brand": "ALEV",
 		"Type": "Preland",
 		"Action": "Slots",
 		"Action2": "Coin strike",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "TR",
-		"Affilka Landing Name": "Preland / Slot & Scratch / Coin Strike  /  Long / TR",
-		"Affilka Landing URL": "https://704.land-of-alev.com/tr/coin-strike/alev-long-prl"
+		"affilkaLandingName": "Preland / Slot & Scratch / Coin Strike / Long / TR",
+		"affilkaLandingUrl": "https://704.alev-landmark.com/tr/coin-strike/alev-long-prl",
+		"disabled": true
 	},
 	{
 		"Brand": "R7",
 		"Type": "Land",
 		"Action": "Scroll",
 		"Action2": "Container",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Scroll / Container / Short / RU",
-		"Affilka Landing URL": "https://784.landing-r7.com/ru/container/r7-short"
+		"affilkaLandingName": "Land / Scroll / Container / Short / RU",
+		"affilkaLandingUrl": "https://784.landing-r7.com/ru/case/r7-short"
 	},
 	{
 		"Brand": "DOIT",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Corsar",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Land / Wheel / Corsar / Long + Code / Multigeo ",
-		"Affilka Landing URL": "https://702.landing-doit.com/corsar/doit-long-code"
+		"affilkaLandingName": "Land / Wheel / Corsar / Long + Code / Multigeo ",
+		"affilkaLandingUrl": "https://702.landing-doit.com/corsar/doit-long-code",
+		"disabled":true
 	},
 	{
 		"Brand": "R7",
 		"Type": "Preland",
 		"Action": "Promo",
 		"Action2": "Dog house",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland /  Promo / The Dog House / Short / RU",
-		"Affilka Landing URL": "https://783.landing-r7.com/ru/dog-house/r7-short-prl"
+		"affilkaLandingName": "Preland / Promo / The Dog House / Short / RU",
+		"affilkaLandingUrl": "https://783.landing-r7.com/ru/dog-house/r7-short-prl"
 	},
 	{
 		"Brand": "R7",
 		"Type": "Land",
 		"Action": "Promo",
 		"Action2": "Dog house",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Dog House Demo / Short / RU",
-		"Affilka Landing URL": "https://284.landing-r7.com/ru/dog-house/r7-short"
+		"affilkaLandingName": "Land / Dog House Demo / Short / RU",
+		"affilkaLandingUrl": "https://284.landing-r7.com/ru/dog-house/r7-short"
 	},
 	{
 		"Brand": "ALEV",
 		"Type": "Land",
 		"Action": "Betting",
 		"Action2": "Fans",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "TR",
-		"Affilka Landing Name": "Land / Betting / Fans / Long / TR",
-		"Affilka Landing URL": "https://511.land-of-alev.com/tr/betting-fans/alev-long"
+		"affilkaLandingName": "Land / Betting / Fans / Long / TR",
+		"affilkaLandingUrl": "https://511.alev-landmark.com/tr/betting-fans/alev-long"
 	},
 	{
 		"Brand": "Casibra",
 		"Type": "Land",
 		"Action": "Betting",
 		"Action2": "Fans",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "BR",
-		"Affilka Landing Name": "Land / Betting / Fans / Short / BR",
-		"Affilka Landing URL": "https://867.landing-casibra.com/br/betting-fans/casibra-short"
+		"affilkaLandingName": "Land / Betting / Fans / Short / BR",
+		"affilkaLandingUrl": "https://867.landing-casibra.com/br/betting-fans/casibra-short"
 	},
 	{
 		"Brand": "DADDY",
 		"Type": "Land",
 		"Action": "Wheel & Scratch",
 		"Action2": "Fire Fruit",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "TR",
-		"Affilka Landing Name": "Land / Wheel & Scratch / Fire Fruit / Long / TR",
-		"Affilka Landing URL": "https://7020.landing-to-daddy.com/tr/FireFruitL-Wheel-scratch-TR"
+		"affilkaLandingName": "Land / Wheel & Scratch / Fire Fruit / Long / TR",
+		"affilkaLandingUrl": "https://7020.landing-to-daddy.com/tr/FireFruitL-Wheel-scratch-TR"
 	},
 	{
 		"Brand": "ALEV",
 		"Type": "Land",
 		"Action": "Betting",
 		"Action2": "Girl",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "TR",
-		"Affilka Landing Name": "Land / Betting / Girl / Long / TR",
-		"Affilka Landing URL": "https://696.land-of-alev.com/tr/betting-girl/alev-long"
+		"affilkaLandingName": "Land / Betting / Girl / Long / TR",
+		"affilkaLandingUrl": "https://696.alev-landmark.com/tr/betting-girl/alev-long"
 	},
 	{
 		"Brand": "R7",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Golden Girl",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Wheel / Golden Girl / Short / RU",
-		"Affilka Landing URL": "https://388.landing-r7.com/ru/golden-girl/r7-short"
+		"affilkaLandingName": "Land / Wheel / Golden Girl / Short / RU",
+		"affilkaLandingUrl": "https://388.landing-r7.com/ru/golden-girl/r7-short"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Preland",
 		"Action": "Slots",
 		"Action2": "Gates of olympus",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Slot /  Gates of Olympus / Short / RU",
-		"Affilka Landing URL": "https://357.kent-landmark.com/ru/gates-of-olympus-slot/kent-short-prl"
+		"affilkaLandingName": "Preland / Slot / Gates of Olympus / Short / RU",
+		"affilkaLandingUrl": "https://357.kent-landmark.com/ru/gates-of-olympus-slot/kent-short-prl"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Preland",
 		"Action": "Promo",
 		"Action2": "Gates of olympus",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland  / Promo /  Gates of Olympus / Long / RU",
-		"Affilka Landing URL": "https://823.kent-landmark.com/ru/gates-of-olympus-promo/kent-long-prl"
+		"affilkaLandingName": "Preland / Promo / Gates of Olympus / Long / RU",
+		"affilkaLandingUrl": "https://823.kent-landmark.com/ru/gates-of-olympus-promo/kent-long-prl"
 	},
 	{
 		"Brand": "ALEV",
 		"Type": "Land",
 		"Action": "Tap",
 		"Action2": "Hamster",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "TR",
-		"Affilka Landing Name": "Land / Tap / Hamster / Short / TR",
-		"Affilka Landing URL": "https://809.land-of-alev.com/tr/hamster/alev-short"
+		"affilkaLandingName": "Land / Tap / Hamster / Short / TR",
+		"affilkaLandingUrl": "https://809.alev-landmark.com/tr/hamster/alev-short"
 	},
 	{
 		"Brand": "DADDY",
 		"Type": "Preland",
 		"Action": "Wheel",
 		"Action2": "Indiana",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "TR",
-		"Affilka Landing Name": "Preland / Wheel / Indiana / Short / TR",
-		"Affilka Landing URL": "https://6942.landing-to-daddy.com/tr/indiana/daddy-short-prl-tr"
+		"affilkaLandingName": "Preland / Wheel / Indiana / Short / TR",
+		"affilkaLandingUrl": "https://6942.landing-to-daddy.com/tr/indiana/daddy-short-prl-tr"
 	},
 	{
 		"Brand": "DOIT",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "mr. Beast",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Land / Wheel / mr. Beast / Short / MultiGeo",
-		"Affilka Landing URL": "https://388.landing-doit.com/mr-beast/doit-short"
+		"affilkaLandingName": "Land / Wheel / mr. Beast / Short / MultiGeo",
+		"affilkaLandingUrl": "https://388.landing-doit.com/mr-beast/doit-short"
 	},
 	{
 		"Brand": "DOIT",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Man",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Land /  Wheel / Man / Short / Multigeo",
-		"Affilka Landing URL": "https://616.landing-doit.com/man/doit-short"
+		"affilkaLandingName": "Land / Wheel / Man / Short / Multigeo",
+		"affilkaLandingUrl": "https://616.landing-doit.com/man/doit-short"
 	},
 	{
 		"Brand": "GAMA",
 		"Type": "Preland",
 		"Action": "Wheel",
 		"Action2": "Multislot",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Preland / Wheel / Multislot / Short",
-		"Affilka Landing URL": "https://322.landing-for-gama.com/multislot-gama-short-prl"
+		"affilkaLandingName": "Preland / Wheel / Multislot / Short",
+		"affilkaLandingUrl": "https://322.landing-for-gama.com/multislot-gama-short-prl"
 	},
 	{
 		"Brand": "DOIT",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Pink Girl",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Land / Wheel / Pink Girl / Short ",
-		"Affilka Landing URL": "https://229.landing-doit.com/pink-girl/doit-short"
+		"affilkaLandingName": "Land / Wheel / Pink Girl / Short ",
+		"affilkaLandingUrl": "https://229.landing-doit.com/pink-girl/doit-short"
 	},
 	{
 		"Brand": "DOIT",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Olympus",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Land / Wheel / Olympus / Long",
-		"Affilka Landing URL": "https://412.landing-doit.com/olympus/doit-long"
+		"affilkaLandingName": "Land / Wheel / Olympus / Long",
+		"affilkaLandingUrl": "https://412.landing-doit.com/olympus/doit-long"
 	},
 	{
 		"Brand": "GAMA",
 		"Type": "Land",
 		"Action": "Bonus Modal",
 		"Action2": "",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Bonus Modal / 100% + 100FS / Short / RU",
-		"Affilka Landing URL": "https://285.landing-for-gama.com/ru/Bonus/GamaS"
+		"affilkaLandingName": "Land / Bonus Modal / 100% + 100FS / Short / RU",
+		"affilkaLandingUrl": "https://285.landing-for-gama.com/ru/Bonus/GamaS"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Preland",
 		"Action": "Wheel",
 		"Action2": "Pink Girl",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Wheel / Pink Girl / Short / RU",
-		"Affilka Landing URL": "https://861.kent-landmark.com/ru/PinkGirlS-PL"
+		"affilkaLandingName": "Preland / Wheel / Pink Girl / Short / RU",
+		"affilkaLandingUrl": "https://861.kent-landmark.com/ru/PinkGirlS-PL"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Land",
 		"Action": "Promo",
 		"Action2": "Streamer",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Promo / TREPUTIN / Short / RU",
-		"Affilka Landing URL": "https://801.kent-landmark.com/ru/KentPromoS-TREPUTIN"
+		"affilkaLandingName": "Land / Promo / TREPUTIN / Short / RU",
+		"affilkaLandingUrl": "https://801.kent-landmark.com/ru/KentPromoS-TREPUTIN"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Pink Girl",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Wheel / Pink Girl + 1 Spin + City / Long /  RU",
-		"Affilka Landing URL": "https://986.kent-landmark.com/ru/pink-girl/1s-city-long"
+		"affilkaLandingName": "Land / Wheel / Pink Girl + 1 Spin + City / Long / RU",
+		"affilkaLandingUrl": "https://986.kent-landmark.com/ru/pink-girl/1s-city-long"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Land",
 		"Action": "Wheel & Scratch",
 		"Action2": "Pink Girl",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Wheel & Scratch / Pink Girl / Long /  RU",
-		"Affilka Landing URL": "https://567.kent-landmark.com/ru/pink-girl/1s-scratch-long"
+		"affilkaLandingName": "Land / Wheel & Scratch / Pink Girl / Long / RU",
+		"affilkaLandingUrl": "https://567.kent-landmark.com/ru/pink-girl/1s-scratch-long"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Land",
 		"Action": "Aviator",
 		"Action2": "Plane",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Plane / Long / RU",
-		"Affilka Landing URL": "https://834.kent-landmark.com/ru/plane/kent-long"
-	},
-	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "Fake",
-		"Action2": "",
-		"Regform": "Short",
-		"GEO": "RU",
-		"Affilka Landing Name": "Land / Fake / Stake / Short / RU",
-		"Affilka Landing URL": "https://285.sapphirelanding.com/ru/Stake"
-	},
-	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "Fake",
-		"Action2": "",
-		"Regform": "Short",
-		"GEO": "RU",
-		"Affilka Landing Name": "Land / Fake / Vavada-Win / Short / RU",
-		"Affilka Landing URL": "https://616.sapphirelanding.com/ru/Vavada-Win"
+		"affilkaLandingName": "Land / Plane / Long / RU",
+		"affilkaLandingUrl": "https://834.kent-landmark.com/ru/plane/kent-long"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Sugar Daddy",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Wheel / Sugar Daddy / Short  + Code / RU",
-		"Affilka Landing URL": "https://455.kent-landmark.com/ru/sugar-daddy/kent-short-code"
+		"affilkaLandingName": "Land / Wheel / Sugar Daddy / Short + Code / RU",
+		"affilkaLandingUrl": "https://455.kent-landmark.com/ru/sugar-daddy/kent-short-code"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Preland",
 		"Action": "Wheel",
 		"Action2": "Streamer",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Wheel / Streamer / KENT \"ZLOYN\" / Long + Code / RU",
-		"Affilka Landing URL": "https://674.kent-landmark.com/ru/streamers/kent-long-zloyn-prl"
-	},
-	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "Reg Form",
-		"Action2": "Spin Vip",
-		"Regform": "Long",
-		"GEO": "RU",
-		"Affilka Landing Name": "Land / SpinVip / Long / RU",
-		"Affilka Landing URL": "https://882.genteellanding.com/ru/spin-vip/4long"
-	},
-	{
-		"Brand": "Neutral",
-		"Type": "Land",
-		"Action": "Reg Form",
-		"Action2": "Spin Vip",
-		"Regform": "Short",
-		"GEO": "RU",
-		"Affilka Landing Name": "Land / SpinVip2 / Short + Code",
-		"Affilka Landing URL": "https://754.genteellanding.com/ru/spin-vip/5long"
+		"affilkaLandingName": "Preland / Wheel / Streamer / KENT \"ZLOYN\" / Long + Code / RU",
+		"affilkaLandingUrl": "https://674.kent-landmark.com/ru/streamers/kent-long-zloyn-prl"
 	},
 	{
 		"Brand": "R7",
 		"Type": "Preland",
 		"Action": "Wheel & Scratch",
 		"Action2": "Sweet Bonanza",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Wheel & Scratch / Sweet Bonanza / Long / RU",
-		"Affilka Landing URL": "https://411.landing-r7.com/ru/sweet-bonanza/r7-long-prl"
+		"affilkaLandingName": "Preland / Wheel & Scratch / Sweet Bonanza / Long / RU",
+		"affilkaLandingUrl": "https://411.landing-r7.com/ru/sweet-bonanza/r7-long-prl"
 	},
 	{
 		"Brand": "R7",
 		"Type": "Land",
 		"Action": "Fake",
 		"Action2": "Streamer",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Fake + Bonus / Long + Code / My Bonuses / RU",
-		"Affilka Landing URL": "https://254.landing-r7.com/ru/win/r7-long-code-banner-logo-zubarev-bonus"
+		"affilkaLandingName": "Land / Fake + Bonus / Long + Code / My Bonuses / RU",
+		"affilkaLandingUrl": "https://254.landing-r7.com/ru/win/r7-long-code-banner-logo-zubarev-bonus"
 	},
 	{
 		"Brand": "R7",
 		"Type": "Land",
-		"Action": "Promo",
+		"Action": "Wheel",
 		"Action2": "Streamer",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Streamer FRG / Long / RU",
-		"Affilka Landing URL": "https://777.landing-r7.com/ru/streamers/welcome-r7-long-frg"
+		"affilkaLandingName": "Land / Streamer FRG / Long / RU",
+		"affilkaLandingUrl": "https://777.landing-r7.com/ru/streamers/welcome-r7-long-frg"
 	},
 	{
 		"Brand": "KENT",
 		"Type": "Land",
-		"Action": "Promo",
+		"Action": "Reg Form",
 		"Action2": "Streamer",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Promo / Madmax Streamer Regform / Long / RU",
-		"Affilka Landing URL": "https://169.kent-landmark.com/ru/streamers/promo-kent-long-madmax"
+		"affilkaLandingName": "Land / Promo / Madmax Streamer RegForm / Long / RU",
+		"affilkaLandingUrl": "https://169.kent-landmark.com/ru/streamers/promo-kent-long-madmax"
 	},
 	{
 		"Brand": "ALEV",
 		"Type": "Preland",
 		"Action": "Wheel & Scratch",
 		"Action2": "Starlight princes",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "TR",
-		"Affilka Landing Name": "Preland / Wheel & Scratch / Starlight Princess / Long / TR",
-		"Affilka Landing URL": "https://585.land-of-alev.com/tr/starlight/alev-long-prl"
+		"affilkaLandingName": "Preland / Wheel & Scratch / Starlight Princess / Long / TR",
+		"affilkaLandingUrl": "https://585.alev-landmark.com/tr/starlight/alev-long-prl",
+		"disabled": true
 	},
 	{
 		"Brand": "Casibra",
 		"Type": "Land",
 		"Action": "Wheel",
 		"Action2": "Tiger",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "BR",
-		"Affilka Landing Name": "Land / Wheel / Tiger / Short / BR",
-		"Affilka Landing URL": "https://388.landing-casibra.com/br/tiger/casibra-short"
+		"affilkaLandingName": "Land / Wheel / Tiger / Short / BR",
+		"affilkaLandingUrl": "https://388.landing-casibra.com/br/tiger/casibra-short"
 	},
 	{
 		"Brand": "DOIT",
 		"Type": "Land",
 		"Action": "Promo",
 		"Action2": "Zeus-vs-Hades",
-		"Regform": "Short",
+		"RegForm": "Short",
 		"GEO": "Multi",
-		"Affilka Landing Name": "Land / Promo / Zeus-vs-Hades / Doit / Short",
-		"Affilka Landing URL": "https://794.landing-doit.com/zeus-vs-hades/doit-short"
+		"affilkaLandingName": "Land / Promo / Zeus-vs-Hades / Doit / Short",
+		"affilkaLandingUrl": "https://794.landing-doit.com/zeus-vs-hades/doit-short"
 	},
 	{
 		"Brand": "R7",
 		"Type": "Land",
-		"Action": "Promo",
+		"Action": "Reg Form",
 		"Action2": "Streamer",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Promo / General Streamer Regform / Long / RU",
-		"Affilka Landing URL": "https://627.landing-r7.com/ru/streamers/promo-r7-long-general"
+		"affilkaLandingName": "Land / Promo / General Streamer RegForm / Long / RU",
+		"affilkaLandingUrl": "https://627.landing-r7.com/ru/streamers/promo-r7-long-general"
 	},
 	{
 		"Brand": "Kometa",
 		"Type": "Land",
-		"Action": "Promo",
+		"Action": "Reg Form",
 		"Action2": "Streamer",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Land / Promo / Madmax Streamer Regform / Long / RU",
-		"Affilka Landing URL": "https://878.kometalanding.com/ru/streamers/promo-kometa-long-madmax"
+		"affilkaLandingName": "Land / Promo / Madmax Streamer RegForm / Long / RU",
+		"affilkaLandingUrl": "https://878.kometalanding.com/ru/streamers/promo-kometa-long-madmax"
 	},
 	{
 		"Brand": "R7",
 		"Type": "Preland",
 		"Action": "Slots",
 		"Action2": "Zeus-vs-Hades",
-		"Regform": "Long",
+		"RegForm": "Long",
 		"GEO": "RU",
-		"Affilka Landing Name": "Preland / Slot / Hades / Long / RU",
-		"Affilka Landing URL": "https://403.landing-r7.com/ru/hades-slots/r7-long-prl"
+		"affilkaLandingName": "Preland / Slot / Hades / Long / RU",
+		"affilkaLandingUrl": "https://403.landing-r7.com/ru/hades-slots/r7-long-prl"
 	}
 ]

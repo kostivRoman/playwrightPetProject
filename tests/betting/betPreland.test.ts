@@ -9,6 +9,7 @@ import { brandsRules } from "../../testData/brandsFormRules";
 import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
 
 const BET = landList.filter((land) => land.Action === "Betting");
 const BET_PRELAND = BET.filter((land) => land.Type === "Preland");
@@ -28,23 +29,41 @@ for (const land of BET_PRELAND) {
 	};
 
 	test(
-		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.RegForm},${land.affilkaLandingUrl}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.RegForm}`, `@${land.Type}`],
 		},
-		async ({ browser }) => {
+		async ({ browser }, testInfo) => {
+			test.skip(!!land.disabled);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
-			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
+			const regFormRules = getFormRules(land.RegForm, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const form = new RegForm(page, regFormRules);
 			const betting = new Betting(page);
 			try {
-				await tryNavigate(page, land["Affilka Landing URL"], 5);
+				const currentIp = await getCurrentIpAddress(page);
+				console.log("Current IP address:", currentIp);
+				testInfo.annotations.push(
+					{
+						type: "regFormRules",
+						description: JSON.stringify(regFormRules),
+					},
+					{
+						type: "currentIp",
+						description: currentIp,
+					},
+				);
+			} catch (error) {
+				console.error(`Failed to get current IP address: ${(error as Error).message}`);
+			}
+
+			try {
+				await tryNavigate(page, land.affilkaLandingUrl, 5);
 				await betting.clickMainButton();
 
 				await form.submit();
-				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				const expectedUrls = serverList.find((server) => server.brand === land.Brand)?.url as RegExp[];
 				let urlMatched = false;
 
 				for (const url of expectedUrls) {
@@ -62,15 +81,14 @@ for (const land of BET_PRELAND) {
 					throw new Error("None of the expected URLs matched the current URL.");
 				}
 			} catch (error) {
-				//@ts-ignore
-				console.error(`Test failed: ${error.message}`);
+				//eslint-disable-next-line
+				console.error(`Test failed: ${(error as Error).message}`);
 				throw error; // Re-throw the error to mark the test as failed
 			} finally {
 				// Ensure the page and context are closed
 				await page.close();
 				await context.close();
 			}
-
 		},
 	);
 }

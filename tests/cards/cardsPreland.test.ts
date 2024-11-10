@@ -5,11 +5,12 @@ import { tryNavigate } from "../../app/helpers/tryNavigate";
 import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
 
 const CARDS = landList.filter((land) => land.Action === "Cards");
-const CARDS_LAND = CARDS.filter((land) => land.Type == "Preland");
+const CARDS_LAND = CARDS.filter((land) => land.Type === "Preland");
 for (const land of CARDS_LAND) {
-	const proxyObject = proxyList.find((proxy) => proxy.region == land.GEO) || {
+	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
 		server:
 			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
 		username: "geonode_Zr3aVjywHC",
@@ -23,20 +24,32 @@ for (const land of CARDS_LAND) {
 		},
 	};
 	test(
-		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.RegForm},${land.affilkaLandingUrl}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.RegForm}`, `@${land.Type}`],
 		},
-		async ({ browser }) => {
-			const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+		async ({ browser }, testInfo) => {
+			test.skip(!!land.disabled);
+			const expectedUrls = serverList.find((server) => server.brand === land.Brand)?.url as RegExp[];
 			const context = await browser.newContext(proxySettings);
 			const page = await context.newPage();
 			const cards = new Cards(page);
 			try {
-				await tryNavigate(page, land["Affilka Landing URL"], 3);
+				const currentIp = await getCurrentIpAddress(page);
+				console.log("Current IP address:", currentIp);
+				testInfo.annotations.push({
+					type: "currentIp",
+					description: currentIp,
+				});
+			} catch (error) {
+				console.error(`Failed to get current IP address: ${(error as Error).message}`);
+			}
+
+			try {
+				await tryNavigate(page, land.affilkaLandingUrl, 3);
 				await cards.clickCards();
 				try {
-					await cards.clickCards()
+					await cards.clickCards();
 				} catch (e) {
 					//console.log(e)
 				}
@@ -58,8 +71,8 @@ for (const land of CARDS_LAND) {
 					throw new Error("None of the expected URLs matched the current URL.");
 				}
 			} catch (error) {
-				//@ts-ignore
-				console.error(`Test failed: ${error.message}`);
+				//eslint-disable-next-line
+				console.error(`Test failed: ${(error as Error).message}`);
 				throw error; // Re-throw the error to mark the test as failed
 			} finally {
 				// Ensure the page and context are closed

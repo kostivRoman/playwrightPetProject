@@ -7,9 +7,9 @@ export class Aviator {
 	private playButton: Locator;
 	constructor(protected page: Page) {
 		//this.page = page;
-		this.mainButton = this.page.locator('#lastBtn').or(this.page.locator('#playBtn'));
-		this.winButton = this.page.locator('#winModalLink').or(this.page.locator('#winModalBtn'));
-		this.playButton = this.page.locator('#playBtn');
+		this.mainButton = this.page.locator("#lastBtn").or(this.page.locator("#playBtn"));
+		this.winButton = this.page.locator("#winModalLink").or(this.page.locator("#winModalBtn"));
+		this.playButton = this.page.locator("#playBtn");
 	}
 	@step()
 	async clickMainButton() {

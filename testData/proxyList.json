@@ -1,39 +1,39 @@
 [
 	{
 		"region": "TR",
-		"server": "http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9001",
-		"username": "geonode_Zr3aVjywHC",
-		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+		"server": "http://206.168.91.227:59100",
+		"username": "itotherservices",
+		"password": "QNjbD29w7m"
 	},
 	{
 		"region": "BR",
-		"server": "http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:10003",
-		"username": "geonode_Zr3aVjywHC",
-		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+		"server": "http://200.234.176.60:59100",
+		"username": "itotherservices",
+		"password": "QNjbD29w7m"
 	},
 	{
 		"region": "DE",
-		"server": "http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:10005",
-		"username": "geonode_Zr3aVjywHC",
-		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+		"server": "http://77.90.178.77:59100",
+		"username": "itotherservices",
+		"password": "QNjbD29w7m"
 	},
 	{
 		"region": "KZ",
-		"server": "http://geonode_Zr3aVjywHC-country-kz:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9000",
-		"username": "geonode_Zr3aVjywHC-country-kz",
-		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+		"server": "http://46.8.31.90:9000",
+		"username": "itotherservices",
+		"password": "QNjbD29w7m"
 	},
 	{
 		"region": "PT",
-		"server": "http://geonode_Zr3aVjywHC-country-pt:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:10004",
-		"username": "geonode_Zr3aVjywHC",
-		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+		"server": "http://195.238.248.209:59100",
+		"username": "itotherservices",
+		"password": "QNjbD29w7m"
 	},
 	{
 		"region": "RU",
-		"server": "http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:10002",
-		"username": "geonode_Zr3aVjywHC",
-		"password": "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd"
+		"server": "http://149.126.219.250:59100",
+		"username": "itotherservices",
+		"password": "QNjbD29w7m"
 	},
 	{
 		"region": "UZ",

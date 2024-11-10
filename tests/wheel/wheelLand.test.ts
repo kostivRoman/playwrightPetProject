@@ -23,25 +23,20 @@ for (const land of WHEEL_LAND) {
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 
-
 	test(
-		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.RegForm},${land.affilkaLandingUrl}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.RegForm}`, `@${land.Type}`],
 		},
 		async ({ browser }) => {
-			test.skip(
-				land["Affilka Landing URL"] === 'https://229.landing-for-gama.com/BigBamboo-GamaS' ||
-				land["Affilka Landing URL"] === 'https://702.landing-doit.com/en/corsar/doit-long-code' ||
-				land["Affilka Landing URL"] === 'https://412.landing-doit.com/en/olympus/doit-long'
-			);
+			test.skip(!!land.disabled);
 			const codeRule = () => {
-				return land["Affilka Landing URL"].includes("code");
+				return land.affilkaLandingUrl.includes("code");
 			};
-			const filteredBrandRules = brandsRules.find((brand) => brand.name == land.Brand) as Brand;
-			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-			regFormRules.promoCodeText = codeRule();
-			console.log('reg', regFormRules);
+			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
+			const regFormRules = getFormRules(land.RegForm, filteredBrandRules);
+			//regFormRules.promoCodeText = codeRule();
+			console.log("reg", regFormRules);
 			const context = await browser.newContext({
 				proxy: {
 					server: proxyObject.server,
@@ -55,21 +50,30 @@ for (const land of WHEEL_LAND) {
 			const page = await context.newPage();
 			try {
 				const currentIp = await getCurrentIpAddress(page);
-				console.log('Current IP address:', currentIp);
+				console.log("Current IP address:", currentIp);
 			} catch (error) {
 				console.error(`Failed to get current IP address: ${(error as Error).message}`);
 			}
 			const wheel = new Wheel(page);
 			const form = new RegForm(page, regFormRules);
 			try {
-				await tryNavigate(page, land["Affilka Landing URL"], 5);
+				await tryNavigate(page, land.affilkaLandingUrl, 5);
+				
+			await page.waitForTimeout(300000);
 				await wheel.spinWheel();
-				await wheel.claimBonus();
+				const bonusLength = await wheel.getBonusLength();
+				if (bonusLength > 1) {
+					await page.getByRole("button", { name:"Получить бонус" }).click();
+				}else{
+					await wheel.claimBonus();
+				}
+				
+				await page.waitForTimeout(3000);
 				await form.fillForm(user);
 				await form.submit();
 				await page.waitForTimeout(10000);
 
-				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				const expectedUrls = serverList.find((server) => server.brand === land.Brand)?.url as RegExp[];
 				let urlMatched = false;
 
 				for (const url of expectedUrls) {
@@ -87,13 +91,14 @@ for (const land of WHEEL_LAND) {
 					throw new Error("None of the expected URLs matched the current URL.");
 				}
 			} catch (error) {
-				//@ts-ignore
-				console.error(`Test failed: ${error.message}`);
+				//eslint-disable-next-line
+				console.error(`Test failed: ${(error as Error).message}`);
 				throw error; // Re-throw the error to mark the test as failed
 			} finally {
 				// Ensure the page and context are closed
 				await page.close();
 				await context.close();
 			}
-		});
+		},
+	);
 }

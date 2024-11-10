@@ -4,10 +4,11 @@ import { tryNavigate } from "../../app/helpers/tryNavigate";
 import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
-
+import { tap } from "node:test/reporters";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
 
 const TAP = landList.filter((land) => land.Action === "Tap");
-const TAP_PRELAND = TAP.filter((land) => land.Type == "Preland");
+const TAP_PRELAND = TAP.filter((land) => land.Type === "Preland");
 for (const land of TAP_PRELAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
 		region: "DE",
@@ -17,11 +18,12 @@ for (const land of TAP_PRELAND) {
 		password: "bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd",
 	};
 	test(
-		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.RegForm},${land.affilkaLandingUrl}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.RegForm}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
+			test.skip(!!land.disabled);
 			const context = await browser.newContext({
 				proxy: {
 					server: proxyObject.server,
@@ -33,25 +35,23 @@ for (const land of TAP_PRELAND) {
 				ignoreHTTPSErrors: true, // Skip SSL protocol errors
 			});
 			const page = await context.newPage();
-			const response = await page.request.get('https://api.ipify.org?format=json');
-			const currentIp = await (await response.json()).ip;
-			console.log('Current IP address:', currentIp);
 			const tap = new Tap(page);
-			testInfo.annotations.push(
-				// 	{
-				// 	type: "regFormRules",
-				// 	description: JSON.stringify(regFormRules),
-				// },
-				{
+			try {
+				const currentIp = await getCurrentIpAddress(page);
+				console.log("Current IP address:", currentIp);
+				testInfo.annotations.push({
 					type: "currentIp",
 					description: currentIp,
-
 				});
+			} catch (error) {
+				console.error(`Failed to get current IP address: ${(error as Error).message}`);
+			}
+
 			try {
-				await tryNavigate(page, land["Affilka Landing URL"], 3);
+				await tryNavigate(page, land.affilkaLandingUrl, 3);
 				await tap.tap();
 				await tap.clickBonusButton();
-				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				const expectedUrls = serverList.find((server) => server.brand === land.Brand)?.url as RegExp[];
 				let urlMatched = false;
 
 				for (const url of expectedUrls) {
@@ -69,8 +69,8 @@ for (const land of TAP_PRELAND) {
 					throw new Error("None of the expected URLs matched the current URL.");
 				}
 			} catch (error) {
-				//@ts-ignore
-				console.error(`Test failed: ${error.message}`);
+				//eslint-disable-next-line
+				console.error(`Test failed: ${(error as Error).message}`);
 				throw error; // Re-throw the error to mark the test as failed
 			} finally {
 				// Ensure the page and context are closed

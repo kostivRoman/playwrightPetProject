@@ -1,24 +1,36 @@
 {
 	"main": "index.js",
-	"dependencies": {
-		"playwright": "^1.45.0",
-		"type": "^2.7.3"
-	},
-	"devDependencies": {
-		"@playwright/test": "^1.45.0",
-		"@types/node": "^20.14.9",
-		"@typescript-eslint/eslint-plugin": "^7.13.0",
-		"eslint": "^8.30.0",
-		"eslint-config-prettier": "^9.0.0",
-		"prettier": "^3.3.2"
-	},
 	"scripts": {
-		"test": "npx playwright test",
+		"audit:report": "npm audit --audit-level critical --json | npm-audit-html --output reports/audit.html",
+		"check:licenses": "license-checker --json > reports/licenses.json",
+		"check:package:json": "sort-package-json --check",
 		"format": "prettier  --write --ignore-path=.eslintignore --cache=node_modules/.cache/prettier/ --cache-strategy=content .",
 		"format:check": "prettier --check --ignore-path=.eslintignore --cache=node_modules/.cache/prettier/ --cache-strategy=content .",
 		"lint": "eslint --cache --cache-location=node_modules/.cache/eslint/ --cache-strategy=content .",
 		"lint:fix": "eslint --fix --cache --cache-location=node_modules/.cache/eslint/ --cache-strategy=content .",
 		"lint:report": "npm run lint -- -f node_modules/eslint-html-reporter/reporter.js -o reports/eslint.html",
-		"optimize:svg": "find ./assets -name '*.svg' -print0 | xargs -0 -P16 -L20 npx svgo"
+		"optimize:svg": "find ./assets -name '*.svg' -print0 | xargs -0 -P16 -L20 npx svgo",
+		"sort:package:json": "sort-package-json",
+		"test": "npx playwright test"
+	},
+	"dependencies": {
+		"playwright": "^1.45.0",
+		"type": "^2.7.3"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.48.2",
+		"@types/node": "^20.14.9",
+		"@typescript-eslint/eslint-plugin": "^7.13.0",
+		"eslint": "^8.30.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-html-reporter": "^0.7.4",
+		"license-checker": "^25.0.1",
+		"npm-audit-html": "^1.2.0",
+		"prettier": "^3.3.2",
+		"sort-package-json": "^2.5.1"
+	},
+	"engines": {
+		"node": "^20",
+		"npm": "^10"
 	}
 }

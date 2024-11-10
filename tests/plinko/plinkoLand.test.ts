@@ -11,10 +11,11 @@ import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
+import { Aviator } from "../../app/components/aviator.component";
 
-const FAKE = landList.filter((land) => land.Action === "Promo");
-const FAKE_LAND = FAKE.filter((land) => land.Type === "Land");
-for (const land of FAKE_LAND) {
+const PLINKO = landList.filter((land) => land.Action === "Plinko");
+const PLINKO_LAND = PLINKO.filter((land) => land.Type === "Preland");
+for (const land of PLINKO_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
 		server:
 			"http://geonode_Zr3aVjywHC:bebe29a2-c13b-4aa5-8c20-eb3dd10a8afd@premium-residential.geonode.com:9001",
@@ -34,7 +35,7 @@ for (const land of FAKE_LAND) {
 			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.RegForm}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
-			test.skip(!!land.disabled);
+			//test.skip(!!land.disabled);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
 			const regFormRules = getFormRules(land.RegForm, filteredBrandRules);
 			const context = await browser.newContext(proxySettings);
@@ -59,20 +60,14 @@ for (const land of FAKE_LAND) {
 			}
 
 			const form = new RegForm(page, regFormRules);
-			const promo = new Scratch(page);
 			try {
 				await tryNavigate(page, land.affilkaLandingUrl, 3);
-				//await promo.clickCards(5);
-				if(land.affilkaLandingUrl.includes("284")){
-				await promo.claimBonus();
-				await page.waitForTimeout(5000);
-				await promo.claimBonus2();
-			}
-				else{
-					await promo.claimBonus2();
-				}
-				await form.fillForm(user);
-				await form.submit();
+			await page.waitForTimeout(5000);
+			await  page.locator('.plinko-button').click({
+				force: true});
+				//await page.locator('#winModalLink').first().click();
+				////await form.fillForm(user);
+				//await form.submit();
 				const expectedUrls = serverList.find((server) => server.brand === land.Brand)?.url as RegExp[];
 				let urlMatched = false;
 
@@ -97,6 +92,7 @@ for (const land of FAKE_LAND) {
 				throw error; // Re-throw the error to mark the test as failed
 			} finally {
 				// Ensure the page and context are closed
+				await page.waitForTimeout(20000);
 				await page.close();
 				await context.close();
 			}

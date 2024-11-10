@@ -10,8 +10,11 @@ import landList from "../../testData/landList.data.json";
 import proxyList from "../../testData/proxyList.json";
 import { serverList } from "../../testData/serverList";
 import { user } from "../../testData/user";
+import { getCurrentIpAddress } from "../../app/helpers/getIp";
 
-const BETTING = landList.filter((land) => land.Action === "Betting");
+const BETTING = landList
+	.filter((land) => !land.disabled)
+	.filter((land) => land.Action === "Betting");
 const BETTING_LAND = BETTING.filter((land) => land.Type === "Land" && land.GEO);
 for (const land of BETTING_LAND) {
 	const proxyObject = proxyList.find((proxy) => proxy.region === land.GEO) || {
@@ -29,43 +32,49 @@ for (const land of BETTING_LAND) {
 		},
 	};
 	test(
-		`${land.Action},${land.GEO},${land.Regform},${land["Affilka Landing URL"]}`,
+		`${land.Action},${land.GEO},${land.RegForm},${land.affilkaLandingUrl}`,
 		{
-			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.Regform}`, `@${land.Type}`],
+			tag: [`@${land.Action}`, `@${land.Brand}`, `@${land.GEO}`, `@${land.RegForm}`, `@${land.Type}`],
 		},
 		async ({ browser }, testInfo) => {
+			test.skip(!!land.disabled);
 			const filteredBrandRules = brandsRules.find((brand) => brand.name === land.Brand) as Brand;
-			const regFormRules = getFormRules(land.Regform, filteredBrandRules);
-			const codeRule = () => land["Affilka Landing URL"].includes("code");
+			const regFormRules = getFormRules(land.RegForm, filteredBrandRules);
+			const codeRule = () => land.affilkaLandingUrl.includes("code");
 			regFormRules.promoCodeText = codeRule();
 			const context = await browser.newContext({
 				proxy: proxySettings.proxy,
 				viewport: { width: 1280, height: 720 },
-				userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
 				ignoreHTTPSErrors: true, // Skip SSL protocol errors
 			});
 			const page = await context.newPage();
-			const response = await page.request.get('https://api.ipify.org?format=json');
-			const currentIp = await (await response.json()).ip;
-			console.log("Current IP:", currentIp);
+			try {
+				const currentIp = await getCurrentIpAddress(page);
+				console.log("Current IP address:", currentIp);
+				testInfo.annotations.push(
+					{
+						type: "regFormRules",
+						description: JSON.stringify(regFormRules),
+					},
+					{
+						type: "currentIp",
+						description: currentIp,
+					},
+				);
+			} catch (error) {
+				console.error(`Failed to get current IP address: ${(error as Error).message}`);
+			}
+
 			const form = new RegForm(page, regFormRules);
 			const betting = new Betting(page);
-			testInfo.annotations.push({
-				type: "regFormRules",
-				description: JSON.stringify(regFormRules),
-			},
-				{
-					type: "currentIp",
-					description: currentIp,
 
-				});
 			try {
-				await tryNavigate(page, land["Affilka Landing URL"], 5);
+				await tryNavigate(page, land.affilkaLandingUrl, 5);
 				await betting.clickMainButton();
 				await form.fillForm(user);
 				await form.submit();
 				await page.waitForTimeout(5000);
-				const expectedUrls = serverList.find((server) => server.brand == land.Brand)?.url as RegExp[];
+				const expectedUrls = serverList.find((server) => server.brand === land.Brand)?.url as RegExp[];
 				let urlMatched = false;
 
 				for (const url of expectedUrls) {
@@ -82,9 +91,9 @@ for (const land of BETTING_LAND) {
 				if (!urlMatched) {
 					throw new Error("None of the expected URLs matched the current URL.");
 				}
-
+				//eslint-disable-next-line
 			} catch (error) {
-				//@ts-ignore
+				//eslint-disable-next-line
 				throw error; // Re-throw the error to mark the test as failed
 			} finally {
 				// Ensure the page and context are closed

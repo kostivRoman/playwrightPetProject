@@ -8,7 +8,7 @@ export class Wheel {
 	constructor(protected page: Page) {
 		this.page = page;
 		this.wheelButton = this.page.locator("#playBtn");
-		this.claimButton = this.page.locator("#winModalLink").or(this.page.locator("#winModalBtn"));
+		this.claimButton = this.page.locator("#winModalLink").first().or(this.page.locator("#winModalBtn").first()).or(this.page.locator("#modalBtnOne").first());
 	}
 
 	@step()
@@ -36,5 +36,10 @@ export class Wheel {
 	@step()
 	async claimBonus() {
 		await this.claimButton.click({ timeout: 20000 });
+	}
+	@step()
+	async getBonusLength() {
+		const bonus = await this.page.locator("#winModalLink").first().or(this.page.locator("#winModalBtn").first()).or(this.page.locator("#modalBtnOne").first()).count();
+		return bonus;
 	}
 }
